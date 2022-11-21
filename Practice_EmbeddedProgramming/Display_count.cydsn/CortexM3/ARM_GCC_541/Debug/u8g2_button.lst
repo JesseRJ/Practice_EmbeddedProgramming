@@ -1,0 +1,4058 @@
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"u8g2_button.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.u8g2_DrawButtonFrame,"ax",%progbits
+  20              		.align	1
+  21              		.global	u8g2_DrawButtonFrame
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	u8g2_DrawButtonFrame, %function
+  25              	u8g2_DrawButtonFrame:
+  26              	.LFB0:
+  27              		.file 1 "..\\..\\..\\u8g2\\u8g2\\csrc\\u8g2_button.c"
+   1:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** /*
+   2:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+   3:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   u8g2_button.c
+   4:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+   5:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+   6:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+   7:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   Copyright (c) 2016, olikraus@gmail.com
+   8:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   All rights reserved.
+   9:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+  10:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   Redistribution and use in source and binary forms, with or without modification, 
+  11:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   are permitted provided that the following conditions are met:
+  12:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+  13:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   * Redistributions of source code must retain the above copyright notice, this list 
+  14:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     of conditions and the following disclaimer.
+  15:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     
+  16:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   * Redistributions in binary form must reproduce the above copyright notice, this 
+  17:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     list of conditions and the following disclaimer in the documentation and/or other 
+  18:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     materials provided with the distribution.
+  19:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+  20:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+  21:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+  22:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+  23:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+  24:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+  25:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+  26:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  27:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+  28:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+  29:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+  30:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 2
+
+
+  31:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+  32:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+  33:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+  34:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** */
+  35:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+  36:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** #include "u8g2.h"
+  37:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+  38:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+  39:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** /*
+  40:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+  41:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   Description: 
+  42:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     Draws normal or inverted text with optional frame around text.
+  43:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     The text (and the frame) can be horizontally centered around the provided reference position.
+  44:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     This procedure will use the current draw color and current font. The height of the frame
+  45:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     depends on the setting of setFontRefHeightText(), setFontRefHeightExtendedText() or setFontRefH
+  46:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+  47:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+  48:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   Note 1: drawColor 2 (XOR) is not supported. Result will be broken with draw color 2.
+  49:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   Note 2: This procedure will enforce font mode 1 (transparent mode)
+  50:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   Note 3: Some fonts may add an extra gap on the right side. This is a font problem and can not be 
+  51:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   
+  52:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+  53:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   The height of the button is defined by the current font and
+  54:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     setFontRefHeightText,
+  55:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     setFontRefHeightExtendedText
+  56:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     setFontRefHeightAll
+  57:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   Right padding might be influenced by the font.
+  58:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   For example u8g2_font_inb16 may add an extra pixel gap (increase padding by one) 
+  59:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   on the right side.
+  60:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   The current draw color is considered, but only draw color 0 and 1 are supported
+  61:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   
+  62:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   This function requires transparent font mode: setFontMode(1)
+  63:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   
+  64:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   Side effect: Font transparent mode is enabled setFontMode(1)
+  65:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+  66:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** */
+  67:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+  68:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+  69:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+  70:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** /*
+  71:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+  72:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   flags:
+  73:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+  74:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     U8G2_BTN_BW1 0x01
+  75:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     U8G2_BTN_BW2 0x02
+  76:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     U8G2_BTN_BW3 0x03
+  77:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+  78:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+  79:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     U8G2_BTN_SHADOW0 0x08
+  80:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     U8G2_BTN_SHADOW1 0x10
+  81:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     U8G2_BTN_SHADOW2 0x18
+  82:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+  83:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     U8G2_BTN_INV 0x20
+  84:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+  85:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     U8G2_BTN_HCENTER 0x40
+  86:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+  87:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     U8G2_BTN_XFRAME 0x80
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 3
+
+
+  88:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+  89:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   Total size without shadow: width+2*padding_h+2*border
+  90:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   Total size with U8G2_BTN_SHADOW0: width+2*padding_h+3*border
+  91:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   Total size with U8G2_BTN_SHADOW1: width+2*padding_h+3*border+1
+  92:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   Total size with U8G2_BTN_SHADOW2: width+2*padding_h+3*border+2
+  93:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   
+  94:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   U8G2_BTN_XFRAME:
+  95:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     draw another one pixel frame with one pixel gap, will not look good with shadow
+  96:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** */
+  97:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+  98:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** void u8g2_DrawButtonFrame(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t flags, u8g2_uint_
+  99:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** {
+  28              		.loc 1 99 0
+  29              		.cfi_startproc
+  30              		@ args = 12, pretend = 0, frame = 72
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              	.LVL0:
+  33 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+  34              		.cfi_def_cfa_offset 36
+  35              		.cfi_offset 4, -36
+  36              		.cfi_offset 5, -32
+  37              		.cfi_offset 6, -28
+  38              		.cfi_offset 7, -24
+  39              		.cfi_offset 8, -20
+  40              		.cfi_offset 9, -16
+  41              		.cfi_offset 10, -12
+  42              		.cfi_offset 11, -8
+  43              		.cfi_offset 14, -4
+  44 0004 95B0     		sub	sp, sp, #84
+  45              		.cfi_def_cfa_offset 120
+  46              	.LVL1:
+  47              		.loc 1 99 0
+  48 0006 0493     		str	r3, [sp, #16]
+  49 0008 BDF87830 		ldrh	r3, [sp, #120]
+  50              	.LVL2:
+  51 000c 1292     		str	r2, [sp, #72]
+  52 000e 0893     		str	r3, [sp, #32]
+  53              	.LVL3:
+  54 0010 BDF88030 		ldrh	r3, [sp, #128]
+  55 0014 BDF87C20 		ldrh	r2, [sp, #124]
+  56              	.LVL4:
+  57 0018 0993     		str	r3, [sp, #36]
+ 100:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   u8g2_uint_t w = text_width;
+ 101:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   
+ 102:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   u8g2_uint_t xx, yy, ww, hh;
+ 103:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   
+ 104:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   u8g2_uint_t gap_frame = U8G2_BTN_BW_MASK+1;
+ 105:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     
+ 106:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   u8g2_uint_t border_width = flags & U8G2_BTN_BW_MASK;
+  58              		.loc 1 106 0
+  59 001a 049B     		ldr	r3, [sp, #16]
+  99:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   u8g2_uint_t w = text_width;
+  60              		.loc 1 99 0
+  61 001c 0446     		mov	r4, r0
+  62              		.loc 1 106 0
+  63 001e 03F00703 		and	r3, r3, #7
+  64 0022 0593     		str	r3, [sp, #20]
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 4
+
+
+  65              	.LVL5:
+ 107:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+ 108:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   int8_t a = u8g2_GetAscent(u8g2);
+  66              		.loc 1 108 0
+  67 0024 90F98E30 		ldrsb	r3, [r0, #142]
+ 109:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   int8_t d = u8g2_GetDescent(u8g2);
+ 110:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   
+ 111:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   uint8_t color_backup = u8g2->draw_color;
+ 112:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   
+ 113:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   
+ 114:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   if ( flags & U8G2_BTN_XFRAME )
+ 115:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   {
+ 116:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     border_width++;
+ 117:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     gap_frame = border_width;
+ 118:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     border_width++;
+ 119:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   }
+ 120:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   
+ 121:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+ 122:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   
+ 123:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   for(;;)
+ 124:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   {
+ 125:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+ 126:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     xx = x;
+ 127:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     xx -= padding_h;
+  68              		.loc 1 127 0
+  69 0028 891A     		subs	r1, r1, r2
+  70              	.LVL6:
+ 108:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   int8_t d = u8g2_GetDescent(u8g2);
+  71              		.loc 1 108 0
+  72 002a 0B93     		str	r3, [sp, #44]
+  73              	.LVL7:
+ 109:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   int8_t d = u8g2_GetDescent(u8g2);
+  74              		.loc 1 109 0
+  75 002c 90F98F30 		ldrsb	r3, [r0, #143]
+  76 0030 0C93     		str	r3, [sp, #48]
+  77              	.LVL8:
+ 111:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   
+  78              		.loc 1 111 0
+  79 0032 90F89230 		ldrb	r3, [r0, #146]	@ zero_extendqisi2
+  80 0036 0793     		str	r3, [sp, #28]
+  81              	.LVL9:
+ 114:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   {
+  82              		.loc 1 114 0
+  83 0038 049B     		ldr	r3, [sp, #16]
+  84 003a 13F0800F 		tst	r3, #128
+ 116:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     gap_frame = border_width;
+  85              		.loc 1 116 0
+  86 003e 059B     		ldr	r3, [sp, #20]
+  87 0040 1DBF     		ittte	ne
+  88 0042 0133     		addne	r3, r3, #1
+  89 0044 0D93     		strne	r3, [sp, #52]
+  90              	.LVL10:
+ 118:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   }
+  91              		.loc 1 118 0
+  92 0046 059B     		ldrne	r3, [sp, #20]
+ 106:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+  93              		.loc 1 106 0
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 5
+
+
+  94 0048 0393     		streq	r3, [sp, #12]
+ 118:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   }
+  95              		.loc 1 118 0
+  96 004a 15BF     		itete	ne
+  97 004c 0233     		addne	r3, r3, #2
+ 104:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     
+  98              		.loc 1 104 0
+  99 004e 0823     		moveq	r3, #8
+ 118:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   }
+ 100              		.loc 1 118 0
+ 101 0050 0393     		strne	r3, [sp, #12]
+ 102              	.LVL11:
+ 104:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     
+ 103              		.loc 1 104 0
+ 104 0052 0D93     		streq	r3, [sp, #52]
+ 105              	.LVL12:
+ 106              	.LBB2:
+ 128:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     xx -= border_width;
+ 129:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     ww = w+2*padding_h+2*border_width;
+ 130:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     
+ 131:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     yy = y;
+ 132:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     yy += u8g2->font_calc_vref(u8g2);
+ 133:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     yy -= a;
+ 134:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     yy -= padding_v;
+ 135:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     yy -= border_width;
+ 136:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     hh = a-d+2*padding_v+2*border_width;
+ 137:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     if ( border_width == 0 )
+ 138:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****       break;
+ 139:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     if ( border_width == gap_frame )
+ 140:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     {
+ 141:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****       u8g2_SetDrawColor(u8g2, color_backup == 0 ? 1 : 0);
+ 142:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     }
+ 143:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     u8g2_DrawFrame(u8g2, xx, yy, ww, hh);
+ 144:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     u8g2_SetDrawColor(u8g2, color_backup);
+ 145:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     
+ 146:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     if ( flags & U8G2_BTN_SHADOW_MASK )
+ 147:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     {
+ 148:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****       if ( border_width == (flags & U8G2_BTN_BW_MASK) )
+ 149:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****       {
+ 150:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****         u8g2_uint_t i;
+ 151:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****         u8g2_uint_t shadow_gap = (flags & U8G2_BTN_SHADOW_MASK) >> U8G2_BTN_SHADOW_POS;
+ 107              		.loc 1 151 0
+ 108 0054 049B     		ldr	r3, [sp, #16]
+ 109 0056 C3F3C103 		ubfx	r3, r3, #3, #2
+ 152:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****         shadow_gap--;
+ 110              		.loc 1 152 0
+ 111 005a 013B     		subs	r3, r3, #1
+ 112 005c 9BB2     		uxth	r3, r3
+ 113 005e 0693     		str	r3, [sp, #24]
+ 114 0060 039B     		ldr	r3, [sp, #12]
+ 115 0062 1344     		add	r3, r3, r2
+ 116 0064 9BB2     		uxth	r3, r3
+ 117 0066 0E93     		str	r3, [sp, #56]
+ 118 0068 0E98     		ldr	r0, [sp, #56]
+ 119              	.LVL13:
+ 120 006a 089B     		ldr	r3, [sp, #32]
+ 121 006c 03EB4008 		add	r8, r3, r0, lsl #1
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 6
+
+
+ 122 0070 BDF82C30 		ldrh	r3, [sp, #44]
+ 123 0074 0C98     		ldr	r0, [sp, #48]
+ 124 0076 1093     		str	r3, [sp, #64]
+ 125 0078 1B1A     		subs	r3, r3, r0
+ 126 007a 0998     		ldr	r0, [sp, #36]
+ 127 007c 039F     		ldr	r7, [sp, #12]
+ 128 007e 03EB4003 		add	r3, r3, r0, lsl #1
+ 129 0082 0898     		ldr	r0, [sp, #32]
+ 130 0084 A3EB4203 		sub	r3, r3, r2, lsl #1
+ 131 0088 1B1A     		subs	r3, r3, r0
+ 132 008a 9BB2     		uxth	r3, r3
+ 153:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****         for( i = 0; i < border_width; i++ )
+ 154:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****         {
+ 155:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****           u8g2_DrawHLine(u8g2, xx+border_width+shadow_gap,yy+hh+i+shadow_gap,ww);
+ 133              		.loc 1 155 0
+ 134 008c 069A     		ldr	r2, [sp, #24]
+ 135 008e 1193     		str	r3, [sp, #68]
+ 136              	.LBE2:
+ 127:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     xx -= border_width;
+ 137              		.loc 1 127 0
+ 138 0090 8BB2     		uxth	r3, r1
+ 139 0092 0A93     		str	r3, [sp, #40]
+ 140              	.LBB3:
+ 141              		.loc 1 155 0
+ 142 0094 1344     		add	r3, r3, r2
+ 143 0096 9BB2     		uxth	r3, r3
+ 144 0098 1FFA88F8 		uxth	r8, r8
+ 145 009c 1393     		str	r3, [sp, #76]
+ 146              	.L6:
+ 147              	.LVL14:
+ 148 009e 0A9B     		ldr	r3, [sp, #40]
+ 149              	.LBE3:
+ 132:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     yy -= a;
+ 150              		.loc 1 132 0
+ 151 00a0 2046     		mov	r0, r4
+ 152 00a2 C7EB0309 		rsb	r9, r7, r3
+ 153 00a6 1FFA89F3 		uxth	r3, r9
+ 154 00aa 0F93     		str	r3, [sp, #60]
+ 155              	.LVL15:
+ 156 00ac E36D     		ldr	r3, [r4, #92]
+ 157 00ae 9847     		blx	r3
+ 158              	.LVL16:
+ 134:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     yy -= border_width;
+ 159              		.loc 1 134 0
+ 160 00b0 129B     		ldr	r3, [sp, #72]
+ 161 00b2 099A     		ldr	r2, [sp, #36]
+ 162 00b4 9D1A     		subs	r5, r3, r2
+ 163 00b6 109B     		ldr	r3, [sp, #64]
+ 136:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     if ( border_width == 0 )
+ 164              		.loc 1 136 0
+ 165 00b8 0C9A     		ldr	r2, [sp, #48]
+ 134:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     yy -= border_width;
+ 166              		.loc 1 134 0
+ 167 00ba ED1A     		subs	r5, r5, r3
+ 136:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     if ( border_width == 0 )
+ 168              		.loc 1 136 0
+ 169 00bc 0B9B     		ldr	r3, [sp, #44]
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 7
+
+
+ 134:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     yy -= border_width;
+ 170              		.loc 1 134 0
+ 171 00be 2844     		add	r0, r0, r5
+ 172              	.LVL17:
+ 136:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     if ( border_width == 0 )
+ 173              		.loc 1 136 0
+ 174 00c0 9B1A     		subs	r3, r3, r2
+ 175 00c2 9EB2     		uxth	r6, r3
+ 176 00c4 119B     		ldr	r3, [sp, #68]
+ 134:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     yy -= border_width;
+ 177              		.loc 1 134 0
+ 178 00c6 85B2     		uxth	r5, r0
+ 179              	.LVL18:
+ 135:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     hh = a-d+2*padding_v+2*border_width;
+ 180              		.loc 1 135 0
+ 181 00c8 C7EB0509 		rsb	r9, r7, r5
+ 182 00cc 08EB030B 		add	fp, r8, r3
+ 183 00d0 1FFA89F9 		uxth	r9, r9
+ 184              	.LVL19:
+ 185 00d4 1FFA8BFB 		uxth	fp, fp
+ 186              	.LVL20:
+ 137:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****       break;
+ 187              		.loc 1 137 0
+ 188 00d8 002F     		cmp	r7, #0
+ 189 00da 49D0     		beq	.L3
+ 139:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     {
+ 190              		.loc 1 139 0
+ 191 00dc 0D9B     		ldr	r3, [sp, #52]
+ 192 00de 9F42     		cmp	r7, r3
+ 193 00e0 06D1     		bne	.L4
+ 141:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     }
+ 194              		.loc 1 141 0
+ 195 00e2 079B     		ldr	r3, [sp, #28]
+ 196 00e4 2046     		mov	r0, r4
+ 197 00e6 B3FA83F1 		clz	r1, r3
+ 198 00ea 4909     		lsrs	r1, r1, #5
+ 199 00ec FFF7FEFF 		bl	u8g2_SetDrawColor
+ 200              	.LVL21:
+ 201              	.L4:
+ 143:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     u8g2_SetDrawColor(u8g2, color_backup);
+ 202              		.loc 1 143 0
+ 203 00f0 4346     		mov	r3, r8
+ 204 00f2 4A46     		mov	r2, r9
+ 205 00f4 0F99     		ldr	r1, [sp, #60]
+ 206 00f6 2046     		mov	r0, r4
+ 207 00f8 CDF800B0 		str	fp, [sp]
+ 208 00fc FFF7FEFF 		bl	u8g2_DrawFrame
+ 209              	.LVL22:
+ 144:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     
+ 210              		.loc 1 144 0
+ 211 0100 0799     		ldr	r1, [sp, #28]
+ 212 0102 2046     		mov	r0, r4
+ 213 0104 FFF7FEFF 		bl	u8g2_SetDrawColor
+ 214              	.LVL23:
+ 146:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     {
+ 215              		.loc 1 146 0
+ 216 0108 049B     		ldr	r3, [sp, #16]
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 8
+
+
+ 217 010a 13F0180F 		tst	r3, #24
+ 218 010e 06D1     		bne	.L5
+ 219              	.LVL24:
+ 220              	.L7:
+ 156:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****           u8g2_DrawVLine(u8g2, xx+ww+i+shadow_gap,yy+border_width+shadow_gap,hh);
+ 157:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****         }
+ 158:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****       }
+ 159:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     }
+ 160:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     border_width--;
+ 221              		.loc 1 160 0
+ 222 0110 013F     		subs	r7, r7, #1
+ 223              	.LVL25:
+ 224 0112 A8F10208 		sub	r8, r8, #2
+ 225              	.LVL26:
+ 226 0116 BFB2     		uxth	r7, r7
+ 227              	.LVL27:
+ 228 0118 1FFA88F8 		uxth	r8, r8
+ 161:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   } /* for */
+ 229              		.loc 1 161 0
+ 230 011c BFE7     		b	.L6
+ 231              	.LVL28:
+ 232              	.L5:
+ 148:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****       {
+ 233              		.loc 1 148 0
+ 234 011e 059B     		ldr	r3, [sp, #20]
+ 235 0120 9F42     		cmp	r7, r3
+ 236 0122 F5D1     		bne	.L7
+ 237              	.LVL29:
+ 238 0124 069B     		ldr	r3, [sp, #24]
+ 239 0126 09EB0306 		add	r6, r9, r3
+ 240 012a 07EB030A 		add	r10, r7, r3
+ 241              	.LBB4:
+ 156:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****           u8g2_DrawVLine(u8g2, xx+ww+i+shadow_gap,yy+border_width+shadow_gap,hh);
+ 242              		.loc 1 156 0
+ 243 012e 1D44     		add	r5, r5, r3
+ 244 0130 0F9B     		ldr	r3, [sp, #60]
+ 245 0132 CA44     		add	r10, r10, r9
+ 246 0134 4344     		add	r3, r3, r8
+ 247 0136 5E44     		add	r6, r6, fp
+ 248 0138 DA44     		add	r10, r10, fp
+ 249 013a C9EB0309 		rsb	r9, r9, r3
+ 250              	.LVL30:
+ 251 013e B6B2     		uxth	r6, r6
+ 252 0140 1FFA8AFA 		uxth	r10, r10
+ 253 0144 ADB2     		uxth	r5, r5
+ 254 0146 CBEB0909 		rsb	r9, fp, r9
+ 255              	.LVL31:
+ 256              	.L8:
+ 155:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****           u8g2_DrawVLine(u8g2, xx+ww+i+shadow_gap,yy+border_width+shadow_gap,hh);
+ 257              		.loc 1 155 0 discriminator 3
+ 258 014a 3246     		mov	r2, r6
+ 259 014c 4346     		mov	r3, r8
+ 260 014e 1399     		ldr	r1, [sp, #76]
+ 261 0150 2046     		mov	r0, r4
+ 262 0152 FFF7FEFF 		bl	u8g2_DrawHLine
+ 263              	.LVL32:
+ 156:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****         }
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 9
+
+
+ 264              		.loc 1 156 0 discriminator 3
+ 265 0156 06EB0901 		add	r1, r6, r9
+ 266 015a 0136     		adds	r6, r6, #1
+ 267 015c 5B46     		mov	r3, fp
+ 268 015e 2A46     		mov	r2, r5
+ 269 0160 89B2     		uxth	r1, r1
+ 270 0162 2046     		mov	r0, r4
+ 271 0164 B6B2     		uxth	r6, r6
+ 272 0166 FFF7FEFF 		bl	u8g2_DrawVLine
+ 273              	.LVL33:
+ 153:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****         {
+ 274              		.loc 1 153 0 discriminator 3
+ 275 016a 5645     		cmp	r6, r10
+ 276 016c EDD1     		bne	.L8
+ 277 016e CFE7     		b	.L7
+ 278              	.LVL34:
+ 279              	.L3:
+ 280 0170 039B     		ldr	r3, [sp, #12]
+ 281 0172 0E9A     		ldr	r2, [sp, #56]
+ 282 0174 C3EBC333 		rsb	r3, r3, r3, lsl #15
+ 283 0178 9BB2     		uxth	r3, r3
+ 284 017a 1A44     		add	r2, r2, r3
+ 285 017c 1546     		mov	r5, r2
+ 286 017e 089A     		ldr	r2, [sp, #32]
+ 287 0180 0399     		ldr	r1, [sp, #12]
+ 288 0182 02EB4505 		add	r5, r2, r5, lsl #1
+ 289 0186 099A     		ldr	r2, [sp, #36]
+ 290 0188 ADB2     		uxth	r5, r5
+ 291 018a 0A44     		add	r2, r2, r1
+ 292 018c 1344     		add	r3, r3, r2
+ 293 018e 06EB4303 		add	r3, r6, r3, lsl #1
+ 294 0192 9EB2     		uxth	r6, r3
+ 295              	.LBE4:
+ 162:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   
+ 163:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   if ( flags & U8G2_BTN_INV )
+ 296              		.loc 1 163 0
+ 297 0194 049B     		ldr	r3, [sp, #16]
+ 298 0196 9B06     		lsls	r3, r3, #26
+ 299 0198 11D5     		bpl	.L1
+ 164:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   {
+ 165:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     u8g2_SetDrawColor(u8g2, 2);         /* XOR */
+ 300              		.loc 1 165 0
+ 301 019a 2046     		mov	r0, r4
+ 302 019c 0221     		movs	r1, #2
+ 303 019e FFF7FEFF 		bl	u8g2_SetDrawColor
+ 304              	.LVL35:
+ 166:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     u8g2_DrawBox(u8g2, xx, yy, ww, hh);
+ 305              		.loc 1 166 0
+ 306 01a2 0A99     		ldr	r1, [sp, #40]
+ 307 01a4 2046     		mov	r0, r4
+ 308 01a6 0096     		str	r6, [sp]
+ 309 01a8 2B46     		mov	r3, r5
+ 310 01aa 4A46     		mov	r2, r9
+ 311 01ac FFF7FEFF 		bl	u8g2_DrawBox
+ 312              	.LVL36:
+ 167:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     u8g2_SetDrawColor(u8g2, color_backup);
+ 313              		.loc 1 167 0
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 10
+
+
+ 314 01b0 2046     		mov	r0, r4
+ 315 01b2 0799     		ldr	r1, [sp, #28]
+ 168:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   }
+ 169:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** }
+ 316              		.loc 1 169 0
+ 317 01b4 15B0     		add	sp, sp, #84
+ 318              		.cfi_remember_state
+ 319              		.cfi_def_cfa_offset 36
+ 320              		@ sp needed
+ 321 01b6 BDE8F04F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 322              		.cfi_restore 14
+ 323              		.cfi_restore 11
+ 324              		.cfi_restore 10
+ 325              		.cfi_restore 9
+ 326              		.cfi_restore 8
+ 327              		.cfi_restore 7
+ 328              		.cfi_restore 6
+ 329              		.cfi_restore 5
+ 330              		.cfi_restore 4
+ 331              		.cfi_def_cfa_offset 0
+ 332              	.LVL37:
+ 167:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     u8g2_SetDrawColor(u8g2, color_backup);
+ 333              		.loc 1 167 0
+ 334 01ba FFF7FEBF 		b	u8g2_SetDrawColor
+ 335              	.LVL38:
+ 336              	.L1:
+ 337              		.cfi_restore_state
+ 338              		.loc 1 169 0
+ 339 01be 15B0     		add	sp, sp, #84
+ 340              		.cfi_def_cfa_offset 36
+ 341              		@ sp needed
+ 342 01c0 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 343              		.cfi_endproc
+ 344              	.LFE0:
+ 345              		.size	u8g2_DrawButtonFrame, .-u8g2_DrawButtonFrame
+ 346              		.section	.text.u8g2_DrawButtonUTF8,"ax",%progbits
+ 347              		.align	1
+ 348              		.global	u8g2_DrawButtonUTF8
+ 349              		.thumb
+ 350              		.thumb_func
+ 351              		.type	u8g2_DrawButtonUTF8, %function
+ 352              	u8g2_DrawButtonUTF8:
+ 353              	.LFB1:
+ 170:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+ 171:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** void u8g2_DrawButtonUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t flags, u8g2_uint_t
+ 172:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** {
+ 354              		.loc 1 172 0
+ 355              		.cfi_startproc
+ 356              		@ args = 16, pretend = 0, frame = 8
+ 357              		@ frame_needed = 0, uses_anonymous_args = 0
+ 358              	.LVL39:
+ 359 0000 2DE9F74F 		push	{r0, r1, r2, r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 360              		.cfi_def_cfa_offset 48
+ 361              		.cfi_offset 4, -36
+ 362              		.cfi_offset 5, -32
+ 363              		.cfi_offset 6, -28
+ 364              		.cfi_offset 7, -24
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 11
+
+
+ 365              		.cfi_offset 8, -20
+ 366              		.cfi_offset 9, -16
+ 367              		.cfi_offset 10, -12
+ 368              		.cfi_offset 11, -8
+ 369              		.cfi_offset 14, -4
+ 370              		.loc 1 172 0
+ 371 0004 9946     		mov	r9, r3
+ 372 0006 BDF83430 		ldrh	r3, [sp, #52]
+ 373              	.LVL40:
+ 374 000a DDF83CA0 		ldr	r10, [sp, #60]
+ 375 000e 0093     		str	r3, [sp]
+ 376 0010 BDF83830 		ldrh	r3, [sp, #56]
+ 377 0014 0E46     		mov	r6, r1
+ 173:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   u8g2_uint_t w = u8g2_GetUTF8Width(u8g2, text);
+ 378              		.loc 1 173 0
+ 379 0016 5146     		mov	r1, r10
+ 380              	.LVL41:
+ 172:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   u8g2_uint_t w = u8g2_GetUTF8Width(u8g2, text);
+ 381              		.loc 1 172 0
+ 382 0018 0746     		mov	r7, r0
+ 383 001a 9046     		mov	r8, r2
+ 384 001c BDF830B0 		ldrh	fp, [sp, #48]
+ 385 0020 0193     		str	r3, [sp, #4]
+ 386              		.loc 1 173 0
+ 387 0022 FFF7FEFF 		bl	u8g2_GetUTF8Width
+ 388              	.LVL42:
+ 174:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   
+ 175:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   u8g2_uint_t text_x_offset = 0; 
+ 176:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+ 177:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   if ( flags & U8G2_BTN_HCENTER )
+ 389              		.loc 1 177 0
+ 390 0026 09F04005 		and	r5, r9, #64
+ 391 002a ADB2     		uxth	r5, r5
+ 173:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   
+ 392              		.loc 1 173 0
+ 393 002c 0446     		mov	r4, r0
+ 394              	.LVL43:
+ 395              		.loc 1 177 0
+ 396 002e 55B1     		cbz	r5, .L14
+ 178:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     x -= (w+1)/2;
+ 397              		.loc 1 178 0
+ 398 0030 411C     		adds	r1, r0, #1
+ 399 0032 0225     		movs	r5, #2
+ 400 0034 91FBF5F1 		sdiv	r1, r1, r5
+ 179:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+ 180:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   if ( w < width )
+ 401              		.loc 1 180 0
+ 402 0038 5845     		cmp	r0, fp
+ 178:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     x -= (w+1)/2;
+ 403              		.loc 1 178 0
+ 404 003a A6EB0106 		sub	r6, r6, r1
+ 405 003e B6B2     		uxth	r6, r6
+ 406              	.LVL44:
+ 407              		.loc 1 180 0
+ 408 0040 06D3     		bcc	.L15
+ 175:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** 
+ 409              		.loc 1 175 0
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 12
+
+
+ 410 0042 0025     		movs	r5, #0
+ 411 0044 0AE0     		b	.L16
+ 412              	.LVL45:
+ 413              	.L14:
+ 414 0046 5845     		cmp	r0, fp
+ 415 0048 38BF     		it	cc
+ 416 004a 5C46     		movcc	r4, fp
+ 417 004c A4B2     		uxth	r4, r4
+ 418 004e 05E0     		b	.L16
+ 419              	.L15:
+ 181:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   {
+ 182:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     if ( flags & U8G2_BTN_HCENTER )
+ 183:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     {
+ 184:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****       text_x_offset = (width-w)/2;
+ 420              		.loc 1 184 0
+ 421 0050 C0EB0B04 		rsb	r4, r0, fp
+ 422 0054 94FBF5F5 		sdiv	r5, r4, r5
+ 423 0058 5C46     		mov	r4, fp
+ 424 005a ADB2     		uxth	r5, r5
+ 425              	.LVL46:
+ 426              	.L16:
+ 185:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     }
+ 186:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****     w = width;
+ 187:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   }
+ 188:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   
+ 189:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   u8g2_SetFontMode(u8g2, 1);    
+ 427              		.loc 1 189 0
+ 428 005c 3846     		mov	r0, r7
+ 429 005e 0121     		movs	r1, #1
+ 430 0060 FFF7FEFF 		bl	u8g2_SetFontMode
+ 431              	.LVL47:
+ 190:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   u8g2_DrawUTF8(u8g2, x,y, text);
+ 432              		.loc 1 190 0
+ 433 0064 5346     		mov	r3, r10
+ 434 0066 4246     		mov	r2, r8
+ 435 0068 3146     		mov	r1, r6
+ 436 006a 3846     		mov	r0, r7
+ 437 006c FFF7FEFF 		bl	u8g2_DrawUTF8
+ 438              	.LVL48:
+ 191:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   u8g2_DrawButtonFrame(u8g2, x-text_x_offset, y, flags, w, padding_h, padding_v);
+ 439              		.loc 1 191 0
+ 440 0070 019B     		ldr	r3, [sp, #4]
+ 441 0072 4246     		mov	r2, r8
+ 442 0074 0E93     		str	r3, [sp, #56]
+ 443 0076 009B     		ldr	r3, [sp]
+ 444 0078 3846     		mov	r0, r7
+ 445 007a 0D93     		str	r3, [sp, #52]
+ 446 007c 4B46     		mov	r3, r9
+ 447 007e 711B     		subs	r1, r6, r5
+ 448 0080 89B2     		uxth	r1, r1
+ 449 0082 0C94     		str	r4, [sp, #48]
+ 192:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   
+ 193:..\..\..\u8g2\u8g2\csrc/u8g2_button.c **** }
+ 450              		.loc 1 193 0
+ 451 0084 03B0     		add	sp, sp, #12
+ 452              		.cfi_def_cfa_offset 36
+ 453              		@ sp needed
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 13
+
+
+ 454 0086 BDE8F04F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 455              		.cfi_restore 14
+ 456              		.cfi_restore 11
+ 457              		.cfi_restore 10
+ 458              		.cfi_restore 9
+ 459              		.cfi_restore 8
+ 460              		.cfi_restore 7
+ 461              		.cfi_restore 6
+ 462              		.cfi_restore 5
+ 463              		.cfi_restore 4
+ 464              		.cfi_def_cfa_offset 0
+ 465              	.LVL49:
+ 191:..\..\..\u8g2\u8g2\csrc/u8g2_button.c ****   u8g2_DrawButtonFrame(u8g2, x-text_x_offset, y, flags, w, padding_h, padding_v);
+ 466              		.loc 1 191 0
+ 467 008a FFF7FEBF 		b	u8g2_DrawButtonFrame
+ 468              	.LVL50:
+ 469              		.cfi_endproc
+ 470              	.LFE1:
+ 471              		.size	u8g2_DrawButtonUTF8, .-u8g2_DrawButtonUTF8
+ 472              		.text
+ 473              	.Letext0:
+ 474              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 475              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 476              		.file 4 "..\\..\\..\\u8g2\\u8g2\\csrc\\u8x8.h"
+ 477              		.file 5 "..\\..\\..\\u8g2\\u8g2\\csrc\\u8g2.h"
+ 478              		.section	.debug_info,"",%progbits
+ 479              	.Ldebug_info0:
+ 480 0000 9C0B0000 		.4byte	0xb9c
+ 481 0004 0400     		.2byte	0x4
+ 482 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 483 000a 04       		.byte	0x4
+ 484 000b 01       		.uleb128 0x1
+ 485 000c 36010000 		.4byte	.LASF160
+ 486 0010 0C       		.byte	0xc
+ 487 0011 3A040000 		.4byte	.LASF161
+ 488 0015 B4020000 		.4byte	.LASF162
+ 489 0019 20000000 		.4byte	.Ldebug_ranges0+0x20
+ 490 001d 00000000 		.4byte	0
+ 491 0021 00000000 		.4byte	.Ldebug_line0
+ 492 0025 02       		.uleb128 0x2
+ 493 0026 B7000000 		.4byte	.LASF0
+ 494 002a 02       		.byte	0x2
+ 495 002b 1B       		.byte	0x1b
+ 496 002c 30000000 		.4byte	0x30
+ 497 0030 03       		.uleb128 0x3
+ 498 0031 01       		.byte	0x1
+ 499 0032 06       		.byte	0x6
+ 500 0033 2A010000 		.4byte	.LASF2
+ 501 0037 02       		.uleb128 0x2
+ 502 0038 60000000 		.4byte	.LASF1
+ 503 003c 02       		.byte	0x2
+ 504 003d 1D       		.byte	0x1d
+ 505 003e 42000000 		.4byte	0x42
+ 506 0042 03       		.uleb128 0x3
+ 507 0043 01       		.byte	0x1
+ 508 0044 08       		.byte	0x8
+ 509 0045 B0060000 		.4byte	.LASF3
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 14
+
+
+ 510 0049 03       		.uleb128 0x3
+ 511 004a 02       		.byte	0x2
+ 512 004b 05       		.byte	0x5
+ 513 004c EA060000 		.4byte	.LASF4
+ 514 0050 02       		.uleb128 0x2
+ 515 0051 F3070000 		.4byte	.LASF5
+ 516 0055 02       		.byte	0x2
+ 517 0056 2B       		.byte	0x2b
+ 518 0057 5B000000 		.4byte	0x5b
+ 519 005b 03       		.uleb128 0x3
+ 520 005c 02       		.byte	0x2
+ 521 005d 07       		.byte	0x7
+ 522 005e 6D080000 		.4byte	.LASF6
+ 523 0062 03       		.uleb128 0x3
+ 524 0063 04       		.byte	0x4
+ 525 0064 05       		.byte	0x5
+ 526 0065 25020000 		.4byte	.LASF7
+ 527 0069 02       		.uleb128 0x2
+ 528 006a 1A030000 		.4byte	.LASF8
+ 529 006e 02       		.byte	0x2
+ 530 006f 41       		.byte	0x41
+ 531 0070 74000000 		.4byte	0x74
+ 532 0074 03       		.uleb128 0x3
+ 533 0075 04       		.byte	0x4
+ 534 0076 07       		.byte	0x7
+ 535 0077 EE030000 		.4byte	.LASF9
+ 536 007b 03       		.uleb128 0x3
+ 537 007c 08       		.byte	0x8
+ 538 007d 05       		.byte	0x5
+ 539 007e 1C010000 		.4byte	.LASF10
+ 540 0082 03       		.uleb128 0x3
+ 541 0083 08       		.byte	0x8
+ 542 0084 07       		.byte	0x7
+ 543 0085 A0000000 		.4byte	.LASF11
+ 544 0089 04       		.uleb128 0x4
+ 545 008a 04       		.byte	0x4
+ 546 008b 05       		.byte	0x5
+ 547 008c 696E7400 		.ascii	"int\000"
+ 548 0090 03       		.uleb128 0x3
+ 549 0091 04       		.byte	0x4
+ 550 0092 07       		.byte	0x7
+ 551 0093 B5030000 		.4byte	.LASF12
+ 552 0097 02       		.uleb128 0x2
+ 553 0098 A6080000 		.4byte	.LASF13
+ 554 009c 03       		.byte	0x3
+ 555 009d 14       		.byte	0x14
+ 556 009e 25000000 		.4byte	0x25
+ 557 00a2 02       		.uleb128 0x2
+ 558 00a3 EC080000 		.4byte	.LASF14
+ 559 00a7 03       		.byte	0x3
+ 560 00a8 18       		.byte	0x18
+ 561 00a9 37000000 		.4byte	0x37
+ 562 00ad 02       		.uleb128 0x2
+ 563 00ae 4E020000 		.4byte	.LASF15
+ 564 00b2 03       		.byte	0x3
+ 565 00b3 24       		.byte	0x24
+ 566 00b4 50000000 		.4byte	0x50
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 15
+
+
+ 567 00b8 02       		.uleb128 0x2
+ 568 00b9 7A070000 		.4byte	.LASF16
+ 569 00bd 03       		.byte	0x3
+ 570 00be 30       		.byte	0x30
+ 571 00bf 69000000 		.4byte	0x69
+ 572 00c3 05       		.uleb128 0x5
+ 573 00c4 04       		.byte	0x4
+ 574 00c5 03       		.uleb128 0x3
+ 575 00c6 08       		.byte	0x8
+ 576 00c7 04       		.byte	0x4
+ 577 00c8 BD050000 		.4byte	.LASF17
+ 578 00cc 02       		.uleb128 0x2
+ 579 00cd 66080000 		.4byte	.LASF18
+ 580 00d1 04       		.byte	0x4
+ 581 00d2 D3       		.byte	0xd3
+ 582 00d3 D7000000 		.4byte	0xd7
+ 583 00d7 06       		.uleb128 0x6
+ 584 00d8 02050000 		.4byte	.LASF39
+ 585 00dc 2C       		.byte	0x2c
+ 586 00dd 04       		.byte	0x4
+ 587 00de 5601     		.2byte	0x156
+ 588 00e0 DC010000 		.4byte	0x1dc
+ 589 00e4 07       		.uleb128 0x7
+ 590 00e5 D8040000 		.4byte	.LASF19
+ 591 00e9 04       		.byte	0x4
+ 592 00ea 5801     		.2byte	0x158
+ 593 00ec 44030000 		.4byte	0x344
+ 594 00f0 00       		.byte	0
+ 595 00f1 07       		.uleb128 0x7
+ 596 00f2 57020000 		.4byte	.LASF20
+ 597 00f6 04       		.byte	0x4
+ 598 00f7 5901     		.2byte	0x159
+ 599 00f9 19030000 		.4byte	0x319
+ 600 00fd 04       		.byte	0x4
+ 601 00fe 07       		.uleb128 0x7
+ 602 00ff E6010000 		.4byte	.LASF21
+ 603 0103 04       		.byte	0x4
+ 604 0104 5A01     		.2byte	0x15a
+ 605 0106 E4020000 		.4byte	0x2e4
+ 606 010a 08       		.byte	0x8
+ 607 010b 07       		.uleb128 0x7
+ 608 010c D8050000 		.4byte	.LASF22
+ 609 0110 04       		.byte	0x4
+ 610 0111 5B01     		.2byte	0x15b
+ 611 0113 E4020000 		.4byte	0x2e4
+ 612 0117 0C       		.byte	0xc
+ 613 0118 07       		.uleb128 0x7
+ 614 0119 6A000000 		.4byte	.LASF23
+ 615 011d 04       		.byte	0x4
+ 616 011e 5C01     		.2byte	0x15c
+ 617 0120 E4020000 		.4byte	0x2e4
+ 618 0124 10       		.byte	0x10
+ 619 0125 07       		.uleb128 0x7
+ 620 0126 6C020000 		.4byte	.LASF24
+ 621 012a 04       		.byte	0x4
+ 622 012b 5D01     		.2byte	0x15d
+ 623 012d E4020000 		.4byte	0x2e4
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 16
+
+
+ 624 0131 14       		.byte	0x14
+ 625 0132 07       		.uleb128 0x7
+ 626 0133 80080000 		.4byte	.LASF25
+ 627 0137 04       		.byte	0x4
+ 628 0138 5E01     		.2byte	0x15e
+ 629 013a B8000000 		.4byte	0xb8
+ 630 013e 18       		.byte	0x18
+ 631 013f 07       		.uleb128 0x7
+ 632 0140 CF080000 		.4byte	.LASF26
+ 633 0144 04       		.byte	0x4
+ 634 0145 5F01     		.2byte	0x15f
+ 635 0147 4F030000 		.4byte	0x34f
+ 636 014b 1C       		.byte	0x1c
+ 637 014c 07       		.uleb128 0x7
+ 638 014d 3A050000 		.4byte	.LASF27
+ 639 0151 04       		.byte	0x4
+ 640 0152 6001     		.2byte	0x160
+ 641 0154 AD000000 		.4byte	0xad
+ 642 0158 20       		.byte	0x20
+ 643 0159 07       		.uleb128 0x7
+ 644 015a 3D060000 		.4byte	.LASF28
+ 645 015e 04       		.byte	0x4
+ 646 015f 6101     		.2byte	0x161
+ 647 0161 A2000000 		.4byte	0xa2
+ 648 0165 22       		.byte	0x22
+ 649 0166 07       		.uleb128 0x7
+ 650 0167 C4010000 		.4byte	.LASF29
+ 651 016b 04       		.byte	0x4
+ 652 016c 6201     		.2byte	0x162
+ 653 016e A2000000 		.4byte	0xa2
+ 654 0172 23       		.byte	0x23
+ 655 0173 07       		.uleb128 0x7
+ 656 0174 E2030000 		.4byte	.LASF30
+ 657 0178 04       		.byte	0x4
+ 658 0179 6301     		.2byte	0x163
+ 659 017b A2000000 		.4byte	0xa2
+ 660 017f 24       		.byte	0x24
+ 661 0180 07       		.uleb128 0x7
+ 662 0181 0E090000 		.4byte	.LASF31
+ 663 0185 04       		.byte	0x4
+ 664 0186 6601     		.2byte	0x166
+ 665 0188 A2000000 		.4byte	0xa2
+ 666 018c 25       		.byte	0x25
+ 667 018d 07       		.uleb128 0x7
+ 668 018e DC000000 		.4byte	.LASF32
+ 669 0192 04       		.byte	0x4
+ 670 0193 6801     		.2byte	0x168
+ 671 0195 A2000000 		.4byte	0xa2
+ 672 0199 26       		.byte	0x26
+ 673 019a 07       		.uleb128 0x7
+ 674 019b F0000000 		.4byte	.LASF33
+ 675 019f 04       		.byte	0x4
+ 676 01a0 6901     		.2byte	0x169
+ 677 01a2 A2000000 		.4byte	0xa2
+ 678 01a6 27       		.byte	0x27
+ 679 01a7 07       		.uleb128 0x7
+ 680 01a8 3A090000 		.4byte	.LASF34
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 17
+
+
+ 681 01ac 04       		.byte	0x4
+ 682 01ad 6A01     		.2byte	0x16a
+ 683 01af A2000000 		.4byte	0xa2
+ 684 01b3 28       		.byte	0x28
+ 685 01b4 07       		.uleb128 0x7
+ 686 01b5 AE040000 		.4byte	.LASF35
+ 687 01b9 04       		.byte	0x4
+ 688 01ba 6B01     		.2byte	0x16b
+ 689 01bc A2000000 		.4byte	0xa2
+ 690 01c0 29       		.byte	0x29
+ 691 01c1 07       		.uleb128 0x7
+ 692 01c2 AD080000 		.4byte	.LASF36
+ 693 01c6 04       		.byte	0x4
+ 694 01c7 6C01     		.2byte	0x16c
+ 695 01c9 A2000000 		.4byte	0xa2
+ 696 01cd 2A       		.byte	0x2a
+ 697 01ce 07       		.uleb128 0x7
+ 698 01cf A1030000 		.4byte	.LASF37
+ 699 01d3 04       		.byte	0x4
+ 700 01d4 6D01     		.2byte	0x16d
+ 701 01d6 A2000000 		.4byte	0xa2
+ 702 01da 2B       		.byte	0x2b
+ 703 01db 00       		.byte	0
+ 704 01dc 02       		.uleb128 0x2
+ 705 01dd A0020000 		.4byte	.LASF38
+ 706 01e1 04       		.byte	0x4
+ 707 01e2 D4       		.byte	0xd4
+ 708 01e3 E7010000 		.4byte	0x1e7
+ 709 01e7 08       		.uleb128 0x8
+ 710 01e8 75090000 		.4byte	.LASF40
+ 711 01ec 18       		.byte	0x18
+ 712 01ed 04       		.byte	0x4
+ 713 01ee ED       		.byte	0xed
+ 714 01ef E4020000 		.4byte	0x2e4
+ 715 01f3 09       		.uleb128 0x9
+ 716 01f4 B6070000 		.4byte	.LASF41
+ 717 01f8 04       		.byte	0x4
+ 718 01f9 F1       		.byte	0xf1
+ 719 01fa A2000000 		.4byte	0xa2
+ 720 01fe 00       		.byte	0
+ 721 01ff 09       		.uleb128 0x9
+ 722 0200 BC080000 		.4byte	.LASF42
+ 723 0204 04       		.byte	0x4
+ 724 0205 F2       		.byte	0xf2
+ 725 0206 A2000000 		.4byte	0xa2
+ 726 020a 01       		.byte	0x1
+ 727 020b 09       		.uleb128 0x9
+ 728 020c 09080000 		.4byte	.LASF43
+ 729 0210 04       		.byte	0x4
+ 730 0211 F4       		.byte	0xf4
+ 731 0212 A2000000 		.4byte	0xa2
+ 732 0216 02       		.byte	0x2
+ 733 0217 09       		.uleb128 0x9
+ 734 0218 0C020000 		.4byte	.LASF44
+ 735 021c 04       		.byte	0x4
+ 736 021d F5       		.byte	0xf5
+ 737 021e A2000000 		.4byte	0xa2
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 18
+
+
+ 738 0222 03       		.byte	0x3
+ 739 0223 09       		.uleb128 0x9
+ 740 0224 1C000000 		.4byte	.LASF45
+ 741 0228 04       		.byte	0x4
+ 742 0229 F6       		.byte	0xf6
+ 743 022a A2000000 		.4byte	0xa2
+ 744 022e 04       		.byte	0x4
+ 745 022f 09       		.uleb128 0x9
+ 746 0230 C0000000 		.4byte	.LASF46
+ 747 0234 04       		.byte	0x4
+ 748 0235 F7       		.byte	0xf7
+ 749 0236 A2000000 		.4byte	0xa2
+ 750 023a 05       		.byte	0x5
+ 751 023b 09       		.uleb128 0x9
+ 752 023c 4F030000 		.4byte	.LASF47
+ 753 0240 04       		.byte	0x4
+ 754 0241 FE       		.byte	0xfe
+ 755 0242 A2000000 		.4byte	0xa2
+ 756 0246 06       		.byte	0x6
+ 757 0247 07       		.uleb128 0x7
+ 758 0248 EF040000 		.4byte	.LASF48
+ 759 024c 04       		.byte	0x4
+ 760 024d 0201     		.2byte	0x102
+ 761 024f A2000000 		.4byte	0xa2
+ 762 0253 07       		.byte	0x7
+ 763 0254 07       		.uleb128 0x7
+ 764 0255 AD090000 		.4byte	.LASF49
+ 765 0259 04       		.byte	0x4
+ 766 025a 0501     		.2byte	0x105
+ 767 025c B8000000 		.4byte	0xb8
+ 768 0260 08       		.byte	0x8
+ 769 0261 07       		.uleb128 0x7
+ 770 0262 AD070000 		.4byte	.LASF50
+ 771 0266 04       		.byte	0x4
+ 772 0267 0F01     		.2byte	0x10f
+ 773 0269 A2000000 		.4byte	0xa2
+ 774 026d 0C       		.byte	0xc
+ 775 026e 07       		.uleb128 0x7
+ 776 026f 65070000 		.4byte	.LASF51
+ 777 0273 04       		.byte	0x4
+ 778 0274 1201     		.2byte	0x112
+ 779 0276 A2000000 		.4byte	0xa2
+ 780 027a 0D       		.byte	0xd
+ 781 027b 07       		.uleb128 0x7
+ 782 027c 35070000 		.4byte	.LASF52
+ 783 0280 04       		.byte	0x4
+ 784 0281 1801     		.2byte	0x118
+ 785 0283 A2000000 		.4byte	0xa2
+ 786 0287 0E       		.byte	0xe
+ 787 0288 07       		.uleb128 0x7
+ 788 0289 06060000 		.4byte	.LASF53
+ 789 028d 04       		.byte	0x4
+ 790 028e 1A01     		.2byte	0x11a
+ 791 0290 A2000000 		.4byte	0xa2
+ 792 0294 0F       		.byte	0xf
+ 793 0295 07       		.uleb128 0x7
+ 794 0296 2F090000 		.4byte	.LASF54
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 19
+
+
+ 795 029a 04       		.byte	0x4
+ 796 029b 1D01     		.2byte	0x11d
+ 797 029d A2000000 		.4byte	0xa2
+ 798 02a1 10       		.byte	0x10
+ 799 02a2 07       		.uleb128 0x7
+ 800 02a3 46060000 		.4byte	.LASF55
+ 801 02a7 04       		.byte	0x4
+ 802 02a8 1E01     		.2byte	0x11e
+ 803 02aa A2000000 		.4byte	0xa2
+ 804 02ae 11       		.byte	0x11
+ 805 02af 07       		.uleb128 0x7
+ 806 02b0 29050000 		.4byte	.LASF56
+ 807 02b4 04       		.byte	0x4
+ 808 02b5 2001     		.2byte	0x120
+ 809 02b7 A2000000 		.4byte	0xa2
+ 810 02bb 12       		.byte	0x12
+ 811 02bc 07       		.uleb128 0x7
+ 812 02bd 66050000 		.4byte	.LASF57
+ 813 02c1 04       		.byte	0x4
+ 814 02c2 2101     		.2byte	0x121
+ 815 02c4 A2000000 		.4byte	0xa2
+ 816 02c8 13       		.byte	0x13
+ 817 02c9 07       		.uleb128 0x7
+ 818 02ca 1A090000 		.4byte	.LASF58
+ 819 02ce 04       		.byte	0x4
+ 820 02cf 2901     		.2byte	0x129
+ 821 02d1 AD000000 		.4byte	0xad
+ 822 02d5 14       		.byte	0x14
+ 823 02d6 07       		.uleb128 0x7
+ 824 02d7 A0090000 		.4byte	.LASF59
+ 825 02db 04       		.byte	0x4
+ 826 02dc 2A01     		.2byte	0x12a
+ 827 02de AD000000 		.4byte	0xad
+ 828 02e2 16       		.byte	0x16
+ 829 02e3 00       		.byte	0
+ 830 02e4 02       		.uleb128 0x2
+ 831 02e5 74060000 		.4byte	.LASF60
+ 832 02e9 04       		.byte	0x4
+ 833 02ea D7       		.byte	0xd7
+ 834 02eb EF020000 		.4byte	0x2ef
+ 835 02ef 0A       		.uleb128 0xa
+ 836 02f0 04       		.byte	0x4
+ 837 02f1 F5020000 		.4byte	0x2f5
+ 838 02f5 0B       		.uleb128 0xb
+ 839 02f6 A2000000 		.4byte	0xa2
+ 840 02fa 13030000 		.4byte	0x313
+ 841 02fe 0C       		.uleb128 0xc
+ 842 02ff 13030000 		.4byte	0x313
+ 843 0303 0C       		.uleb128 0xc
+ 844 0304 A2000000 		.4byte	0xa2
+ 845 0308 0C       		.uleb128 0xc
+ 846 0309 A2000000 		.4byte	0xa2
+ 847 030d 0C       		.uleb128 0xc
+ 848 030e C3000000 		.4byte	0xc3
+ 849 0312 00       		.byte	0
+ 850 0313 0A       		.uleb128 0xa
+ 851 0314 04       		.byte	0x4
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 20
+
+
+ 852 0315 CC000000 		.4byte	0xcc
+ 853 0319 02       		.uleb128 0x2
+ 854 031a 5F020000 		.4byte	.LASF61
+ 855 031e 04       		.byte	0x4
+ 856 031f D8       		.byte	0xd8
+ 857 0320 24030000 		.4byte	0x324
+ 858 0324 0A       		.uleb128 0xa
+ 859 0325 04       		.byte	0x4
+ 860 0326 2A030000 		.4byte	0x32a
+ 861 032a 0B       		.uleb128 0xb
+ 862 032b AD000000 		.4byte	0xad
+ 863 032f 3E030000 		.4byte	0x33e
+ 864 0333 0C       		.uleb128 0xc
+ 865 0334 13030000 		.4byte	0x313
+ 866 0338 0C       		.uleb128 0xc
+ 867 0339 A2000000 		.4byte	0xa2
+ 868 033d 00       		.byte	0
+ 869 033e 0A       		.uleb128 0xa
+ 870 033f 04       		.byte	0x4
+ 871 0340 A2000000 		.4byte	0xa2
+ 872 0344 0A       		.uleb128 0xa
+ 873 0345 04       		.byte	0x4
+ 874 0346 4A030000 		.4byte	0x34a
+ 875 034a 0D       		.uleb128 0xd
+ 876 034b DC010000 		.4byte	0x1dc
+ 877 034f 0A       		.uleb128 0xa
+ 878 0350 04       		.byte	0x4
+ 879 0351 55030000 		.4byte	0x355
+ 880 0355 0D       		.uleb128 0xd
+ 881 0356 A2000000 		.4byte	0xa2
+ 882 035a 02       		.uleb128 0x2
+ 883 035b 29070000 		.4byte	.LASF62
+ 884 035f 05       		.byte	0x5
+ 885 0360 D1       		.byte	0xd1
+ 886 0361 AD000000 		.4byte	0xad
+ 887 0365 02       		.uleb128 0x2
+ 888 0366 00040000 		.4byte	.LASF63
+ 889 036a 05       		.byte	0x5
+ 890 036b DB       		.byte	0xdb
+ 891 036c 70030000 		.4byte	0x370
+ 892 0370 06       		.uleb128 0x6
+ 893 0371 48070000 		.4byte	.LASF64
+ 894 0375 94       		.byte	0x94
+ 895 0376 05       		.byte	0x5
+ 896 0377 3A01     		.2byte	0x13a
+ 897 0379 2A050000 		.4byte	0x52a
+ 898 037d 07       		.uleb128 0x7
+ 899 037e F4060000 		.4byte	.LASF65
+ 900 0382 05       		.byte	0x5
+ 901 0383 3C01     		.2byte	0x13c
+ 902 0385 CC000000 		.4byte	0xcc
+ 903 0389 00       		.byte	0
+ 904 038a 07       		.uleb128 0x7
+ 905 038b 61060000 		.4byte	.LASF66
+ 906 038f 05       		.byte	0x5
+ 907 0390 3D01     		.2byte	0x13d
+ 908 0392 C7050000 		.4byte	0x5c7
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 21
+
+
+ 909 0396 2C       		.byte	0x2c
+ 910 0397 0E       		.uleb128 0xe
+ 911 0398 636200   		.ascii	"cb\000"
+ 912 039b 05       		.byte	0x5
+ 913 039c 3E01     		.2byte	0x13e
+ 914 039e B2070000 		.4byte	0x7b2
+ 915 03a2 30       		.byte	0x30
+ 916 03a3 07       		.uleb128 0x7
+ 917 03a4 49000000 		.4byte	.LASF67
+ 918 03a8 05       		.byte	0x5
+ 919 03a9 4101     		.2byte	0x141
+ 920 03ab 3E030000 		.4byte	0x33e
+ 921 03af 34       		.byte	0x34
+ 922 03b0 07       		.uleb128 0x7
+ 923 03b1 2A040000 		.4byte	.LASF68
+ 924 03b5 05       		.byte	0x5
+ 925 03b6 4201     		.2byte	0x142
+ 926 03b8 A2000000 		.4byte	0xa2
+ 927 03bc 38       		.byte	0x38
+ 928 03bd 07       		.uleb128 0x7
+ 929 03be 95070000 		.4byte	.LASF69
+ 930 03c2 05       		.byte	0x5
+ 931 03c3 4301     		.2byte	0x143
+ 932 03c5 A2000000 		.4byte	0xa2
+ 933 03c9 39       		.byte	0x39
+ 934 03ca 07       		.uleb128 0x7
+ 935 03cb DA060000 		.4byte	.LASF70
+ 936 03cf 05       		.byte	0x5
+ 937 03d0 4601     		.2byte	0x146
+ 938 03d2 5A030000 		.4byte	0x35a
+ 939 03d6 3A       		.byte	0x3a
+ 940 03d7 07       		.uleb128 0x7
+ 941 03d8 C2030000 		.4byte	.LASF71
+ 942 03dc 05       		.byte	0x5
+ 943 03dd 4701     		.2byte	0x147
+ 944 03df 5A030000 		.4byte	0x35a
+ 945 03e3 3C       		.byte	0x3c
+ 946 03e4 07       		.uleb128 0x7
+ 947 03e5 C9050000 		.4byte	.LASF72
+ 948 03e9 05       		.byte	0x5
+ 949 03ea 4801     		.2byte	0x148
+ 950 03ec 5A030000 		.4byte	0x35a
+ 951 03f0 3E       		.byte	0x3e
+ 952 03f1 07       		.uleb128 0x7
+ 953 03f2 1B060000 		.4byte	.LASF73
+ 954 03f6 05       		.byte	0x5
+ 955 03f7 4E01     		.2byte	0x14e
+ 956 03f9 5A030000 		.4byte	0x35a
+ 957 03fd 40       		.byte	0x40
+ 958 03fe 07       		.uleb128 0x7
+ 959 03ff 22060000 		.4byte	.LASF74
+ 960 0403 05       		.byte	0x5
+ 961 0404 4F01     		.2byte	0x14f
+ 962 0406 5A030000 		.4byte	0x35a
+ 963 040a 42       		.byte	0x42
+ 964 040b 07       		.uleb128 0x7
+ 965 040c 24040000 		.4byte	.LASF75
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 22
+
+
+ 966 0410 05       		.byte	0x5
+ 967 0411 5201     		.2byte	0x152
+ 968 0413 5A030000 		.4byte	0x35a
+ 969 0417 44       		.byte	0x44
+ 970 0418 07       		.uleb128 0x7
+ 971 0419 8E090000 		.4byte	.LASF76
+ 972 041d 05       		.byte	0x5
+ 973 041e 5301     		.2byte	0x153
+ 974 0420 5A030000 		.4byte	0x35a
+ 975 0424 46       		.byte	0x46
+ 976 0425 07       		.uleb128 0x7
+ 977 0426 0B070000 		.4byte	.LASF77
+ 978 042a 05       		.byte	0x5
+ 979 042b 5801     		.2byte	0x158
+ 980 042d 5A030000 		.4byte	0x35a
+ 981 0431 48       		.byte	0x48
+ 982 0432 07       		.uleb128 0x7
+ 983 0433 13070000 		.4byte	.LASF78
+ 984 0437 05       		.byte	0x5
+ 985 0438 5901     		.2byte	0x159
+ 986 043a 5A030000 		.4byte	0x35a
+ 987 043e 4A       		.byte	0x4a
+ 988 043f 07       		.uleb128 0x7
+ 989 0440 FE050000 		.4byte	.LASF79
+ 990 0444 05       		.byte	0x5
+ 991 0445 5A01     		.2byte	0x15a
+ 992 0447 5A030000 		.4byte	0x35a
+ 993 044b 4C       		.byte	0x4c
+ 994 044c 07       		.uleb128 0x7
+ 995 044d 8A080000 		.4byte	.LASF80
+ 996 0451 05       		.byte	0x5
+ 997 0452 5B01     		.2byte	0x15b
+ 998 0454 5A030000 		.4byte	0x35a
+ 999 0458 4E       		.byte	0x4e
+ 1000 0459 07       		.uleb128 0x7
+ 1001 045a 95040000 		.4byte	.LASF81
+ 1002 045e 05       		.byte	0x5
+ 1003 045f 5F01     		.2byte	0x15f
+ 1004 0461 5A030000 		.4byte	0x35a
+ 1005 0465 50       		.byte	0x50
+ 1006 0466 07       		.uleb128 0x7
+ 1007 0467 9D040000 		.4byte	.LASF82
+ 1008 046b 05       		.byte	0x5
+ 1009 046c 6001     		.2byte	0x160
+ 1010 046e 5A030000 		.4byte	0x35a
+ 1011 0472 52       		.byte	0x52
+ 1012 0473 07       		.uleb128 0x7
+ 1013 0474 DF050000 		.4byte	.LASF83
+ 1014 0478 05       		.byte	0x5
+ 1015 0479 6101     		.2byte	0x161
+ 1016 047b 5A030000 		.4byte	0x35a
+ 1017 047f 54       		.byte	0x54
+ 1018 0480 07       		.uleb128 0x7
+ 1019 0481 E7050000 		.4byte	.LASF84
+ 1020 0485 05       		.byte	0x5
+ 1021 0486 6201     		.2byte	0x162
+ 1022 0488 5A030000 		.4byte	0x35a
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 23
+
+
+ 1023 048c 56       		.byte	0x56
+ 1024 048d 07       		.uleb128 0x7
+ 1025 048e CF080000 		.4byte	.LASF26
+ 1026 0492 05       		.byte	0x5
+ 1027 0493 6701     		.2byte	0x167
+ 1028 0495 4F030000 		.4byte	0x34f
+ 1029 0499 58       		.byte	0x58
+ 1030 049a 07       		.uleb128 0x7
+ 1031 049b 30030000 		.4byte	.LASF85
+ 1032 049f 05       		.byte	0x5
+ 1033 04a0 6B01     		.2byte	0x16b
+ 1034 04a2 91070000 		.4byte	0x791
+ 1035 04a6 5C       		.byte	0x5c
+ 1036 04a7 07       		.uleb128 0x7
+ 1037 04a8 CD070000 		.4byte	.LASF86
+ 1038 04ac 05       		.byte	0x5
+ 1039 04ad 6C01     		.2byte	0x16c
+ 1040 04af 85070000 		.4byte	0x785
+ 1041 04b3 60       		.byte	0x60
+ 1042 04b4 07       		.uleb128 0x7
+ 1043 04b5 E5040000 		.4byte	.LASF87
+ 1044 04b9 05       		.byte	0x5
+ 1045 04ba 6D01     		.2byte	0x16d
+ 1046 04bc D3060000 		.4byte	0x6d3
+ 1047 04c0 74       		.byte	0x74
+ 1048 04c1 07       		.uleb128 0x7
+ 1049 04c2 60040000 		.4byte	.LASF88
+ 1050 04c6 05       		.byte	0x5
+ 1051 04c7 7101     		.2byte	0x171
+ 1052 04c9 A2000000 		.4byte	0xa2
+ 1053 04cd 8C       		.byte	0x8c
+ 1054 04ce 07       		.uleb128 0x7
+ 1055 04cf 43050000 		.4byte	.LASF89
+ 1056 04d3 05       		.byte	0x5
+ 1057 04d4 7401     		.2byte	0x174
+ 1058 04d6 A2000000 		.4byte	0xa2
+ 1059 04da 8D       		.byte	0x8d
+ 1060 04db 07       		.uleb128 0x7
+ 1061 04dc 3F030000 		.4byte	.LASF90
+ 1062 04e0 05       		.byte	0x5
+ 1063 04e1 7501     		.2byte	0x175
+ 1064 04e3 97000000 		.4byte	0x97
+ 1065 04e7 8E       		.byte	0x8e
+ 1066 04e8 07       		.uleb128 0x7
+ 1067 04e9 8F020000 		.4byte	.LASF91
+ 1068 04ed 05       		.byte	0x5
+ 1069 04ee 7601     		.2byte	0x176
+ 1070 04f0 97000000 		.4byte	0x97
+ 1071 04f4 8F       		.byte	0x8f
+ 1072 04f5 07       		.uleb128 0x7
+ 1073 04f6 FD010000 		.4byte	.LASF92
+ 1074 04fa 05       		.byte	0x5
+ 1075 04fb 7801     		.2byte	0x178
+ 1076 04fd 97000000 		.4byte	0x97
+ 1077 0501 90       		.byte	0x90
+ 1078 0502 07       		.uleb128 0x7
+ 1079 0503 81040000 		.4byte	.LASF93
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 24
+
+
+ 1080 0507 05       		.byte	0x5
+ 1081 0508 7A01     		.2byte	0x17a
+ 1082 050a A2000000 		.4byte	0xa2
+ 1083 050e 91       		.byte	0x91
+ 1084 050f 07       		.uleb128 0x7
+ 1085 0510 FE070000 		.4byte	.LASF94
+ 1086 0514 05       		.byte	0x5
+ 1087 0515 7C01     		.2byte	0x17c
+ 1088 0517 A2000000 		.4byte	0xa2
+ 1089 051b 92       		.byte	0x92
+ 1090 051c 07       		.uleb128 0x7
+ 1091 051d C7060000 		.4byte	.LASF95
+ 1092 0521 05       		.byte	0x5
+ 1093 0522 8001     		.2byte	0x180
+ 1094 0524 A2000000 		.4byte	0xa2
+ 1095 0528 93       		.byte	0x93
+ 1096 0529 00       		.byte	0
+ 1097 052a 02       		.uleb128 0x2
+ 1098 052b A3070000 		.4byte	.LASF96
+ 1099 052f 05       		.byte	0x5
+ 1100 0530 DC       		.byte	0xdc
+ 1101 0531 35050000 		.4byte	0x535
+ 1102 0535 06       		.uleb128 0x6
+ 1103 0536 95060000 		.4byte	.LASF97
+ 1104 053a 0C       		.byte	0xc
+ 1105 053b 05       		.byte	0x5
+ 1106 053c 3001     		.2byte	0x130
+ 1107 053e 6A050000 		.4byte	0x56a
+ 1108 0542 07       		.uleb128 0x7
+ 1109 0543 8F000000 		.4byte	.LASF98
+ 1110 0547 05       		.byte	0x5
+ 1111 0548 3201     		.2byte	0x132
+ 1112 054a 6A050000 		.4byte	0x56a
+ 1113 054e 00       		.byte	0
+ 1114 054f 07       		.uleb128 0x7
+ 1115 0550 2E020000 		.4byte	.LASF99
+ 1116 0554 05       		.byte	0x5
+ 1117 0555 3301     		.2byte	0x133
+ 1118 0557 8C050000 		.4byte	0x58c
+ 1119 055b 04       		.byte	0x4
+ 1120 055c 07       		.uleb128 0x7
+ 1121 055d A5040000 		.4byte	.LASF100
+ 1122 0561 05       		.byte	0x5
+ 1123 0562 3401     		.2byte	0x134
+ 1124 0564 97050000 		.4byte	0x597
+ 1125 0568 08       		.byte	0x8
+ 1126 0569 00       		.byte	0
+ 1127 056a 02       		.uleb128 0x2
+ 1128 056b 22080000 		.4byte	.LASF101
+ 1129 056f 05       		.byte	0x5
+ 1130 0570 DE       		.byte	0xde
+ 1131 0571 75050000 		.4byte	0x575
+ 1132 0575 0A       		.uleb128 0xa
+ 1133 0576 04       		.byte	0x4
+ 1134 0577 7B050000 		.4byte	0x57b
+ 1135 057b 0F       		.uleb128 0xf
+ 1136 057c 86050000 		.4byte	0x586
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 25
+
+
+ 1137 0580 0C       		.uleb128 0xc
+ 1138 0581 86050000 		.4byte	0x586
+ 1139 0585 00       		.byte	0
+ 1140 0586 0A       		.uleb128 0xa
+ 1141 0587 04       		.byte	0x4
+ 1142 0588 65030000 		.4byte	0x365
+ 1143 058c 02       		.uleb128 0x2
+ 1144 058d 31000000 		.4byte	.LASF102
+ 1145 0591 05       		.byte	0x5
+ 1146 0592 DF       		.byte	0xdf
+ 1147 0593 75050000 		.4byte	0x575
+ 1148 0597 02       		.uleb128 0x2
+ 1149 0598 54070000 		.4byte	.LASF103
+ 1150 059c 05       		.byte	0x5
+ 1151 059d E0       		.byte	0xe0
+ 1152 059e A2050000 		.4byte	0x5a2
+ 1153 05a2 0A       		.uleb128 0xa
+ 1154 05a3 04       		.byte	0x4
+ 1155 05a4 A8050000 		.4byte	0x5a8
+ 1156 05a8 0F       		.uleb128 0xf
+ 1157 05a9 C7050000 		.4byte	0x5c7
+ 1158 05ad 0C       		.uleb128 0xc
+ 1159 05ae 86050000 		.4byte	0x586
+ 1160 05b2 0C       		.uleb128 0xc
+ 1161 05b3 5A030000 		.4byte	0x35a
+ 1162 05b7 0C       		.uleb128 0xc
+ 1163 05b8 5A030000 		.4byte	0x35a
+ 1164 05bc 0C       		.uleb128 0xc
+ 1165 05bd 5A030000 		.4byte	0x35a
+ 1166 05c1 0C       		.uleb128 0xc
+ 1167 05c2 A2000000 		.4byte	0xa2
+ 1168 05c6 00       		.byte	0
+ 1169 05c7 02       		.uleb128 0x2
+ 1170 05c8 61030000 		.4byte	.LASF104
+ 1171 05cc 05       		.byte	0x5
+ 1172 05cd E1       		.byte	0xe1
+ 1173 05ce A2050000 		.4byte	0x5a2
+ 1174 05d2 08       		.uleb128 0x8
+ 1175 05d3 83070000 		.4byte	.LASF105
+ 1176 05d7 18       		.byte	0x18
+ 1177 05d8 05       		.byte	0x5
+ 1178 05d9 E7       		.byte	0xe7
+ 1179 05da D3060000 		.4byte	0x6d3
+ 1180 05de 09       		.uleb128 0x9
+ 1181 05df 85000000 		.4byte	.LASF106
+ 1182 05e3 05       		.byte	0x5
+ 1183 05e4 EA       		.byte	0xea
+ 1184 05e5 A2000000 		.4byte	0xa2
+ 1185 05e9 00       		.byte	0
+ 1186 05ea 09       		.uleb128 0x9
+ 1187 05eb D3000000 		.4byte	.LASF107
+ 1188 05ef 05       		.byte	0x5
+ 1189 05f0 EB       		.byte	0xeb
+ 1190 05f1 A2000000 		.4byte	0xa2
+ 1191 05f5 01       		.byte	0x1
+ 1192 05f6 09       		.uleb128 0x9
+ 1193 05f7 25030000 		.4byte	.LASF108
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 26
+
+
+ 1194 05fb 05       		.byte	0x5
+ 1195 05fc EC       		.byte	0xec
+ 1196 05fd A2000000 		.4byte	0xa2
+ 1197 0601 02       		.byte	0x2
+ 1198 0602 09       		.uleb128 0x9
+ 1199 0603 78050000 		.4byte	.LASF109
+ 1200 0607 05       		.byte	0x5
+ 1201 0608 ED       		.byte	0xed
+ 1202 0609 A2000000 		.4byte	0xa2
+ 1203 060d 03       		.byte	0x3
+ 1204 060e 09       		.uleb128 0x9
+ 1205 060f 8D030000 		.4byte	.LASF110
+ 1206 0613 05       		.byte	0x5
+ 1207 0614 F0       		.byte	0xf0
+ 1208 0615 A2000000 		.4byte	0xa2
+ 1209 0619 04       		.byte	0x4
+ 1210 061a 09       		.uleb128 0x9
+ 1211 061b DE070000 		.4byte	.LASF111
+ 1212 061f 05       		.byte	0x5
+ 1213 0620 F1       		.byte	0xf1
+ 1214 0621 A2000000 		.4byte	0xa2
+ 1215 0625 05       		.byte	0x5
+ 1216 0626 09       		.uleb128 0x9
+ 1217 0627 FC000000 		.4byte	.LASF112
+ 1218 062b 05       		.byte	0x5
+ 1219 062c F2       		.byte	0xf2
+ 1220 062d A2000000 		.4byte	0xa2
+ 1221 0631 06       		.byte	0x6
+ 1222 0632 09       		.uleb128 0x9
+ 1223 0633 0C010000 		.4byte	.LASF113
+ 1224 0637 05       		.byte	0x5
+ 1225 0638 F3       		.byte	0xf3
+ 1226 0639 A2000000 		.4byte	0xa2
+ 1227 063d 07       		.byte	0x7
+ 1228 063e 09       		.uleb128 0x9
+ 1229 063f 83050000 		.4byte	.LASF114
+ 1230 0643 05       		.byte	0x5
+ 1231 0644 F4       		.byte	0xf4
+ 1232 0645 A2000000 		.4byte	0xa2
+ 1233 0649 08       		.byte	0x8
+ 1234 064a 09       		.uleb128 0x9
+ 1235 064b EF050000 		.4byte	.LASF115
+ 1236 064f 05       		.byte	0x5
+ 1237 0650 F7       		.byte	0xf7
+ 1238 0651 97000000 		.4byte	0x97
+ 1239 0655 09       		.byte	0x9
+ 1240 0656 09       		.uleb128 0x9
+ 1241 0657 3E020000 		.4byte	.LASF116
+ 1242 065b 05       		.byte	0x5
+ 1243 065c F8       		.byte	0xf8
+ 1244 065d 97000000 		.4byte	0x97
+ 1245 0661 0A       		.byte	0xa
+ 1246 0662 09       		.uleb128 0x9
+ 1247 0663 3D060000 		.4byte	.LASF28
+ 1248 0667 05       		.byte	0x5
+ 1249 0668 F9       		.byte	0xf9
+ 1250 0669 97000000 		.4byte	0x97
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 27
+
+
+ 1251 066d 0B       		.byte	0xb
+ 1252 066e 09       		.uleb128 0x9
+ 1253 066f E7000000 		.4byte	.LASF117
+ 1254 0673 05       		.byte	0x5
+ 1255 0674 FA       		.byte	0xfa
+ 1256 0675 97000000 		.4byte	0x97
+ 1257 0679 0C       		.byte	0xc
+ 1258 067a 09       		.uleb128 0x9
+ 1259 067b BE060000 		.4byte	.LASF118
+ 1260 067f 05       		.byte	0x5
+ 1261 0680 FD       		.byte	0xfd
+ 1262 0681 97000000 		.4byte	0x97
+ 1263 0685 0D       		.byte	0xd
+ 1264 0686 09       		.uleb128 0x9
+ 1265 0687 78030000 		.4byte	.LASF119
+ 1266 068b 05       		.byte	0x5
+ 1267 068c FE       		.byte	0xfe
+ 1268 068d 97000000 		.4byte	0x97
+ 1269 0691 0E       		.byte	0xe
+ 1270 0692 09       		.uleb128 0x9
+ 1271 0693 F1010000 		.4byte	.LASF120
+ 1272 0697 05       		.byte	0x5
+ 1273 0698 FF       		.byte	0xff
+ 1274 0699 97000000 		.4byte	0x97
+ 1275 069d 0F       		.byte	0xf
+ 1276 069e 07       		.uleb128 0x7
+ 1277 069f CB040000 		.4byte	.LASF121
+ 1278 06a3 05       		.byte	0x5
+ 1279 06a4 0001     		.2byte	0x100
+ 1280 06a6 97000000 		.4byte	0x97
+ 1281 06aa 10       		.byte	0x10
+ 1282 06ab 07       		.uleb128 0x7
+ 1283 06ac 54050000 		.4byte	.LASF122
+ 1284 06b0 05       		.byte	0x5
+ 1285 06b1 0301     		.2byte	0x103
+ 1286 06b3 AD000000 		.4byte	0xad
+ 1287 06b7 12       		.byte	0x12
+ 1288 06b8 07       		.uleb128 0x7
+ 1289 06b9 D4080000 		.4byte	.LASF123
+ 1290 06bd 05       		.byte	0x5
+ 1291 06be 0401     		.2byte	0x104
+ 1292 06c0 AD000000 		.4byte	0xad
+ 1293 06c4 14       		.byte	0x14
+ 1294 06c5 07       		.uleb128 0x7
+ 1295 06c6 0A000000 		.4byte	.LASF124
+ 1296 06ca 05       		.byte	0x5
+ 1297 06cb 0801     		.2byte	0x108
+ 1298 06cd AD000000 		.4byte	0xad
+ 1299 06d1 16       		.byte	0x16
+ 1300 06d2 00       		.byte	0
+ 1301 06d3 10       		.uleb128 0x10
+ 1302 06d4 7E020000 		.4byte	.LASF125
+ 1303 06d8 05       		.byte	0x5
+ 1304 06d9 0B01     		.2byte	0x10b
+ 1305 06db D2050000 		.4byte	0x5d2
+ 1306 06df 06       		.uleb128 0x6
+ 1307 06e0 92080000 		.4byte	.LASF126
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 28
+
+
+ 1308 06e4 14       		.byte	0x14
+ 1309 06e5 05       		.byte	0x5
+ 1310 06e6 0E01     		.2byte	0x10e
+ 1311 06e8 85070000 		.4byte	0x785
+ 1312 06ec 07       		.uleb128 0x7
+ 1313 06ed 19040000 		.4byte	.LASF127
+ 1314 06f1 05       		.byte	0x5
+ 1315 06f2 1001     		.2byte	0x110
+ 1316 06f4 4F030000 		.4byte	0x34f
+ 1317 06f8 00       		.byte	0
+ 1318 06f9 07       		.uleb128 0x7
+ 1319 06fa 4A080000 		.4byte	.LASF128
+ 1320 06fe 05       		.byte	0x5
+ 1321 06ff 1201     		.2byte	0x112
+ 1322 0701 5A030000 		.4byte	0x35a
+ 1323 0705 04       		.byte	0x4
+ 1324 0706 07       		.uleb128 0x7
+ 1325 0707 53080000 		.4byte	.LASF129
+ 1326 070b 05       		.byte	0x5
+ 1327 070c 1301     		.2byte	0x113
+ 1328 070e 5A030000 		.4byte	0x35a
+ 1329 0712 06       		.byte	0x6
+ 1330 0713 0E       		.uleb128 0xe
+ 1331 0714 7800     		.ascii	"x\000"
+ 1332 0716 05       		.byte	0x5
+ 1333 0717 1501     		.2byte	0x115
+ 1334 0719 97000000 		.4byte	0x97
+ 1335 071d 08       		.byte	0x8
+ 1336 071e 0E       		.uleb128 0xe
+ 1337 071f 7900     		.ascii	"y\000"
+ 1338 0721 05       		.byte	0x5
+ 1339 0722 1601     		.2byte	0x116
+ 1340 0724 97000000 		.4byte	0x97
+ 1341 0728 09       		.byte	0x9
+ 1342 0729 07       		.uleb128 0x7
+ 1343 072a A4060000 		.4byte	.LASF130
+ 1344 072e 05       		.byte	0x5
+ 1345 072f 1701     		.2byte	0x117
+ 1346 0731 97000000 		.4byte	0x97
+ 1347 0735 0A       		.byte	0xa
+ 1348 0736 07       		.uleb128 0x7
+ 1349 0737 A3050000 		.4byte	.LASF131
+ 1350 073b 05       		.byte	0x5
+ 1351 073c 1801     		.2byte	0x118
+ 1352 073e 97000000 		.4byte	0x97
+ 1353 0742 0B       		.byte	0xb
+ 1354 0743 07       		.uleb128 0x7
+ 1355 0744 94050000 		.4byte	.LASF132
+ 1356 0748 05       		.byte	0x5
+ 1357 0749 1A01     		.2byte	0x11a
+ 1358 074b A2000000 		.4byte	0xa2
+ 1359 074f 0C       		.byte	0xc
+ 1360 0750 07       		.uleb128 0x7
+ 1361 0751 D3030000 		.4byte	.LASF133
+ 1362 0755 05       		.byte	0x5
+ 1363 0756 1B01     		.2byte	0x11b
+ 1364 0758 A2000000 		.4byte	0xa2
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 29
+
+
+ 1365 075c 0D       		.byte	0xd
+ 1366 075d 07       		.uleb128 0x7
+ 1367 075e 6B060000 		.4byte	.LASF134
+ 1368 0762 05       		.byte	0x5
+ 1369 0763 1C01     		.2byte	0x11c
+ 1370 0765 A2000000 		.4byte	0xa2
+ 1371 0769 0E       		.byte	0xe
+ 1372 076a 07       		.uleb128 0x7
+ 1373 076b 26090000 		.4byte	.LASF135
+ 1374 076f 05       		.byte	0x5
+ 1375 0770 1D01     		.2byte	0x11d
+ 1376 0772 A2000000 		.4byte	0xa2
+ 1377 0776 0F       		.byte	0xf
+ 1378 0777 0E       		.uleb128 0xe
+ 1379 0778 64697200 		.ascii	"dir\000"
+ 1380 077c 05       		.byte	0x5
+ 1381 077d 1F01     		.2byte	0x11f
+ 1382 077f A2000000 		.4byte	0xa2
+ 1383 0783 10       		.byte	0x10
+ 1384 0784 00       		.byte	0
+ 1385 0785 10       		.uleb128 0x10
+ 1386 0786 72000000 		.4byte	.LASF136
+ 1387 078a 05       		.byte	0x5
+ 1388 078b 2201     		.2byte	0x122
+ 1389 078d DF060000 		.4byte	0x6df
+ 1390 0791 10       		.uleb128 0x10
+ 1391 0792 F4080000 		.4byte	.LASF137
+ 1392 0796 05       		.byte	0x5
+ 1393 0797 3701     		.2byte	0x137
+ 1394 0799 9D070000 		.4byte	0x79d
+ 1395 079d 0A       		.uleb128 0xa
+ 1396 079e 04       		.byte	0x4
+ 1397 079f A3070000 		.4byte	0x7a3
+ 1398 07a3 0B       		.uleb128 0xb
+ 1399 07a4 5A030000 		.4byte	0x35a
+ 1400 07a8 B2070000 		.4byte	0x7b2
+ 1401 07ac 0C       		.uleb128 0xc
+ 1402 07ad 86050000 		.4byte	0x586
+ 1403 07b1 00       		.byte	0
+ 1404 07b2 0A       		.uleb128 0xa
+ 1405 07b3 04       		.byte	0x4
+ 1406 07b4 B8070000 		.4byte	0x7b8
+ 1407 07b8 0D       		.uleb128 0xd
+ 1408 07b9 2A050000 		.4byte	0x52a
+ 1409 07bd 11       		.uleb128 0x11
+ 1410 07be 80060000 		.4byte	.LASF147
+ 1411 07c2 01       		.byte	0x1
+ 1412 07c3 62       		.byte	0x62
+ 1413 07c4 00000000 		.4byte	.LFB0
+ 1414 07c8 C4010000 		.4byte	.LFE0-.LFB0
+ 1415 07cc 01       		.uleb128 0x1
+ 1416 07cd 9C       		.byte	0x9c
+ 1417 07ce 0B0A0000 		.4byte	0xa0b
+ 1418 07d2 12       		.uleb128 0x12
+ 1419 07d3 C6040000 		.4byte	.LASF138
+ 1420 07d7 01       		.byte	0x1
+ 1421 07d8 62       		.byte	0x62
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 30
+
+
+ 1422 07d9 86050000 		.4byte	0x586
+ 1423 07dd 00000000 		.4byte	.LLST0
+ 1424 07e1 13       		.uleb128 0x13
+ 1425 07e2 7800     		.ascii	"x\000"
+ 1426 07e4 01       		.byte	0x1
+ 1427 07e5 62       		.byte	0x62
+ 1428 07e6 5A030000 		.4byte	0x35a
+ 1429 07ea 42000000 		.4byte	.LLST1
+ 1430 07ee 13       		.uleb128 0x13
+ 1431 07ef 7900     		.ascii	"y\000"
+ 1432 07f1 01       		.byte	0x1
+ 1433 07f2 62       		.byte	0x62
+ 1434 07f3 5A030000 		.4byte	0x35a
+ 1435 07f7 63000000 		.4byte	.LLST2
+ 1436 07fb 12       		.uleb128 0x12
+ 1437 07fc E6080000 		.4byte	.LASF139
+ 1438 0800 01       		.byte	0x1
+ 1439 0801 62       		.byte	0x62
+ 1440 0802 5A030000 		.4byte	0x35a
+ 1441 0806 84000000 		.4byte	.LLST3
+ 1442 080a 12       		.uleb128 0x12
+ 1443 080b 82030000 		.4byte	.LASF140
+ 1444 080f 01       		.byte	0x1
+ 1445 0810 62       		.byte	0x62
+ 1446 0811 5A030000 		.4byte	0x35a
+ 1447 0815 A5000000 		.4byte	.LLST4
+ 1448 0819 12       		.uleb128 0x12
+ 1449 081a 00000000 		.4byte	.LASF141
+ 1450 081e 01       		.byte	0x1
+ 1451 081f 62       		.byte	0x62
+ 1452 0820 5A030000 		.4byte	0x35a
+ 1453 0824 D1000000 		.4byte	.LLST5
+ 1454 0828 12       		.uleb128 0x12
+ 1455 0829 56000000 		.4byte	.LASF142
+ 1456 082d 01       		.byte	0x1
+ 1457 082e 62       		.byte	0x62
+ 1458 082f 5A030000 		.4byte	0x35a
+ 1459 0833 FD000000 		.4byte	.LLST6
+ 1460 0837 14       		.uleb128 0x14
+ 1461 0838 7700     		.ascii	"w\000"
+ 1462 083a 01       		.byte	0x1
+ 1463 083b 64       		.byte	0x64
+ 1464 083c 5A030000 		.4byte	0x35a
+ 1465 0840 29010000 		.4byte	.LLST7
+ 1466 0844 14       		.uleb128 0x14
+ 1467 0845 787800   		.ascii	"xx\000"
+ 1468 0848 01       		.byte	0x1
+ 1469 0849 66       		.byte	0x66
+ 1470 084a 5A030000 		.4byte	0x35a
+ 1471 084e 3E010000 		.4byte	.LLST8
+ 1472 0852 14       		.uleb128 0x14
+ 1473 0853 797900   		.ascii	"yy\000"
+ 1474 0856 01       		.byte	0x1
+ 1475 0857 66       		.byte	0x66
+ 1476 0858 5A030000 		.4byte	0x35a
+ 1477 085c 77010000 		.4byte	.LLST9
+ 1478 0860 14       		.uleb128 0x14
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 31
+
+
+ 1479 0861 777700   		.ascii	"ww\000"
+ 1480 0864 01       		.byte	0x1
+ 1481 0865 66       		.byte	0x66
+ 1482 0866 5A030000 		.4byte	0x35a
+ 1483 086a D9010000 		.4byte	.LLST10
+ 1484 086e 14       		.uleb128 0x14
+ 1485 086f 686800   		.ascii	"hh\000"
+ 1486 0872 01       		.byte	0x1
+ 1487 0873 66       		.byte	0x66
+ 1488 0874 5A030000 		.4byte	0x35a
+ 1489 0878 02020000 		.4byte	.LLST11
+ 1490 087c 15       		.uleb128 0x15
+ 1491 087d 5C080000 		.4byte	.LASF143
+ 1492 0881 01       		.byte	0x1
+ 1493 0882 68       		.byte	0x68
+ 1494 0883 5A030000 		.4byte	0x35a
+ 1495 0887 20020000 		.4byte	.LLST12
+ 1496 088b 15       		.uleb128 0x15
+ 1497 088c B0050000 		.4byte	.LASF144
+ 1498 0890 01       		.byte	0x1
+ 1499 0891 6A       		.byte	0x6a
+ 1500 0892 5A030000 		.4byte	0x35a
+ 1501 0896 41020000 		.4byte	.LLST13
+ 1502 089a 14       		.uleb128 0x14
+ 1503 089b 6100     		.ascii	"a\000"
+ 1504 089d 01       		.byte	0x1
+ 1505 089e 6C       		.byte	0x6c
+ 1506 089f 97000000 		.4byte	0x97
+ 1507 08a3 84020000 		.4byte	.LLST14
+ 1508 08a7 14       		.uleb128 0x14
+ 1509 08a8 6400     		.ascii	"d\000"
+ 1510 08aa 01       		.byte	0x1
+ 1511 08ab 6D       		.byte	0x6d
+ 1512 08ac 97000000 		.4byte	0x97
+ 1513 08b0 B3020000 		.4byte	.LLST15
+ 1514 08b4 15       		.uleb128 0x15
+ 1515 08b5 D9010000 		.4byte	.LASF145
+ 1516 08b9 01       		.byte	0x1
+ 1517 08ba 6F       		.byte	0x6f
+ 1518 08bb A2000000 		.4byte	0xa2
+ 1519 08bf E2020000 		.4byte	.LLST16
+ 1520 08c3 16       		.uleb128 0x16
+ 1521 08c4 00000000 		.4byte	.Ldebug_ranges0+0
+ 1522 08c8 2D090000 		.4byte	0x92d
+ 1523 08cc 14       		.uleb128 0x14
+ 1524 08cd 6900     		.ascii	"i\000"
+ 1525 08cf 01       		.byte	0x1
+ 1526 08d0 96       		.byte	0x96
+ 1527 08d1 5A030000 		.4byte	0x35a
+ 1528 08d5 11030000 		.4byte	.LLST17
+ 1529 08d9 15       		.uleb128 0x15
+ 1530 08da 95090000 		.4byte	.LASF146
+ 1531 08de 01       		.byte	0x1
+ 1532 08df 97       		.byte	0x97
+ 1533 08e0 5A030000 		.4byte	0x35a
+ 1534 08e4 25030000 		.4byte	.LLST18
+ 1535 08e8 17       		.uleb128 0x17
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 32
+
+
+ 1536 08e9 56010000 		.4byte	.LVL32
+ 1537 08ed 3F0B0000 		.4byte	0xb3f
+ 1538 08f1 10090000 		.4byte	0x910
+ 1539 08f5 18       		.uleb128 0x18
+ 1540 08f6 01       		.uleb128 0x1
+ 1541 08f7 50       		.byte	0x50
+ 1542 08f8 02       		.uleb128 0x2
+ 1543 08f9 74       		.byte	0x74
+ 1544 08fa 00       		.sleb128 0
+ 1545 08fb 18       		.uleb128 0x18
+ 1546 08fc 01       		.uleb128 0x1
+ 1547 08fd 51       		.byte	0x51
+ 1548 08fe 04       		.uleb128 0x4
+ 1549 08ff 91       		.byte	0x91
+ 1550 0900 54       		.sleb128 -44
+ 1551 0901 94       		.byte	0x94
+ 1552 0902 02       		.byte	0x2
+ 1553 0903 18       		.uleb128 0x18
+ 1554 0904 01       		.uleb128 0x1
+ 1555 0905 52       		.byte	0x52
+ 1556 0906 02       		.uleb128 0x2
+ 1557 0907 76       		.byte	0x76
+ 1558 0908 00       		.sleb128 0
+ 1559 0909 18       		.uleb128 0x18
+ 1560 090a 01       		.uleb128 0x1
+ 1561 090b 53       		.byte	0x53
+ 1562 090c 02       		.uleb128 0x2
+ 1563 090d 78       		.byte	0x78
+ 1564 090e 00       		.sleb128 0
+ 1565 090f 00       		.byte	0
+ 1566 0910 19       		.uleb128 0x19
+ 1567 0911 6A010000 		.4byte	.LVL33
+ 1568 0915 4B0B0000 		.4byte	0xb4b
+ 1569 0919 18       		.uleb128 0x18
+ 1570 091a 01       		.uleb128 0x1
+ 1571 091b 50       		.byte	0x50
+ 1572 091c 02       		.uleb128 0x2
+ 1573 091d 74       		.byte	0x74
+ 1574 091e 00       		.sleb128 0
+ 1575 091f 18       		.uleb128 0x18
+ 1576 0920 01       		.uleb128 0x1
+ 1577 0921 52       		.byte	0x52
+ 1578 0922 02       		.uleb128 0x2
+ 1579 0923 75       		.byte	0x75
+ 1580 0924 00       		.sleb128 0
+ 1581 0925 18       		.uleb128 0x18
+ 1582 0926 01       		.uleb128 0x1
+ 1583 0927 53       		.byte	0x53
+ 1584 0928 02       		.uleb128 0x2
+ 1585 0929 7B       		.byte	0x7b
+ 1586 092a 00       		.sleb128 0
+ 1587 092b 00       		.byte	0
+ 1588 092c 00       		.byte	0
+ 1589 092d 1A       		.uleb128 0x1a
+ 1590 092e B0000000 		.4byte	.LVL16
+ 1591 0932 3D090000 		.4byte	0x93d
+ 1592 0936 18       		.uleb128 0x18
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 33
+
+
+ 1593 0937 01       		.uleb128 0x1
+ 1594 0938 50       		.byte	0x50
+ 1595 0939 02       		.uleb128 0x2
+ 1596 093a 74       		.byte	0x74
+ 1597 093b 00       		.sleb128 0
+ 1598 093c 00       		.byte	0
+ 1599 093d 17       		.uleb128 0x17
+ 1600 093e F0000000 		.4byte	.LVL21
+ 1601 0942 570B0000 		.4byte	0xb57
+ 1602 0946 5B090000 		.4byte	0x95b
+ 1603 094a 18       		.uleb128 0x18
+ 1604 094b 01       		.uleb128 0x1
+ 1605 094c 50       		.byte	0x50
+ 1606 094d 02       		.uleb128 0x2
+ 1607 094e 74       		.byte	0x74
+ 1608 094f 00       		.sleb128 0
+ 1609 0950 18       		.uleb128 0x18
+ 1610 0951 01       		.uleb128 0x1
+ 1611 0952 51       		.byte	0x51
+ 1612 0953 06       		.uleb128 0x6
+ 1613 0954 91       		.byte	0x91
+ 1614 0955 A47F     		.sleb128 -92
+ 1615 0957 06       		.byte	0x6
+ 1616 0958 30       		.byte	0x30
+ 1617 0959 29       		.byte	0x29
+ 1618 095a 00       		.byte	0
+ 1619 095b 17       		.uleb128 0x17
+ 1620 095c 00010000 		.4byte	.LVL22
+ 1621 0960 630B0000 		.4byte	0xb63
+ 1622 0964 8A090000 		.4byte	0x98a
+ 1623 0968 18       		.uleb128 0x18
+ 1624 0969 01       		.uleb128 0x1
+ 1625 096a 50       		.byte	0x50
+ 1626 096b 02       		.uleb128 0x2
+ 1627 096c 74       		.byte	0x74
+ 1628 096d 00       		.sleb128 0
+ 1629 096e 18       		.uleb128 0x18
+ 1630 096f 01       		.uleb128 0x1
+ 1631 0970 51       		.byte	0x51
+ 1632 0971 04       		.uleb128 0x4
+ 1633 0972 91       		.byte	0x91
+ 1634 0973 44       		.sleb128 -60
+ 1635 0974 94       		.byte	0x94
+ 1636 0975 02       		.byte	0x2
+ 1637 0976 18       		.uleb128 0x18
+ 1638 0977 01       		.uleb128 0x1
+ 1639 0978 52       		.byte	0x52
+ 1640 0979 02       		.uleb128 0x2
+ 1641 097a 79       		.byte	0x79
+ 1642 097b 00       		.sleb128 0
+ 1643 097c 18       		.uleb128 0x18
+ 1644 097d 01       		.uleb128 0x1
+ 1645 097e 53       		.byte	0x53
+ 1646 097f 02       		.uleb128 0x2
+ 1647 0980 78       		.byte	0x78
+ 1648 0981 00       		.sleb128 0
+ 1649 0982 18       		.uleb128 0x18
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 34
+
+
+ 1650 0983 02       		.uleb128 0x2
+ 1651 0984 7D       		.byte	0x7d
+ 1652 0985 00       		.sleb128 0
+ 1653 0986 02       		.uleb128 0x2
+ 1654 0987 7B       		.byte	0x7b
+ 1655 0988 00       		.sleb128 0
+ 1656 0989 00       		.byte	0
+ 1657 098a 17       		.uleb128 0x17
+ 1658 098b 08010000 		.4byte	.LVL23
+ 1659 098f 570B0000 		.4byte	0xb57
+ 1660 0993 A7090000 		.4byte	0x9a7
+ 1661 0997 18       		.uleb128 0x18
+ 1662 0998 01       		.uleb128 0x1
+ 1663 0999 50       		.byte	0x50
+ 1664 099a 02       		.uleb128 0x2
+ 1665 099b 74       		.byte	0x74
+ 1666 099c 00       		.sleb128 0
+ 1667 099d 18       		.uleb128 0x18
+ 1668 099e 01       		.uleb128 0x1
+ 1669 099f 51       		.byte	0x51
+ 1670 09a0 05       		.uleb128 0x5
+ 1671 09a1 91       		.byte	0x91
+ 1672 09a2 A47F     		.sleb128 -92
+ 1673 09a4 94       		.byte	0x94
+ 1674 09a5 01       		.byte	0x1
+ 1675 09a6 00       		.byte	0
+ 1676 09a7 17       		.uleb128 0x17
+ 1677 09a8 A2010000 		.4byte	.LVL35
+ 1678 09ac 570B0000 		.4byte	0xb57
+ 1679 09b0 C0090000 		.4byte	0x9c0
+ 1680 09b4 18       		.uleb128 0x18
+ 1681 09b5 01       		.uleb128 0x1
+ 1682 09b6 50       		.byte	0x50
+ 1683 09b7 02       		.uleb128 0x2
+ 1684 09b8 74       		.byte	0x74
+ 1685 09b9 00       		.sleb128 0
+ 1686 09ba 18       		.uleb128 0x18
+ 1687 09bb 01       		.uleb128 0x1
+ 1688 09bc 51       		.byte	0x51
+ 1689 09bd 01       		.uleb128 0x1
+ 1690 09be 32       		.byte	0x32
+ 1691 09bf 00       		.byte	0
+ 1692 09c0 17       		.uleb128 0x17
+ 1693 09c1 B0010000 		.4byte	.LVL36
+ 1694 09c5 6F0B0000 		.4byte	0xb6f
+ 1695 09c9 F0090000 		.4byte	0x9f0
+ 1696 09cd 18       		.uleb128 0x18
+ 1697 09ce 01       		.uleb128 0x1
+ 1698 09cf 50       		.byte	0x50
+ 1699 09d0 02       		.uleb128 0x2
+ 1700 09d1 74       		.byte	0x74
+ 1701 09d2 00       		.sleb128 0
+ 1702 09d3 18       		.uleb128 0x18
+ 1703 09d4 01       		.uleb128 0x1
+ 1704 09d5 51       		.byte	0x51
+ 1705 09d6 05       		.uleb128 0x5
+ 1706 09d7 91       		.byte	0x91
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 35
+
+
+ 1707 09d8 B07F     		.sleb128 -80
+ 1708 09da 94       		.byte	0x94
+ 1709 09db 02       		.byte	0x2
+ 1710 09dc 18       		.uleb128 0x18
+ 1711 09dd 01       		.uleb128 0x1
+ 1712 09de 52       		.byte	0x52
+ 1713 09df 02       		.uleb128 0x2
+ 1714 09e0 79       		.byte	0x79
+ 1715 09e1 00       		.sleb128 0
+ 1716 09e2 18       		.uleb128 0x18
+ 1717 09e3 01       		.uleb128 0x1
+ 1718 09e4 53       		.byte	0x53
+ 1719 09e5 02       		.uleb128 0x2
+ 1720 09e6 75       		.byte	0x75
+ 1721 09e7 00       		.sleb128 0
+ 1722 09e8 18       		.uleb128 0x18
+ 1723 09e9 02       		.uleb128 0x2
+ 1724 09ea 7D       		.byte	0x7d
+ 1725 09eb 00       		.sleb128 0
+ 1726 09ec 02       		.uleb128 0x2
+ 1727 09ed 76       		.byte	0x76
+ 1728 09ee 00       		.sleb128 0
+ 1729 09ef 00       		.byte	0
+ 1730 09f0 1B       		.uleb128 0x1b
+ 1731 09f1 BE010000 		.4byte	.LVL38
+ 1732 09f5 570B0000 		.4byte	0xb57
+ 1733 09f9 18       		.uleb128 0x18
+ 1734 09fa 01       		.uleb128 0x1
+ 1735 09fb 50       		.byte	0x50
+ 1736 09fc 03       		.uleb128 0x3
+ 1737 09fd F3       		.byte	0xf3
+ 1738 09fe 01       		.uleb128 0x1
+ 1739 09ff 50       		.byte	0x50
+ 1740 0a00 18       		.uleb128 0x18
+ 1741 0a01 01       		.uleb128 0x1
+ 1742 0a02 51       		.byte	0x51
+ 1743 0a03 05       		.uleb128 0x5
+ 1744 0a04 7D       		.byte	0x7d
+ 1745 0a05 A47F     		.sleb128 -92
+ 1746 0a07 94       		.byte	0x94
+ 1747 0a08 01       		.byte	0x1
+ 1748 0a09 00       		.byte	0
+ 1749 0a0a 00       		.byte	0
+ 1750 0a0b 11       		.uleb128 0x11
+ 1751 0a0c 29060000 		.4byte	.LASF148
+ 1752 0a10 01       		.byte	0x1
+ 1753 0a11 AB       		.byte	0xab
+ 1754 0a12 00000000 		.4byte	.LFB1
+ 1755 0a16 8E000000 		.4byte	.LFE1-.LFB1
+ 1756 0a1a 01       		.uleb128 0x1
+ 1757 0a1b 9C       		.byte	0x9c
+ 1758 0a1c 2D0B0000 		.4byte	0xb2d
+ 1759 0a20 12       		.uleb128 0x12
+ 1760 0a21 C6040000 		.4byte	.LASF138
+ 1761 0a25 01       		.byte	0x1
+ 1762 0a26 AB       		.byte	0xab
+ 1763 0a27 86050000 		.4byte	0x586
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 36
+
+
+ 1764 0a2b 43030000 		.4byte	.LLST19
+ 1765 0a2f 13       		.uleb128 0x13
+ 1766 0a30 7800     		.ascii	"x\000"
+ 1767 0a32 01       		.byte	0x1
+ 1768 0a33 AB       		.byte	0xab
+ 1769 0a34 5A030000 		.4byte	0x35a
+ 1770 0a38 7A030000 		.4byte	.LLST20
+ 1771 0a3c 13       		.uleb128 0x13
+ 1772 0a3d 7900     		.ascii	"y\000"
+ 1773 0a3f 01       		.byte	0x1
+ 1774 0a40 AB       		.byte	0xab
+ 1775 0a41 5A030000 		.4byte	0x35a
+ 1776 0a45 A6030000 		.4byte	.LLST21
+ 1777 0a49 12       		.uleb128 0x12
+ 1778 0a4a E6080000 		.4byte	.LASF139
+ 1779 0a4e 01       		.byte	0x1
+ 1780 0a4f AB       		.byte	0xab
+ 1781 0a50 5A030000 		.4byte	0x35a
+ 1782 0a54 C7030000 		.4byte	.LLST22
+ 1783 0a58 12       		.uleb128 0x12
+ 1784 0a59 24040000 		.4byte	.LASF75
+ 1785 0a5d 01       		.byte	0x1
+ 1786 0a5e AB       		.byte	0xab
+ 1787 0a5f 5A030000 		.4byte	0x35a
+ 1788 0a63 E8030000 		.4byte	.LLST23
+ 1789 0a67 12       		.uleb128 0x12
+ 1790 0a68 00000000 		.4byte	.LASF141
+ 1791 0a6c 01       		.byte	0x1
+ 1792 0a6d AB       		.byte	0xab
+ 1793 0a6e 5A030000 		.4byte	0x35a
+ 1794 0a72 08040000 		.4byte	.LLST24
+ 1795 0a76 12       		.uleb128 0x12
+ 1796 0a77 56000000 		.4byte	.LASF142
+ 1797 0a7b 01       		.byte	0x1
+ 1798 0a7c AB       		.byte	0xab
+ 1799 0a7d 5A030000 		.4byte	0x35a
+ 1800 0a81 28040000 		.4byte	.LLST25
+ 1801 0a85 12       		.uleb128 0x12
+ 1802 0a86 D9070000 		.4byte	.LASF149
+ 1803 0a8a 01       		.byte	0x1
+ 1804 0a8b AB       		.byte	0xab
+ 1805 0a8c 2D0B0000 		.4byte	0xb2d
+ 1806 0a90 48040000 		.4byte	.LLST26
+ 1807 0a94 14       		.uleb128 0x14
+ 1808 0a95 7700     		.ascii	"w\000"
+ 1809 0a97 01       		.byte	0x1
+ 1810 0a98 AD       		.byte	0xad
+ 1811 0a99 5A030000 		.4byte	0x35a
+ 1812 0a9d 68040000 		.4byte	.LLST27
+ 1813 0aa1 15       		.uleb128 0x15
+ 1814 0aa2 1B070000 		.4byte	.LASF150
+ 1815 0aa6 01       		.byte	0x1
+ 1816 0aa7 AF       		.byte	0xaf
+ 1817 0aa8 5A030000 		.4byte	0x35a
+ 1818 0aac 86040000 		.4byte	.LLST28
+ 1819 0ab0 17       		.uleb128 0x17
+ 1820 0ab1 26000000 		.4byte	.LVL42
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 37
+
+
+ 1821 0ab5 7B0B0000 		.4byte	0xb7b
+ 1822 0ab9 CA0A0000 		.4byte	0xaca
+ 1823 0abd 18       		.uleb128 0x18
+ 1824 0abe 01       		.uleb128 0x1
+ 1825 0abf 50       		.byte	0x50
+ 1826 0ac0 02       		.uleb128 0x2
+ 1827 0ac1 77       		.byte	0x77
+ 1828 0ac2 00       		.sleb128 0
+ 1829 0ac3 18       		.uleb128 0x18
+ 1830 0ac4 01       		.uleb128 0x1
+ 1831 0ac5 51       		.byte	0x51
+ 1832 0ac6 02       		.uleb128 0x2
+ 1833 0ac7 7A       		.byte	0x7a
+ 1834 0ac8 00       		.sleb128 0
+ 1835 0ac9 00       		.byte	0
+ 1836 0aca 17       		.uleb128 0x17
+ 1837 0acb 64000000 		.4byte	.LVL47
+ 1838 0acf 870B0000 		.4byte	0xb87
+ 1839 0ad3 E30A0000 		.4byte	0xae3
+ 1840 0ad7 18       		.uleb128 0x18
+ 1841 0ad8 01       		.uleb128 0x1
+ 1842 0ad9 50       		.byte	0x50
+ 1843 0ada 02       		.uleb128 0x2
+ 1844 0adb 77       		.byte	0x77
+ 1845 0adc 00       		.sleb128 0
+ 1846 0add 18       		.uleb128 0x18
+ 1847 0ade 01       		.uleb128 0x1
+ 1848 0adf 51       		.byte	0x51
+ 1849 0ae0 01       		.uleb128 0x1
+ 1850 0ae1 31       		.byte	0x31
+ 1851 0ae2 00       		.byte	0
+ 1852 0ae3 17       		.uleb128 0x17
+ 1853 0ae4 70000000 		.4byte	.LVL48
+ 1854 0ae8 930B0000 		.4byte	0xb93
+ 1855 0aec 090B0000 		.4byte	0xb09
+ 1856 0af0 18       		.uleb128 0x18
+ 1857 0af1 01       		.uleb128 0x1
+ 1858 0af2 50       		.byte	0x50
+ 1859 0af3 02       		.uleb128 0x2
+ 1860 0af4 77       		.byte	0x77
+ 1861 0af5 00       		.sleb128 0
+ 1862 0af6 18       		.uleb128 0x18
+ 1863 0af7 01       		.uleb128 0x1
+ 1864 0af8 51       		.byte	0x51
+ 1865 0af9 02       		.uleb128 0x2
+ 1866 0afa 76       		.byte	0x76
+ 1867 0afb 00       		.sleb128 0
+ 1868 0afc 18       		.uleb128 0x18
+ 1869 0afd 01       		.uleb128 0x1
+ 1870 0afe 52       		.byte	0x52
+ 1871 0aff 02       		.uleb128 0x2
+ 1872 0b00 78       		.byte	0x78
+ 1873 0b01 00       		.sleb128 0
+ 1874 0b02 18       		.uleb128 0x18
+ 1875 0b03 01       		.uleb128 0x1
+ 1876 0b04 53       		.byte	0x53
+ 1877 0b05 02       		.uleb128 0x2
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 38
+
+
+ 1878 0b06 7A       		.byte	0x7a
+ 1879 0b07 00       		.sleb128 0
+ 1880 0b08 00       		.byte	0
+ 1881 0b09 1B       		.uleb128 0x1b
+ 1882 0b0a 8E000000 		.4byte	.LVL50
+ 1883 0b0e BD070000 		.4byte	0x7bd
+ 1884 0b12 18       		.uleb128 0x18
+ 1885 0b13 01       		.uleb128 0x1
+ 1886 0b14 50       		.byte	0x50
+ 1887 0b15 03       		.uleb128 0x3
+ 1888 0b16 F3       		.byte	0xf3
+ 1889 0b17 01       		.uleb128 0x1
+ 1890 0b18 50       		.byte	0x50
+ 1891 0b19 18       		.uleb128 0x18
+ 1892 0b1a 02       		.uleb128 0x2
+ 1893 0b1b 91       		.byte	0x91
+ 1894 0b1c 04       		.sleb128 4
+ 1895 0b1d 04       		.uleb128 0x4
+ 1896 0b1e 7D       		.byte	0x7d
+ 1897 0b1f 50       		.sleb128 -48
+ 1898 0b20 94       		.byte	0x94
+ 1899 0b21 02       		.byte	0x2
+ 1900 0b22 18       		.uleb128 0x18
+ 1901 0b23 02       		.uleb128 0x2
+ 1902 0b24 91       		.byte	0x91
+ 1903 0b25 08       		.sleb128 8
+ 1904 0b26 04       		.uleb128 0x4
+ 1905 0b27 7D       		.byte	0x7d
+ 1906 0b28 54       		.sleb128 -44
+ 1907 0b29 94       		.byte	0x94
+ 1908 0b2a 02       		.byte	0x2
+ 1909 0b2b 00       		.byte	0
+ 1910 0b2c 00       		.byte	0
+ 1911 0b2d 0A       		.uleb128 0xa
+ 1912 0b2e 04       		.byte	0x4
+ 1913 0b2f 3A0B0000 		.4byte	0xb3a
+ 1914 0b33 03       		.uleb128 0x3
+ 1915 0b34 01       		.byte	0x1
+ 1916 0b35 08       		.byte	0x8
+ 1917 0b36 C8070000 		.4byte	.LASF151
+ 1918 0b3a 0D       		.uleb128 0xd
+ 1919 0b3b 330B0000 		.4byte	0xb33
+ 1920 0b3f 1C       		.uleb128 0x1c
+ 1921 0b40 66090000 		.4byte	.LASF152
+ 1922 0b44 66090000 		.4byte	.LASF152
+ 1923 0b48 05       		.byte	0x5
+ 1924 0b49 0706     		.2byte	0x607
+ 1925 0b4b 1C       		.uleb128 0x1c
+ 1926 0b4c 52060000 		.4byte	.LASF153
+ 1927 0b50 52060000 		.4byte	.LASF153
+ 1928 0b54 05       		.byte	0x5
+ 1929 0b55 0806     		.2byte	0x608
+ 1930 0b57 1C       		.uleb128 0x1c
+ 1931 0b58 07040000 		.4byte	.LASF154
+ 1932 0b5c 07040000 		.4byte	.LASF154
+ 1933 0b60 05       		.byte	0x5
+ 1934 0b61 0A06     		.2byte	0x60a
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 39
+
+
+ 1935 0b63 1C       		.uleb128 0x1c
+ 1936 0b64 3B080000 		.4byte	.LASF155
+ 1937 0b68 3B080000 		.4byte	.LASF155
+ 1938 0b6c 05       		.byte	0x5
+ 1939 0b6d 3206     		.2byte	0x632
+ 1940 0b6f 1C       		.uleb128 0x1c
+ 1941 0b70 0E050000 		.4byte	.LASF156
+ 1942 0b74 0E050000 		.4byte	.LASF156
+ 1943 0b78 05       		.byte	0x5
+ 1944 0b79 3106     		.2byte	0x631
+ 1945 0b7b 1C       		.uleb128 0x1c
+ 1946 0b7c F9060000 		.4byte	.LASF157
+ 1947 0b80 F9060000 		.4byte	.LASF157
+ 1948 0b84 05       		.byte	0x5
+ 1949 0b85 8D06     		.2byte	0x68d
+ 1950 0b87 1C       		.uleb128 0x1c
+ 1951 0b88 55090000 		.4byte	.LASF158
+ 1952 0b8c 55090000 		.4byte	.LASF158
+ 1953 0b90 05       		.byte	0x5
+ 1954 0b91 7306     		.2byte	0x673
+ 1955 0b93 1C       		.uleb128 0x1c
+ 1956 0b94 1B050000 		.4byte	.LASF159
+ 1957 0b98 1B050000 		.4byte	.LASF159
+ 1958 0b9c 05       		.byte	0x5
+ 1959 0b9d 7E06     		.2byte	0x67e
+ 1960 0b9f 00       		.byte	0
+ 1961              		.section	.debug_abbrev,"",%progbits
+ 1962              	.Ldebug_abbrev0:
+ 1963 0000 01       		.uleb128 0x1
+ 1964 0001 11       		.uleb128 0x11
+ 1965 0002 01       		.byte	0x1
+ 1966 0003 25       		.uleb128 0x25
+ 1967 0004 0E       		.uleb128 0xe
+ 1968 0005 13       		.uleb128 0x13
+ 1969 0006 0B       		.uleb128 0xb
+ 1970 0007 03       		.uleb128 0x3
+ 1971 0008 0E       		.uleb128 0xe
+ 1972 0009 1B       		.uleb128 0x1b
+ 1973 000a 0E       		.uleb128 0xe
+ 1974 000b 55       		.uleb128 0x55
+ 1975 000c 17       		.uleb128 0x17
+ 1976 000d 11       		.uleb128 0x11
+ 1977 000e 01       		.uleb128 0x1
+ 1978 000f 10       		.uleb128 0x10
+ 1979 0010 17       		.uleb128 0x17
+ 1980 0011 00       		.byte	0
+ 1981 0012 00       		.byte	0
+ 1982 0013 02       		.uleb128 0x2
+ 1983 0014 16       		.uleb128 0x16
+ 1984 0015 00       		.byte	0
+ 1985 0016 03       		.uleb128 0x3
+ 1986 0017 0E       		.uleb128 0xe
+ 1987 0018 3A       		.uleb128 0x3a
+ 1988 0019 0B       		.uleb128 0xb
+ 1989 001a 3B       		.uleb128 0x3b
+ 1990 001b 0B       		.uleb128 0xb
+ 1991 001c 49       		.uleb128 0x49
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 40
+
+
+ 1992 001d 13       		.uleb128 0x13
+ 1993 001e 00       		.byte	0
+ 1994 001f 00       		.byte	0
+ 1995 0020 03       		.uleb128 0x3
+ 1996 0021 24       		.uleb128 0x24
+ 1997 0022 00       		.byte	0
+ 1998 0023 0B       		.uleb128 0xb
+ 1999 0024 0B       		.uleb128 0xb
+ 2000 0025 3E       		.uleb128 0x3e
+ 2001 0026 0B       		.uleb128 0xb
+ 2002 0027 03       		.uleb128 0x3
+ 2003 0028 0E       		.uleb128 0xe
+ 2004 0029 00       		.byte	0
+ 2005 002a 00       		.byte	0
+ 2006 002b 04       		.uleb128 0x4
+ 2007 002c 24       		.uleb128 0x24
+ 2008 002d 00       		.byte	0
+ 2009 002e 0B       		.uleb128 0xb
+ 2010 002f 0B       		.uleb128 0xb
+ 2011 0030 3E       		.uleb128 0x3e
+ 2012 0031 0B       		.uleb128 0xb
+ 2013 0032 03       		.uleb128 0x3
+ 2014 0033 08       		.uleb128 0x8
+ 2015 0034 00       		.byte	0
+ 2016 0035 00       		.byte	0
+ 2017 0036 05       		.uleb128 0x5
+ 2018 0037 0F       		.uleb128 0xf
+ 2019 0038 00       		.byte	0
+ 2020 0039 0B       		.uleb128 0xb
+ 2021 003a 0B       		.uleb128 0xb
+ 2022 003b 00       		.byte	0
+ 2023 003c 00       		.byte	0
+ 2024 003d 06       		.uleb128 0x6
+ 2025 003e 13       		.uleb128 0x13
+ 2026 003f 01       		.byte	0x1
+ 2027 0040 03       		.uleb128 0x3
+ 2028 0041 0E       		.uleb128 0xe
+ 2029 0042 0B       		.uleb128 0xb
+ 2030 0043 0B       		.uleb128 0xb
+ 2031 0044 3A       		.uleb128 0x3a
+ 2032 0045 0B       		.uleb128 0xb
+ 2033 0046 3B       		.uleb128 0x3b
+ 2034 0047 05       		.uleb128 0x5
+ 2035 0048 01       		.uleb128 0x1
+ 2036 0049 13       		.uleb128 0x13
+ 2037 004a 00       		.byte	0
+ 2038 004b 00       		.byte	0
+ 2039 004c 07       		.uleb128 0x7
+ 2040 004d 0D       		.uleb128 0xd
+ 2041 004e 00       		.byte	0
+ 2042 004f 03       		.uleb128 0x3
+ 2043 0050 0E       		.uleb128 0xe
+ 2044 0051 3A       		.uleb128 0x3a
+ 2045 0052 0B       		.uleb128 0xb
+ 2046 0053 3B       		.uleb128 0x3b
+ 2047 0054 05       		.uleb128 0x5
+ 2048 0055 49       		.uleb128 0x49
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 41
+
+
+ 2049 0056 13       		.uleb128 0x13
+ 2050 0057 38       		.uleb128 0x38
+ 2051 0058 0B       		.uleb128 0xb
+ 2052 0059 00       		.byte	0
+ 2053 005a 00       		.byte	0
+ 2054 005b 08       		.uleb128 0x8
+ 2055 005c 13       		.uleb128 0x13
+ 2056 005d 01       		.byte	0x1
+ 2057 005e 03       		.uleb128 0x3
+ 2058 005f 0E       		.uleb128 0xe
+ 2059 0060 0B       		.uleb128 0xb
+ 2060 0061 0B       		.uleb128 0xb
+ 2061 0062 3A       		.uleb128 0x3a
+ 2062 0063 0B       		.uleb128 0xb
+ 2063 0064 3B       		.uleb128 0x3b
+ 2064 0065 0B       		.uleb128 0xb
+ 2065 0066 01       		.uleb128 0x1
+ 2066 0067 13       		.uleb128 0x13
+ 2067 0068 00       		.byte	0
+ 2068 0069 00       		.byte	0
+ 2069 006a 09       		.uleb128 0x9
+ 2070 006b 0D       		.uleb128 0xd
+ 2071 006c 00       		.byte	0
+ 2072 006d 03       		.uleb128 0x3
+ 2073 006e 0E       		.uleb128 0xe
+ 2074 006f 3A       		.uleb128 0x3a
+ 2075 0070 0B       		.uleb128 0xb
+ 2076 0071 3B       		.uleb128 0x3b
+ 2077 0072 0B       		.uleb128 0xb
+ 2078 0073 49       		.uleb128 0x49
+ 2079 0074 13       		.uleb128 0x13
+ 2080 0075 38       		.uleb128 0x38
+ 2081 0076 0B       		.uleb128 0xb
+ 2082 0077 00       		.byte	0
+ 2083 0078 00       		.byte	0
+ 2084 0079 0A       		.uleb128 0xa
+ 2085 007a 0F       		.uleb128 0xf
+ 2086 007b 00       		.byte	0
+ 2087 007c 0B       		.uleb128 0xb
+ 2088 007d 0B       		.uleb128 0xb
+ 2089 007e 49       		.uleb128 0x49
+ 2090 007f 13       		.uleb128 0x13
+ 2091 0080 00       		.byte	0
+ 2092 0081 00       		.byte	0
+ 2093 0082 0B       		.uleb128 0xb
+ 2094 0083 15       		.uleb128 0x15
+ 2095 0084 01       		.byte	0x1
+ 2096 0085 27       		.uleb128 0x27
+ 2097 0086 19       		.uleb128 0x19
+ 2098 0087 49       		.uleb128 0x49
+ 2099 0088 13       		.uleb128 0x13
+ 2100 0089 01       		.uleb128 0x1
+ 2101 008a 13       		.uleb128 0x13
+ 2102 008b 00       		.byte	0
+ 2103 008c 00       		.byte	0
+ 2104 008d 0C       		.uleb128 0xc
+ 2105 008e 05       		.uleb128 0x5
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 42
+
+
+ 2106 008f 00       		.byte	0
+ 2107 0090 49       		.uleb128 0x49
+ 2108 0091 13       		.uleb128 0x13
+ 2109 0092 00       		.byte	0
+ 2110 0093 00       		.byte	0
+ 2111 0094 0D       		.uleb128 0xd
+ 2112 0095 26       		.uleb128 0x26
+ 2113 0096 00       		.byte	0
+ 2114 0097 49       		.uleb128 0x49
+ 2115 0098 13       		.uleb128 0x13
+ 2116 0099 00       		.byte	0
+ 2117 009a 00       		.byte	0
+ 2118 009b 0E       		.uleb128 0xe
+ 2119 009c 0D       		.uleb128 0xd
+ 2120 009d 00       		.byte	0
+ 2121 009e 03       		.uleb128 0x3
+ 2122 009f 08       		.uleb128 0x8
+ 2123 00a0 3A       		.uleb128 0x3a
+ 2124 00a1 0B       		.uleb128 0xb
+ 2125 00a2 3B       		.uleb128 0x3b
+ 2126 00a3 05       		.uleb128 0x5
+ 2127 00a4 49       		.uleb128 0x49
+ 2128 00a5 13       		.uleb128 0x13
+ 2129 00a6 38       		.uleb128 0x38
+ 2130 00a7 0B       		.uleb128 0xb
+ 2131 00a8 00       		.byte	0
+ 2132 00a9 00       		.byte	0
+ 2133 00aa 0F       		.uleb128 0xf
+ 2134 00ab 15       		.uleb128 0x15
+ 2135 00ac 01       		.byte	0x1
+ 2136 00ad 27       		.uleb128 0x27
+ 2137 00ae 19       		.uleb128 0x19
+ 2138 00af 01       		.uleb128 0x1
+ 2139 00b0 13       		.uleb128 0x13
+ 2140 00b1 00       		.byte	0
+ 2141 00b2 00       		.byte	0
+ 2142 00b3 10       		.uleb128 0x10
+ 2143 00b4 16       		.uleb128 0x16
+ 2144 00b5 00       		.byte	0
+ 2145 00b6 03       		.uleb128 0x3
+ 2146 00b7 0E       		.uleb128 0xe
+ 2147 00b8 3A       		.uleb128 0x3a
+ 2148 00b9 0B       		.uleb128 0xb
+ 2149 00ba 3B       		.uleb128 0x3b
+ 2150 00bb 05       		.uleb128 0x5
+ 2151 00bc 49       		.uleb128 0x49
+ 2152 00bd 13       		.uleb128 0x13
+ 2153 00be 00       		.byte	0
+ 2154 00bf 00       		.byte	0
+ 2155 00c0 11       		.uleb128 0x11
+ 2156 00c1 2E       		.uleb128 0x2e
+ 2157 00c2 01       		.byte	0x1
+ 2158 00c3 3F       		.uleb128 0x3f
+ 2159 00c4 19       		.uleb128 0x19
+ 2160 00c5 03       		.uleb128 0x3
+ 2161 00c6 0E       		.uleb128 0xe
+ 2162 00c7 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 43
+
+
+ 2163 00c8 0B       		.uleb128 0xb
+ 2164 00c9 3B       		.uleb128 0x3b
+ 2165 00ca 0B       		.uleb128 0xb
+ 2166 00cb 27       		.uleb128 0x27
+ 2167 00cc 19       		.uleb128 0x19
+ 2168 00cd 11       		.uleb128 0x11
+ 2169 00ce 01       		.uleb128 0x1
+ 2170 00cf 12       		.uleb128 0x12
+ 2171 00d0 06       		.uleb128 0x6
+ 2172 00d1 40       		.uleb128 0x40
+ 2173 00d2 18       		.uleb128 0x18
+ 2174 00d3 9742     		.uleb128 0x2117
+ 2175 00d5 19       		.uleb128 0x19
+ 2176 00d6 01       		.uleb128 0x1
+ 2177 00d7 13       		.uleb128 0x13
+ 2178 00d8 00       		.byte	0
+ 2179 00d9 00       		.byte	0
+ 2180 00da 12       		.uleb128 0x12
+ 2181 00db 05       		.uleb128 0x5
+ 2182 00dc 00       		.byte	0
+ 2183 00dd 03       		.uleb128 0x3
+ 2184 00de 0E       		.uleb128 0xe
+ 2185 00df 3A       		.uleb128 0x3a
+ 2186 00e0 0B       		.uleb128 0xb
+ 2187 00e1 3B       		.uleb128 0x3b
+ 2188 00e2 0B       		.uleb128 0xb
+ 2189 00e3 49       		.uleb128 0x49
+ 2190 00e4 13       		.uleb128 0x13
+ 2191 00e5 02       		.uleb128 0x2
+ 2192 00e6 17       		.uleb128 0x17
+ 2193 00e7 00       		.byte	0
+ 2194 00e8 00       		.byte	0
+ 2195 00e9 13       		.uleb128 0x13
+ 2196 00ea 05       		.uleb128 0x5
+ 2197 00eb 00       		.byte	0
+ 2198 00ec 03       		.uleb128 0x3
+ 2199 00ed 08       		.uleb128 0x8
+ 2200 00ee 3A       		.uleb128 0x3a
+ 2201 00ef 0B       		.uleb128 0xb
+ 2202 00f0 3B       		.uleb128 0x3b
+ 2203 00f1 0B       		.uleb128 0xb
+ 2204 00f2 49       		.uleb128 0x49
+ 2205 00f3 13       		.uleb128 0x13
+ 2206 00f4 02       		.uleb128 0x2
+ 2207 00f5 17       		.uleb128 0x17
+ 2208 00f6 00       		.byte	0
+ 2209 00f7 00       		.byte	0
+ 2210 00f8 14       		.uleb128 0x14
+ 2211 00f9 34       		.uleb128 0x34
+ 2212 00fa 00       		.byte	0
+ 2213 00fb 03       		.uleb128 0x3
+ 2214 00fc 08       		.uleb128 0x8
+ 2215 00fd 3A       		.uleb128 0x3a
+ 2216 00fe 0B       		.uleb128 0xb
+ 2217 00ff 3B       		.uleb128 0x3b
+ 2218 0100 0B       		.uleb128 0xb
+ 2219 0101 49       		.uleb128 0x49
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 44
+
+
+ 2220 0102 13       		.uleb128 0x13
+ 2221 0103 02       		.uleb128 0x2
+ 2222 0104 17       		.uleb128 0x17
+ 2223 0105 00       		.byte	0
+ 2224 0106 00       		.byte	0
+ 2225 0107 15       		.uleb128 0x15
+ 2226 0108 34       		.uleb128 0x34
+ 2227 0109 00       		.byte	0
+ 2228 010a 03       		.uleb128 0x3
+ 2229 010b 0E       		.uleb128 0xe
+ 2230 010c 3A       		.uleb128 0x3a
+ 2231 010d 0B       		.uleb128 0xb
+ 2232 010e 3B       		.uleb128 0x3b
+ 2233 010f 0B       		.uleb128 0xb
+ 2234 0110 49       		.uleb128 0x49
+ 2235 0111 13       		.uleb128 0x13
+ 2236 0112 02       		.uleb128 0x2
+ 2237 0113 17       		.uleb128 0x17
+ 2238 0114 00       		.byte	0
+ 2239 0115 00       		.byte	0
+ 2240 0116 16       		.uleb128 0x16
+ 2241 0117 0B       		.uleb128 0xb
+ 2242 0118 01       		.byte	0x1
+ 2243 0119 55       		.uleb128 0x55
+ 2244 011a 17       		.uleb128 0x17
+ 2245 011b 01       		.uleb128 0x1
+ 2246 011c 13       		.uleb128 0x13
+ 2247 011d 00       		.byte	0
+ 2248 011e 00       		.byte	0
+ 2249 011f 17       		.uleb128 0x17
+ 2250 0120 898201   		.uleb128 0x4109
+ 2251 0123 01       		.byte	0x1
+ 2252 0124 11       		.uleb128 0x11
+ 2253 0125 01       		.uleb128 0x1
+ 2254 0126 31       		.uleb128 0x31
+ 2255 0127 13       		.uleb128 0x13
+ 2256 0128 01       		.uleb128 0x1
+ 2257 0129 13       		.uleb128 0x13
+ 2258 012a 00       		.byte	0
+ 2259 012b 00       		.byte	0
+ 2260 012c 18       		.uleb128 0x18
+ 2261 012d 8A8201   		.uleb128 0x410a
+ 2262 0130 00       		.byte	0
+ 2263 0131 02       		.uleb128 0x2
+ 2264 0132 18       		.uleb128 0x18
+ 2265 0133 9142     		.uleb128 0x2111
+ 2266 0135 18       		.uleb128 0x18
+ 2267 0136 00       		.byte	0
+ 2268 0137 00       		.byte	0
+ 2269 0138 19       		.uleb128 0x19
+ 2270 0139 898201   		.uleb128 0x4109
+ 2271 013c 01       		.byte	0x1
+ 2272 013d 11       		.uleb128 0x11
+ 2273 013e 01       		.uleb128 0x1
+ 2274 013f 31       		.uleb128 0x31
+ 2275 0140 13       		.uleb128 0x13
+ 2276 0141 00       		.byte	0
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 45
+
+
+ 2277 0142 00       		.byte	0
+ 2278 0143 1A       		.uleb128 0x1a
+ 2279 0144 898201   		.uleb128 0x4109
+ 2280 0147 01       		.byte	0x1
+ 2281 0148 11       		.uleb128 0x11
+ 2282 0149 01       		.uleb128 0x1
+ 2283 014a 01       		.uleb128 0x1
+ 2284 014b 13       		.uleb128 0x13
+ 2285 014c 00       		.byte	0
+ 2286 014d 00       		.byte	0
+ 2287 014e 1B       		.uleb128 0x1b
+ 2288 014f 898201   		.uleb128 0x4109
+ 2289 0152 01       		.byte	0x1
+ 2290 0153 11       		.uleb128 0x11
+ 2291 0154 01       		.uleb128 0x1
+ 2292 0155 9542     		.uleb128 0x2115
+ 2293 0157 19       		.uleb128 0x19
+ 2294 0158 31       		.uleb128 0x31
+ 2295 0159 13       		.uleb128 0x13
+ 2296 015a 00       		.byte	0
+ 2297 015b 00       		.byte	0
+ 2298 015c 1C       		.uleb128 0x1c
+ 2299 015d 2E       		.uleb128 0x2e
+ 2300 015e 00       		.byte	0
+ 2301 015f 3F       		.uleb128 0x3f
+ 2302 0160 19       		.uleb128 0x19
+ 2303 0161 3C       		.uleb128 0x3c
+ 2304 0162 19       		.uleb128 0x19
+ 2305 0163 6E       		.uleb128 0x6e
+ 2306 0164 0E       		.uleb128 0xe
+ 2307 0165 03       		.uleb128 0x3
+ 2308 0166 0E       		.uleb128 0xe
+ 2309 0167 3A       		.uleb128 0x3a
+ 2310 0168 0B       		.uleb128 0xb
+ 2311 0169 3B       		.uleb128 0x3b
+ 2312 016a 05       		.uleb128 0x5
+ 2313 016b 00       		.byte	0
+ 2314 016c 00       		.byte	0
+ 2315 016d 00       		.byte	0
+ 2316              		.section	.debug_loc,"",%progbits
+ 2317              	.Ldebug_loc0:
+ 2318              	.LLST0:
+ 2319 0000 00000000 		.4byte	.LVL0
+ 2320 0004 6A000000 		.4byte	.LVL13
+ 2321 0008 0100     		.2byte	0x1
+ 2322 000a 50       		.byte	0x50
+ 2323 000b 6A000000 		.4byte	.LVL13
+ 2324 000f BA010000 		.4byte	.LVL37
+ 2325 0013 0100     		.2byte	0x1
+ 2326 0015 54       		.byte	0x54
+ 2327 0016 BA010000 		.4byte	.LVL37
+ 2328 001a BD010000 		.4byte	.LVL38-1
+ 2329 001e 0100     		.2byte	0x1
+ 2330 0020 50       		.byte	0x50
+ 2331 0021 BD010000 		.4byte	.LVL38-1
+ 2332 0025 BE010000 		.4byte	.LVL38
+ 2333 0029 0400     		.2byte	0x4
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 46
+
+
+ 2334 002b F3       		.byte	0xf3
+ 2335 002c 01       		.uleb128 0x1
+ 2336 002d 50       		.byte	0x50
+ 2337 002e 9F       		.byte	0x9f
+ 2338 002f BE010000 		.4byte	.LVL38
+ 2339 0033 C4010000 		.4byte	.LFE0
+ 2340 0037 0100     		.2byte	0x1
+ 2341 0039 54       		.byte	0x54
+ 2342 003a 00000000 		.4byte	0
+ 2343 003e 00000000 		.4byte	0
+ 2344              	.LLST1:
+ 2345 0042 00000000 		.4byte	.LVL0
+ 2346 0046 2A000000 		.4byte	.LVL6
+ 2347 004a 0100     		.2byte	0x1
+ 2348 004c 51       		.byte	0x51
+ 2349 004d 2A000000 		.4byte	.LVL6
+ 2350 0051 C4010000 		.4byte	.LFE0
+ 2351 0055 0400     		.2byte	0x4
+ 2352 0057 F3       		.byte	0xf3
+ 2353 0058 01       		.uleb128 0x1
+ 2354 0059 51       		.byte	0x51
+ 2355 005a 9F       		.byte	0x9f
+ 2356 005b 00000000 		.4byte	0
+ 2357 005f 00000000 		.4byte	0
+ 2358              	.LLST2:
+ 2359 0063 00000000 		.4byte	.LVL0
+ 2360 0067 18000000 		.4byte	.LVL4
+ 2361 006b 0100     		.2byte	0x1
+ 2362 006d 52       		.byte	0x52
+ 2363 006e 18000000 		.4byte	.LVL4
+ 2364 0072 C4010000 		.4byte	.LFE0
+ 2365 0076 0400     		.2byte	0x4
+ 2366 0078 F3       		.byte	0xf3
+ 2367 0079 01       		.uleb128 0x1
+ 2368 007a 52       		.byte	0x52
+ 2369 007b 9F       		.byte	0x9f
+ 2370 007c 00000000 		.4byte	0
+ 2371 0080 00000000 		.4byte	0
+ 2372              	.LLST3:
+ 2373 0084 00000000 		.4byte	.LVL0
+ 2374 0088 0C000000 		.4byte	.LVL2
+ 2375 008c 0100     		.2byte	0x1
+ 2376 008e 53       		.byte	0x53
+ 2377 008f 0C000000 		.4byte	.LVL2
+ 2378 0093 C4010000 		.4byte	.LFE0
+ 2379 0097 0400     		.2byte	0x4
+ 2380 0099 F3       		.byte	0xf3
+ 2381 009a 01       		.uleb128 0x1
+ 2382 009b 53       		.byte	0x53
+ 2383 009c 9F       		.byte	0x9f
+ 2384 009d 00000000 		.4byte	0
+ 2385 00a1 00000000 		.4byte	0
+ 2386              	.LLST4:
+ 2387 00a5 00000000 		.4byte	.LVL0
+ 2388 00a9 BA010000 		.4byte	.LVL37
+ 2389 00ad 0200     		.2byte	0x2
+ 2390 00af 91       		.byte	0x91
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 47
+
+
+ 2391 00b0 00       		.sleb128 0
+ 2392 00b1 BA010000 		.4byte	.LVL37
+ 2393 00b5 BE010000 		.4byte	.LVL38
+ 2394 00b9 0200     		.2byte	0x2
+ 2395 00bb 7D       		.byte	0x7d
+ 2396 00bc 00       		.sleb128 0
+ 2397 00bd BE010000 		.4byte	.LVL38
+ 2398 00c1 C4010000 		.4byte	.LFE0
+ 2399 00c5 0200     		.2byte	0x2
+ 2400 00c7 91       		.byte	0x91
+ 2401 00c8 00       		.sleb128 0
+ 2402 00c9 00000000 		.4byte	0
+ 2403 00cd 00000000 		.4byte	0
+ 2404              	.LLST5:
+ 2405 00d1 00000000 		.4byte	.LVL0
+ 2406 00d5 BA010000 		.4byte	.LVL37
+ 2407 00d9 0200     		.2byte	0x2
+ 2408 00db 91       		.byte	0x91
+ 2409 00dc 04       		.sleb128 4
+ 2410 00dd BA010000 		.4byte	.LVL37
+ 2411 00e1 BE010000 		.4byte	.LVL38
+ 2412 00e5 0200     		.2byte	0x2
+ 2413 00e7 7D       		.byte	0x7d
+ 2414 00e8 04       		.sleb128 4
+ 2415 00e9 BE010000 		.4byte	.LVL38
+ 2416 00ed C4010000 		.4byte	.LFE0
+ 2417 00f1 0200     		.2byte	0x2
+ 2418 00f3 91       		.byte	0x91
+ 2419 00f4 04       		.sleb128 4
+ 2420 00f5 00000000 		.4byte	0
+ 2421 00f9 00000000 		.4byte	0
+ 2422              	.LLST6:
+ 2423 00fd 00000000 		.4byte	.LVL0
+ 2424 0101 BA010000 		.4byte	.LVL37
+ 2425 0105 0200     		.2byte	0x2
+ 2426 0107 91       		.byte	0x91
+ 2427 0108 08       		.sleb128 8
+ 2428 0109 BA010000 		.4byte	.LVL37
+ 2429 010d BE010000 		.4byte	.LVL38
+ 2430 0111 0200     		.2byte	0x2
+ 2431 0113 7D       		.byte	0x7d
+ 2432 0114 08       		.sleb128 8
+ 2433 0115 BE010000 		.4byte	.LVL38
+ 2434 0119 C4010000 		.4byte	.LFE0
+ 2435 011d 0200     		.2byte	0x2
+ 2436 011f 91       		.byte	0x91
+ 2437 0120 08       		.sleb128 8
+ 2438 0121 00000000 		.4byte	0
+ 2439 0125 00000000 		.4byte	0
+ 2440              	.LLST7:
+ 2441 0129 06000000 		.4byte	.LVL1
+ 2442 012d 10000000 		.4byte	.LVL3
+ 2443 0131 0300     		.2byte	0x3
+ 2444 0133 91       		.byte	0x91
+ 2445 0134 A87F     		.sleb128 -88
+ 2446 0136 00000000 		.4byte	0
+ 2447 013a 00000000 		.4byte	0
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 48
+
+
+ 2448              	.LLST8:
+ 2449 013e 9E000000 		.4byte	.LVL14
+ 2450 0142 AC000000 		.4byte	.LVL15
+ 2451 0146 0300     		.2byte	0x3
+ 2452 0148 91       		.byte	0x91
+ 2453 0149 B07F     		.sleb128 -80
+ 2454 014b AC000000 		.4byte	.LVL15
+ 2455 014f BA010000 		.4byte	.LVL37
+ 2456 0153 0200     		.2byte	0x2
+ 2457 0155 91       		.byte	0x91
+ 2458 0156 44       		.sleb128 -60
+ 2459 0157 BA010000 		.4byte	.LVL37
+ 2460 015b BE010000 		.4byte	.LVL38
+ 2461 015f 0200     		.2byte	0x2
+ 2462 0161 7D       		.byte	0x7d
+ 2463 0162 44       		.sleb128 -60
+ 2464 0163 BE010000 		.4byte	.LVL38
+ 2465 0167 C4010000 		.4byte	.LFE0
+ 2466 016b 0200     		.2byte	0x2
+ 2467 016d 91       		.byte	0x91
+ 2468 016e 44       		.sleb128 -60
+ 2469 016f 00000000 		.4byte	0
+ 2470 0173 00000000 		.4byte	0
+ 2471              	.LLST9:
+ 2472 0177 AC000000 		.4byte	.LVL15
+ 2473 017b B0000000 		.4byte	.LVL16
+ 2474 017f 0200     		.2byte	0x2
+ 2475 0181 91       		.byte	0x91
+ 2476 0182 50       		.sleb128 -48
+ 2477 0183 B0000000 		.4byte	.LVL16
+ 2478 0187 C0000000 		.4byte	.LVL17
+ 2479 018b 0D00     		.2byte	0xd
+ 2480 018d 70       		.byte	0x70
+ 2481 018e 00       		.sleb128 0
+ 2482 018f 91       		.byte	0x91
+ 2483 0190 48       		.sleb128 -56
+ 2484 0191 94       		.byte	0x94
+ 2485 0192 02       		.byte	0x2
+ 2486 0193 1C       		.byte	0x1c
+ 2487 0194 91       		.byte	0x91
+ 2488 0195 50       		.sleb128 -48
+ 2489 0196 94       		.byte	0x94
+ 2490 0197 02       		.byte	0x2
+ 2491 0198 22       		.byte	0x22
+ 2492 0199 9F       		.byte	0x9f
+ 2493 019a C8000000 		.4byte	.LVL18
+ 2494 019e D4000000 		.4byte	.LVL19
+ 2495 01a2 0100     		.2byte	0x1
+ 2496 01a4 55       		.byte	0x55
+ 2497 01a5 D4000000 		.4byte	.LVL19
+ 2498 01a9 10010000 		.4byte	.LVL24
+ 2499 01ad 0100     		.2byte	0x1
+ 2500 01af 59       		.byte	0x59
+ 2501 01b0 1E010000 		.4byte	.LVL28
+ 2502 01b4 3E010000 		.4byte	.LVL30
+ 2503 01b8 0100     		.2byte	0x1
+ 2504 01ba 59       		.byte	0x59
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 49
+
+
+ 2505 01bb 70010000 		.4byte	.LVL34
+ 2506 01bf BA010000 		.4byte	.LVL37
+ 2507 01c3 0100     		.2byte	0x1
+ 2508 01c5 59       		.byte	0x59
+ 2509 01c6 BE010000 		.4byte	.LVL38
+ 2510 01ca C4010000 		.4byte	.LFE0
+ 2511 01ce 0100     		.2byte	0x1
+ 2512 01d0 59       		.byte	0x59
+ 2513 01d1 00000000 		.4byte	0
+ 2514 01d5 00000000 		.4byte	0
+ 2515              	.LLST10:
+ 2516 01d9 AC000000 		.4byte	.LVL15
+ 2517 01dd 16010000 		.4byte	.LVL26
+ 2518 01e1 0100     		.2byte	0x1
+ 2519 01e3 58       		.byte	0x58
+ 2520 01e4 1E010000 		.4byte	.LVL28
+ 2521 01e8 BA010000 		.4byte	.LVL37
+ 2522 01ec 0100     		.2byte	0x1
+ 2523 01ee 58       		.byte	0x58
+ 2524 01ef BE010000 		.4byte	.LVL38
+ 2525 01f3 C4010000 		.4byte	.LFE0
+ 2526 01f7 0100     		.2byte	0x1
+ 2527 01f9 58       		.byte	0x58
+ 2528 01fa 00000000 		.4byte	0
+ 2529 01fe 00000000 		.4byte	0
+ 2530              	.LLST11:
+ 2531 0202 D8000000 		.4byte	.LVL20
+ 2532 0206 BA010000 		.4byte	.LVL37
+ 2533 020a 0100     		.2byte	0x1
+ 2534 020c 5B       		.byte	0x5b
+ 2535 020d BE010000 		.4byte	.LVL38
+ 2536 0211 C4010000 		.4byte	.LFE0
+ 2537 0215 0100     		.2byte	0x1
+ 2538 0217 5B       		.byte	0x5b
+ 2539 0218 00000000 		.4byte	0
+ 2540 021c 00000000 		.4byte	0
+ 2541              	.LLST12:
+ 2542 0220 06000000 		.4byte	.LVL1
+ 2543 0224 46000000 		.4byte	.LVL10
+ 2544 0228 0200     		.2byte	0x2
+ 2545 022a 38       		.byte	0x38
+ 2546 022b 9F       		.byte	0x9f
+ 2547 022c 46000000 		.4byte	.LVL10
+ 2548 0230 54000000 		.4byte	.LVL12
+ 2549 0234 0300     		.2byte	0x3
+ 2550 0236 91       		.byte	0x91
+ 2551 0237 BC7F     		.sleb128 -68
+ 2552 0239 00000000 		.4byte	0
+ 2553 023d 00000000 		.4byte	0
+ 2554              	.LLST13:
+ 2555 0241 24000000 		.4byte	.LVL5
+ 2556 0245 46000000 		.4byte	.LVL10
+ 2557 0249 0300     		.2byte	0x3
+ 2558 024b 91       		.byte	0x91
+ 2559 024c 9C7F     		.sleb128 -100
+ 2560 024e 46000000 		.4byte	.LVL10
+ 2561 0252 52000000 		.4byte	.LVL11
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 50
+
+
+ 2562 0256 0300     		.2byte	0x3
+ 2563 0258 91       		.byte	0x91
+ 2564 0259 BC7F     		.sleb128 -68
+ 2565 025b 9E000000 		.4byte	.LVL14
+ 2566 025f 12010000 		.4byte	.LVL25
+ 2567 0263 0100     		.2byte	0x1
+ 2568 0265 57       		.byte	0x57
+ 2569 0266 18010000 		.4byte	.LVL27
+ 2570 026a BA010000 		.4byte	.LVL37
+ 2571 026e 0100     		.2byte	0x1
+ 2572 0270 57       		.byte	0x57
+ 2573 0271 BE010000 		.4byte	.LVL38
+ 2574 0275 C4010000 		.4byte	.LFE0
+ 2575 0279 0100     		.2byte	0x1
+ 2576 027b 57       		.byte	0x57
+ 2577 027c 00000000 		.4byte	0
+ 2578 0280 00000000 		.4byte	0
+ 2579              	.LLST14:
+ 2580 0284 2C000000 		.4byte	.LVL7
+ 2581 0288 BA010000 		.4byte	.LVL37
+ 2582 028c 0300     		.2byte	0x3
+ 2583 028e 91       		.byte	0x91
+ 2584 028f B47F     		.sleb128 -76
+ 2585 0291 BA010000 		.4byte	.LVL37
+ 2586 0295 BE010000 		.4byte	.LVL38
+ 2587 0299 0300     		.2byte	0x3
+ 2588 029b 7D       		.byte	0x7d
+ 2589 029c B47F     		.sleb128 -76
+ 2590 029e BE010000 		.4byte	.LVL38
+ 2591 02a2 C4010000 		.4byte	.LFE0
+ 2592 02a6 0300     		.2byte	0x3
+ 2593 02a8 91       		.byte	0x91
+ 2594 02a9 B47F     		.sleb128 -76
+ 2595 02ab 00000000 		.4byte	0
+ 2596 02af 00000000 		.4byte	0
+ 2597              	.LLST15:
+ 2598 02b3 32000000 		.4byte	.LVL8
+ 2599 02b7 BA010000 		.4byte	.LVL37
+ 2600 02bb 0300     		.2byte	0x3
+ 2601 02bd 91       		.byte	0x91
+ 2602 02be B87F     		.sleb128 -72
+ 2603 02c0 BA010000 		.4byte	.LVL37
+ 2604 02c4 BE010000 		.4byte	.LVL38
+ 2605 02c8 0300     		.2byte	0x3
+ 2606 02ca 7D       		.byte	0x7d
+ 2607 02cb B87F     		.sleb128 -72
+ 2608 02cd BE010000 		.4byte	.LVL38
+ 2609 02d1 C4010000 		.4byte	.LFE0
+ 2610 02d5 0300     		.2byte	0x3
+ 2611 02d7 91       		.byte	0x91
+ 2612 02d8 B87F     		.sleb128 -72
+ 2613 02da 00000000 		.4byte	0
+ 2614 02de 00000000 		.4byte	0
+ 2615              	.LLST16:
+ 2616 02e2 38000000 		.4byte	.LVL9
+ 2617 02e6 BA010000 		.4byte	.LVL37
+ 2618 02ea 0300     		.2byte	0x3
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 51
+
+
+ 2619 02ec 91       		.byte	0x91
+ 2620 02ed A47F     		.sleb128 -92
+ 2621 02ef BA010000 		.4byte	.LVL37
+ 2622 02f3 BE010000 		.4byte	.LVL38
+ 2623 02f7 0300     		.2byte	0x3
+ 2624 02f9 7D       		.byte	0x7d
+ 2625 02fa A47F     		.sleb128 -92
+ 2626 02fc BE010000 		.4byte	.LVL38
+ 2627 0300 C4010000 		.4byte	.LFE0
+ 2628 0304 0300     		.2byte	0x3
+ 2629 0306 91       		.byte	0x91
+ 2630 0307 A47F     		.sleb128 -92
+ 2631 0309 00000000 		.4byte	0
+ 2632 030d 00000000 		.4byte	0
+ 2633              	.LLST17:
+ 2634 0311 24010000 		.4byte	.LVL29
+ 2635 0315 4A010000 		.4byte	.LVL31
+ 2636 0319 0200     		.2byte	0x2
+ 2637 031b 30       		.byte	0x30
+ 2638 031c 9F       		.byte	0x9f
+ 2639 031d 00000000 		.4byte	0
+ 2640 0321 00000000 		.4byte	0
+ 2641              	.LLST18:
+ 2642 0325 24010000 		.4byte	.LVL29
+ 2643 0329 70010000 		.4byte	.LVL34
+ 2644 032d 0C00     		.2byte	0xc
+ 2645 032f 91       		.byte	0x91
+ 2646 0330 987F     		.sleb128 -104
+ 2647 0332 06       		.byte	0x6
+ 2648 0333 09       		.byte	0x9
+ 2649 0334 FF       		.byte	0xff
+ 2650 0335 24       		.byte	0x24
+ 2651 0336 32       		.byte	0x32
+ 2652 0337 25       		.byte	0x25
+ 2653 0338 31       		.byte	0x31
+ 2654 0339 1C       		.byte	0x1c
+ 2655 033a 9F       		.byte	0x9f
+ 2656 033b 00000000 		.4byte	0
+ 2657 033f 00000000 		.4byte	0
+ 2658              	.LLST19:
+ 2659 0343 00000000 		.4byte	.LVL39
+ 2660 0347 25000000 		.4byte	.LVL42-1
+ 2661 034b 0100     		.2byte	0x1
+ 2662 034d 50       		.byte	0x50
+ 2663 034e 25000000 		.4byte	.LVL42-1
+ 2664 0352 8A000000 		.4byte	.LVL49
+ 2665 0356 0100     		.2byte	0x1
+ 2666 0358 57       		.byte	0x57
+ 2667 0359 8A000000 		.4byte	.LVL49
+ 2668 035d 8D000000 		.4byte	.LVL50-1
+ 2669 0361 0100     		.2byte	0x1
+ 2670 0363 50       		.byte	0x50
+ 2671 0364 8D000000 		.4byte	.LVL50-1
+ 2672 0368 8E000000 		.4byte	.LFE1
+ 2673 036c 0400     		.2byte	0x4
+ 2674 036e F3       		.byte	0xf3
+ 2675 036f 01       		.uleb128 0x1
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 52
+
+
+ 2676 0370 50       		.byte	0x50
+ 2677 0371 9F       		.byte	0x9f
+ 2678 0372 00000000 		.4byte	0
+ 2679 0376 00000000 		.4byte	0
+ 2680              	.LLST20:
+ 2681 037a 00000000 		.4byte	.LVL39
+ 2682 037e 18000000 		.4byte	.LVL41
+ 2683 0382 0100     		.2byte	0x1
+ 2684 0384 51       		.byte	0x51
+ 2685 0385 18000000 		.4byte	.LVL41
+ 2686 0389 40000000 		.4byte	.LVL44
+ 2687 038d 0400     		.2byte	0x4
+ 2688 038f F3       		.byte	0xf3
+ 2689 0390 01       		.uleb128 0x1
+ 2690 0391 51       		.byte	0x51
+ 2691 0392 9F       		.byte	0x9f
+ 2692 0393 40000000 		.4byte	.LVL44
+ 2693 0397 8A000000 		.4byte	.LVL49
+ 2694 039b 0100     		.2byte	0x1
+ 2695 039d 56       		.byte	0x56
+ 2696 039e 00000000 		.4byte	0
+ 2697 03a2 00000000 		.4byte	0
+ 2698              	.LLST21:
+ 2699 03a6 00000000 		.4byte	.LVL39
+ 2700 03aa 25000000 		.4byte	.LVL42-1
+ 2701 03ae 0100     		.2byte	0x1
+ 2702 03b0 52       		.byte	0x52
+ 2703 03b1 25000000 		.4byte	.LVL42-1
+ 2704 03b5 8E000000 		.4byte	.LFE1
+ 2705 03b9 0400     		.2byte	0x4
+ 2706 03bb F3       		.byte	0xf3
+ 2707 03bc 01       		.uleb128 0x1
+ 2708 03bd 52       		.byte	0x52
+ 2709 03be 9F       		.byte	0x9f
+ 2710 03bf 00000000 		.4byte	0
+ 2711 03c3 00000000 		.4byte	0
+ 2712              	.LLST22:
+ 2713 03c7 00000000 		.4byte	.LVL39
+ 2714 03cb 0A000000 		.4byte	.LVL40
+ 2715 03cf 0100     		.2byte	0x1
+ 2716 03d1 53       		.byte	0x53
+ 2717 03d2 0A000000 		.4byte	.LVL40
+ 2718 03d6 8E000000 		.4byte	.LFE1
+ 2719 03da 0400     		.2byte	0x4
+ 2720 03dc F3       		.byte	0xf3
+ 2721 03dd 01       		.uleb128 0x1
+ 2722 03de 53       		.byte	0x53
+ 2723 03df 9F       		.byte	0x9f
+ 2724 03e0 00000000 		.4byte	0
+ 2725 03e4 00000000 		.4byte	0
+ 2726              	.LLST23:
+ 2727 03e8 00000000 		.4byte	.LVL39
+ 2728 03ec 8A000000 		.4byte	.LVL49
+ 2729 03f0 0200     		.2byte	0x2
+ 2730 03f2 91       		.byte	0x91
+ 2731 03f3 00       		.sleb128 0
+ 2732 03f4 8A000000 		.4byte	.LVL49
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 53
+
+
+ 2733 03f8 8E000000 		.4byte	.LFE1
+ 2734 03fc 0200     		.2byte	0x2
+ 2735 03fe 7D       		.byte	0x7d
+ 2736 03ff 00       		.sleb128 0
+ 2737 0400 00000000 		.4byte	0
+ 2738 0404 00000000 		.4byte	0
+ 2739              	.LLST24:
+ 2740 0408 00000000 		.4byte	.LVL39
+ 2741 040c 8A000000 		.4byte	.LVL49
+ 2742 0410 0200     		.2byte	0x2
+ 2743 0412 91       		.byte	0x91
+ 2744 0413 04       		.sleb128 4
+ 2745 0414 8A000000 		.4byte	.LVL49
+ 2746 0418 8E000000 		.4byte	.LFE1
+ 2747 041c 0200     		.2byte	0x2
+ 2748 041e 7D       		.byte	0x7d
+ 2749 041f 04       		.sleb128 4
+ 2750 0420 00000000 		.4byte	0
+ 2751 0424 00000000 		.4byte	0
+ 2752              	.LLST25:
+ 2753 0428 00000000 		.4byte	.LVL39
+ 2754 042c 8A000000 		.4byte	.LVL49
+ 2755 0430 0200     		.2byte	0x2
+ 2756 0432 91       		.byte	0x91
+ 2757 0433 08       		.sleb128 8
+ 2758 0434 8A000000 		.4byte	.LVL49
+ 2759 0438 8E000000 		.4byte	.LFE1
+ 2760 043c 0200     		.2byte	0x2
+ 2761 043e 7D       		.byte	0x7d
+ 2762 043f 08       		.sleb128 8
+ 2763 0440 00000000 		.4byte	0
+ 2764 0444 00000000 		.4byte	0
+ 2765              	.LLST26:
+ 2766 0448 00000000 		.4byte	.LVL39
+ 2767 044c 8A000000 		.4byte	.LVL49
+ 2768 0450 0200     		.2byte	0x2
+ 2769 0452 91       		.byte	0x91
+ 2770 0453 0C       		.sleb128 12
+ 2771 0454 8A000000 		.4byte	.LVL49
+ 2772 0458 8E000000 		.4byte	.LFE1
+ 2773 045c 0200     		.2byte	0x2
+ 2774 045e 7D       		.byte	0x7d
+ 2775 045f 0C       		.sleb128 12
+ 2776 0460 00000000 		.4byte	0
+ 2777 0464 00000000 		.4byte	0
+ 2778              	.LLST27:
+ 2779 0468 2E000000 		.4byte	.LVL43
+ 2780 046c 5C000000 		.4byte	.LVL46
+ 2781 0470 0100     		.2byte	0x1
+ 2782 0472 50       		.byte	0x50
+ 2783 0473 5C000000 		.4byte	.LVL46
+ 2784 0477 8A000000 		.4byte	.LVL49
+ 2785 047b 0100     		.2byte	0x1
+ 2786 047d 54       		.byte	0x54
+ 2787 047e 00000000 		.4byte	0
+ 2788 0482 00000000 		.4byte	0
+ 2789              	.LLST28:
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 54
+
+
+ 2790 0486 2E000000 		.4byte	.LVL43
+ 2791 048a 5C000000 		.4byte	.LVL46
+ 2792 048e 0200     		.2byte	0x2
+ 2793 0490 30       		.byte	0x30
+ 2794 0491 9F       		.byte	0x9f
+ 2795 0492 5C000000 		.4byte	.LVL46
+ 2796 0496 8A000000 		.4byte	.LVL49
+ 2797 049a 0100     		.2byte	0x1
+ 2798 049c 55       		.byte	0x55
+ 2799 049d 00000000 		.4byte	0
+ 2800 04a1 00000000 		.4byte	0
+ 2801              		.section	.debug_aranges,"",%progbits
+ 2802 0000 24000000 		.4byte	0x24
+ 2803 0004 0200     		.2byte	0x2
+ 2804 0006 00000000 		.4byte	.Ldebug_info0
+ 2805 000a 04       		.byte	0x4
+ 2806 000b 00       		.byte	0
+ 2807 000c 0000     		.2byte	0
+ 2808 000e 0000     		.2byte	0
+ 2809 0010 00000000 		.4byte	.LFB0
+ 2810 0014 C4010000 		.4byte	.LFE0-.LFB0
+ 2811 0018 00000000 		.4byte	.LFB1
+ 2812 001c 8E000000 		.4byte	.LFE1-.LFB1
+ 2813 0020 00000000 		.4byte	0
+ 2814 0024 00000000 		.4byte	0
+ 2815              		.section	.debug_ranges,"",%progbits
+ 2816              	.Ldebug_ranges0:
+ 2817 0000 54000000 		.4byte	.LBB2
+ 2818 0004 90000000 		.4byte	.LBE2
+ 2819 0008 94000000 		.4byte	.LBB3
+ 2820 000c A0000000 		.4byte	.LBE3
+ 2821 0010 2E010000 		.4byte	.LBB4
+ 2822 0014 94010000 		.4byte	.LBE4
+ 2823 0018 00000000 		.4byte	0
+ 2824 001c 00000000 		.4byte	0
+ 2825 0020 00000000 		.4byte	.LFB0
+ 2826 0024 C4010000 		.4byte	.LFE0
+ 2827 0028 00000000 		.4byte	.LFB1
+ 2828 002c 8E000000 		.4byte	.LFE1
+ 2829 0030 00000000 		.4byte	0
+ 2830 0034 00000000 		.4byte	0
+ 2831              		.section	.debug_line,"",%progbits
+ 2832              	.Ldebug_line0:
+ 2833 0000 E6010000 		.section	.debug_str,"MS",%progbits,1
+ 2833      02004D01 
+ 2833      00000201 
+ 2833      FB0E0D00 
+ 2833      01010101 
+ 2834              	.LASF141:
+ 2835 0000 70616464 		.ascii	"padding_h\000"
+ 2835      696E675F 
+ 2835      6800
+ 2836              	.LASF124:
+ 2837 000a 73746172 		.ascii	"start_pos_unicode\000"
+ 2837      745F706F 
+ 2837      735F756E 
+ 2837      69636F64 
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 55
+
+
+ 2837      6500
+ 2838              	.LASF45:
+ 2839 001c 72657365 		.ascii	"reset_pulse_width_ms\000"
+ 2839      745F7075 
+ 2839      6C73655F 
+ 2839      77696474 
+ 2839      685F6D73 
+ 2840              	.LASF102:
+ 2841 0031 75386732 		.ascii	"u8g2_update_page_win_cb\000"
+ 2841      5F757064 
+ 2841      6174655F 
+ 2841      70616765 
+ 2841      5F77696E 
+ 2842              	.LASF67:
+ 2843 0049 74696C65 		.ascii	"tile_buf_ptr\000"
+ 2843      5F627566 
+ 2843      5F707472 
+ 2843      00
+ 2844              	.LASF142:
+ 2845 0056 70616464 		.ascii	"padding_v\000"
+ 2845      696E675F 
+ 2845      7600
+ 2846              	.LASF1:
+ 2847 0060 5F5F7569 		.ascii	"__uint8_t\000"
+ 2847      6E74385F 
+ 2847      7400
+ 2848              	.LASF23:
+ 2849 006a 62797465 		.ascii	"byte_cb\000"
+ 2849      5F636200 
+ 2850              	.LASF136:
+ 2851 0072 75386732 		.ascii	"u8g2_font_decode_t\000"
+ 2851      5F666F6E 
+ 2851      745F6465 
+ 2851      636F6465 
+ 2851      5F7400
+ 2852              	.LASF106:
+ 2853 0085 676C7970 		.ascii	"glyph_cnt\000"
+ 2853      685F636E 
+ 2853      7400
+ 2854              	.LASF98:
+ 2855 008f 75706461 		.ascii	"update_dimension\000"
+ 2855      74655F64 
+ 2855      696D656E 
+ 2855      73696F6E 
+ 2855      00
+ 2856              	.LASF11:
+ 2857 00a0 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2857      206C6F6E 
+ 2857      6720756E 
+ 2857      7369676E 
+ 2857      65642069 
+ 2858              	.LASF0:
+ 2859 00b7 5F5F696E 		.ascii	"__int8_t\000"
+ 2859      74385F74 
+ 2859      00
+ 2860              	.LASF46:
+ 2861 00c0 706F7374 		.ascii	"post_reset_wait_ms\000"
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 56
+
+
+ 2861      5F726573 
+ 2861      65745F77 
+ 2861      6169745F 
+ 2861      6D7300
+ 2862              	.LASF107:
+ 2863 00d3 6262785F 		.ascii	"bbx_mode\000"
+ 2863      6D6F6465 
+ 2863      00
+ 2864              	.LASF32:
+ 2865 00dc 75746638 		.ascii	"utf8_state\000"
+ 2865      5F737461 
+ 2865      746500
+ 2866              	.LASF117:
+ 2867 00e7 795F6F66 		.ascii	"y_offset\000"
+ 2867      66736574 
+ 2867      00
+ 2868              	.LASF33:
+ 2869 00f0 6770696F 		.ascii	"gpio_result\000"
+ 2869      5F726573 
+ 2869      756C7400 
+ 2870              	.LASF112:
+ 2871 00fc 62697473 		.ascii	"bits_per_char_x\000"
+ 2871      5F706572 
+ 2871      5F636861 
+ 2871      725F7800 
+ 2872              	.LASF113:
+ 2873 010c 62697473 		.ascii	"bits_per_char_y\000"
+ 2873      5F706572 
+ 2873      5F636861 
+ 2873      725F7900 
+ 2874              	.LASF10:
+ 2875 011c 6C6F6E67 		.ascii	"long long int\000"
+ 2875      206C6F6E 
+ 2875      6720696E 
+ 2875      7400
+ 2876              	.LASF2:
+ 2877 012a 7369676E 		.ascii	"signed char\000"
+ 2877      65642063 
+ 2877      68617200 
+ 2878              	.LASF160:
+ 2879 0136 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2879      43313120 
+ 2879      352E342E 
+ 2879      31203230 
+ 2879      31363036 
+ 2880 0169 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 2880      20726576 
+ 2880      6973696F 
+ 2880      6E203233 
+ 2880      37373135 
+ 2881 019c 73202D66 		.ascii	"s -ffunction-sections -ffat-lto-objects\000"
+ 2881      66756E63 
+ 2881      74696F6E 
+ 2881      2D736563 
+ 2881      74696F6E 
+ 2882              	.LASF29:
+ 2883 01c4 69735F66 		.ascii	"is_font_inverse_mode\000"
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 57
+
+
+ 2883      6F6E745F 
+ 2883      696E7665 
+ 2883      7273655F 
+ 2883      6D6F6465 
+ 2884              	.LASF145:
+ 2885 01d9 636F6C6F 		.ascii	"color_backup\000"
+ 2885      725F6261 
+ 2885      636B7570 
+ 2885      00
+ 2886              	.LASF21:
+ 2887 01e6 64697370 		.ascii	"display_cb\000"
+ 2887      6C61795F 
+ 2887      636200
+ 2888              	.LASF120:
+ 2889 01f1 61736365 		.ascii	"ascent_para\000"
+ 2889      6E745F70 
+ 2889      61726100 
+ 2890              	.LASF92:
+ 2891 01fd 676C7970 		.ascii	"glyph_x_offset\000"
+ 2891      685F785F 
+ 2891      6F666673 
+ 2891      657400
+ 2892              	.LASF44:
+ 2893 020c 7072655F 		.ascii	"pre_chip_disable_wait_ns\000"
+ 2893      63686970 
+ 2893      5F646973 
+ 2893      61626C65 
+ 2893      5F776169 
+ 2894              	.LASF7:
+ 2895 0225 6C6F6E67 		.ascii	"long int\000"
+ 2895      20696E74 
+ 2895      00
+ 2896              	.LASF99:
+ 2897 022e 75706461 		.ascii	"update_page_win\000"
+ 2897      74655F70 
+ 2897      6167655F 
+ 2897      77696E00 
+ 2898              	.LASF116:
+ 2899 023e 6D61785F 		.ascii	"max_char_height\000"
+ 2899      63686172 
+ 2899      5F686569 
+ 2899      67687400 
+ 2900              	.LASF15:
+ 2901 024e 75696E74 		.ascii	"uint16_t\000"
+ 2901      31365F74 
+ 2901      00
+ 2902              	.LASF20:
+ 2903 0257 6E657874 		.ascii	"next_cb\000"
+ 2903      5F636200 
+ 2904              	.LASF61:
+ 2905 025f 75387838 		.ascii	"u8x8_char_cb\000"
+ 2905      5F636861 
+ 2905      725F6362 
+ 2905      00
+ 2906              	.LASF24:
+ 2907 026c 6770696F 		.ascii	"gpio_and_delay_cb\000"
+ 2907      5F616E64 
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 58
+
+
+ 2907      5F64656C 
+ 2907      61795F63 
+ 2907      6200
+ 2908              	.LASF125:
+ 2909 027e 75386732 		.ascii	"u8g2_font_info_t\000"
+ 2909      5F666F6E 
+ 2909      745F696E 
+ 2909      666F5F74 
+ 2909      00
+ 2910              	.LASF91:
+ 2911 028f 666F6E74 		.ascii	"font_ref_descent\000"
+ 2911      5F726566 
+ 2911      5F646573 
+ 2911      63656E74 
+ 2911      00
+ 2912              	.LASF38:
+ 2913 02a0 75387838 		.ascii	"u8x8_display_info_t\000"
+ 2913      5F646973 
+ 2913      706C6179 
+ 2913      5F696E66 
+ 2913      6F5F7400 
+ 2914              	.LASF162:
+ 2915 02b4 433A5C55 		.ascii	"C:\\Users\\jesse\\OneDrive\\Bureaublad\\practice_em"
+ 2915      73657273 
+ 2915      5C6A6573 
+ 2915      73655C4F 
+ 2915      6E654472 
+ 2916 02e2 62656464 		.ascii	"bedded\\Practice_EmbeddedProgramming\\Display_count"
+ 2916      65645C50 
+ 2916      72616374 
+ 2916      6963655F 
+ 2916      456D6265 
+ 2917 0313 2E637964 		.ascii	".cydsn\000"
+ 2917      736E00
+ 2918              	.LASF8:
+ 2919 031a 5F5F7569 		.ascii	"__uint32_t\000"
+ 2919      6E743332 
+ 2919      5F7400
+ 2920              	.LASF108:
+ 2921 0325 62697473 		.ascii	"bits_per_0\000"
+ 2921      5F706572 
+ 2921      5F3000
+ 2922              	.LASF85:
+ 2923 0330 666F6E74 		.ascii	"font_calc_vref\000"
+ 2923      5F63616C 
+ 2923      635F7672 
+ 2923      656600
+ 2924              	.LASF90:
+ 2925 033f 666F6E74 		.ascii	"font_ref_ascent\000"
+ 2925      5F726566 
+ 2925      5F617363 
+ 2925      656E7400 
+ 2926              	.LASF47:
+ 2927 034f 7364615F 		.ascii	"sda_setup_time_ns\000"
+ 2927      73657475 
+ 2927      705F7469 
+ 2927      6D655F6E 
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 59
+
+
+ 2927      7300
+ 2928              	.LASF104:
+ 2929 0361 75386732 		.ascii	"u8g2_draw_ll_hvline_cb\000"
+ 2929      5F647261 
+ 2929      775F6C6C 
+ 2929      5F68766C 
+ 2929      696E655F 
+ 2930              	.LASF119:
+ 2931 0378 64657363 		.ascii	"descent_g\000"
+ 2931      656E745F 
+ 2931      6700
+ 2932              	.LASF140:
+ 2933 0382 74657874 		.ascii	"text_width\000"
+ 2933      5F776964 
+ 2933      746800
+ 2934              	.LASF110:
+ 2935 038d 62697473 		.ascii	"bits_per_char_width\000"
+ 2935      5F706572 
+ 2935      5F636861 
+ 2935      725F7769 
+ 2935      64746800 
+ 2936              	.LASF37:
+ 2937 03a1 6465626F 		.ascii	"debounce_result_msg\000"
+ 2937      756E6365 
+ 2937      5F726573 
+ 2937      756C745F 
+ 2937      6D736700 
+ 2938              	.LASF12:
+ 2939 03b5 756E7369 		.ascii	"unsigned int\000"
+ 2939      676E6564 
+ 2939      20696E74 
+ 2939      00
+ 2940              	.LASF71:
+ 2941 03c2 70697865 		.ascii	"pixel_buf_height\000"
+ 2941      6C5F6275 
+ 2941      665F6865 
+ 2941      69676874 
+ 2941      00
+ 2942              	.LASF133:
+ 2943 03d3 69735F74 		.ascii	"is_transparent\000"
+ 2943      72616E73 
+ 2943      70617265 
+ 2943      6E7400
+ 2944              	.LASF30:
+ 2945 03e2 6932635F 		.ascii	"i2c_address\000"
+ 2945      61646472 
+ 2945      65737300 
+ 2946              	.LASF9:
+ 2947 03ee 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2947      20756E73 
+ 2947      69676E65 
+ 2947      6420696E 
+ 2947      7400
+ 2948              	.LASF63:
+ 2949 0400 75386732 		.ascii	"u8g2_t\000"
+ 2949      5F7400
+ 2950              	.LASF154:
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 60
+
+
+ 2951 0407 75386732 		.ascii	"u8g2_SetDrawColor\000"
+ 2951      5F536574 
+ 2951      44726177 
+ 2951      436F6C6F 
+ 2951      7200
+ 2952              	.LASF127:
+ 2953 0419 6465636F 		.ascii	"decode_ptr\000"
+ 2953      64655F70 
+ 2953      747200
+ 2954              	.LASF75:
+ 2955 0424 77696474 		.ascii	"width\000"
+ 2955      6800
+ 2956              	.LASF68:
+ 2957 042a 74696C65 		.ascii	"tile_buf_height\000"
+ 2957      5F627566 
+ 2957      5F686569 
+ 2957      67687400 
+ 2958              	.LASF161:
+ 2959 043a 2E2E5C2E 		.ascii	"..\\..\\..\\u8g2\\u8g2\\csrc\\u8g2_button.c\000"
+ 2959      2E5C2E2E 
+ 2959      5C753867 
+ 2959      325C7538 
+ 2959      67325C63 
+ 2960              	.LASF88:
+ 2961 0460 69735F70 		.ascii	"is_page_clip_window_intersection\000"
+ 2961      6167655F 
+ 2961      636C6970 
+ 2961      5F77696E 
+ 2961      646F775F 
+ 2962              	.LASF93:
+ 2963 0481 6269746D 		.ascii	"bitmap_transparency\000"
+ 2963      61705F74 
+ 2963      72616E73 
+ 2963      70617265 
+ 2963      6E637900 
+ 2964              	.LASF81:
+ 2965 0495 636C6970 		.ascii	"clip_x0\000"
+ 2965      5F783000 
+ 2966              	.LASF82:
+ 2967 049d 636C6970 		.ascii	"clip_x1\000"
+ 2967      5F783100 
+ 2968              	.LASF100:
+ 2969 04a5 64726177 		.ascii	"draw_l90\000"
+ 2969      5F6C3930 
+ 2969      00
+ 2970              	.LASF35:
+ 2971 04ae 6465626F 		.ascii	"debounce_last_pin_state\000"
+ 2971      756E6365 
+ 2971      5F6C6173 
+ 2971      745F7069 
+ 2971      6E5F7374 
+ 2972              	.LASF138:
+ 2973 04c6 75386732 		.ascii	"u8g2\000"
+ 2973      00
+ 2974              	.LASF121:
+ 2975 04cb 64657363 		.ascii	"descent_para\000"
+ 2975      656E745F 
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 61
+
+
+ 2975      70617261 
+ 2975      00
+ 2976              	.LASF19:
+ 2977 04d8 64697370 		.ascii	"display_info\000"
+ 2977      6C61795F 
+ 2977      696E666F 
+ 2977      00
+ 2978              	.LASF87:
+ 2979 04e5 666F6E74 		.ascii	"font_info\000"
+ 2979      5F696E66 
+ 2979      6F00
+ 2980              	.LASF48:
+ 2981 04ef 73636B5F 		.ascii	"sck_pulse_width_ns\000"
+ 2981      70756C73 
+ 2981      655F7769 
+ 2981      6474685F 
+ 2981      6E7300
+ 2982              	.LASF39:
+ 2983 0502 75387838 		.ascii	"u8x8_struct\000"
+ 2983      5F737472 
+ 2983      75637400 
+ 2984              	.LASF156:
+ 2985 050e 75386732 		.ascii	"u8g2_DrawBox\000"
+ 2985      5F447261 
+ 2985      77426F78 
+ 2985      00
+ 2986              	.LASF159:
+ 2987 051b 75386732 		.ascii	"u8g2_DrawUTF8\000"
+ 2987      5F447261 
+ 2987      77555446 
+ 2987      3800
+ 2988              	.LASF56:
+ 2989 0529 64656661 		.ascii	"default_x_offset\000"
+ 2989      756C745F 
+ 2989      785F6F66 
+ 2989      66736574 
+ 2989      00
+ 2990              	.LASF27:
+ 2991 053a 656E636F 		.ascii	"encoding\000"
+ 2991      64696E67 
+ 2991      00
+ 2992              	.LASF89:
+ 2993 0543 666F6E74 		.ascii	"font_height_mode\000"
+ 2993      5F686569 
+ 2993      6768745F 
+ 2993      6D6F6465 
+ 2993      00
+ 2994              	.LASF122:
+ 2995 0554 73746172 		.ascii	"start_pos_upper_A\000"
+ 2995      745F706F 
+ 2995      735F7570 
+ 2995      7065725F 
+ 2995      4100
+ 2996              	.LASF57:
+ 2997 0566 666C6970 		.ascii	"flipmode_x_offset\000"
+ 2997      6D6F6465 
+ 2997      5F785F6F 
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 62
+
+
+ 2997      66667365 
+ 2997      7400
+ 2998              	.LASF109:
+ 2999 0578 62697473 		.ascii	"bits_per_1\000"
+ 2999      5F706572 
+ 2999      5F3100
+ 3000              	.LASF114:
+ 3001 0583 62697473 		.ascii	"bits_per_delta_x\000"
+ 3001      5F706572 
+ 3001      5F64656C 
+ 3001      74615F78 
+ 3001      00
+ 3002              	.LASF132:
+ 3003 0594 6465636F 		.ascii	"decode_bit_pos\000"
+ 3003      64655F62 
+ 3003      69745F70 
+ 3003      6F7300
+ 3004              	.LASF131:
+ 3005 05a3 676C7970 		.ascii	"glyph_height\000"
+ 3005      685F6865 
+ 3005      69676874 
+ 3005      00
+ 3006              	.LASF144:
+ 3007 05b0 626F7264 		.ascii	"border_width\000"
+ 3007      65725F77 
+ 3007      69647468 
+ 3007      00
+ 3008              	.LASF17:
+ 3009 05bd 6C6F6E67 		.ascii	"long double\000"
+ 3009      20646F75 
+ 3009      626C6500 
+ 3010              	.LASF72:
+ 3011 05c9 70697865 		.ascii	"pixel_curr_row\000"
+ 3011      6C5F6375 
+ 3011      72725F72 
+ 3011      6F7700
+ 3012              	.LASF22:
+ 3013 05d8 6361645F 		.ascii	"cad_cb\000"
+ 3013      636200
+ 3014              	.LASF83:
+ 3015 05df 636C6970 		.ascii	"clip_y0\000"
+ 3015      5F793000 
+ 3016              	.LASF84:
+ 3017 05e7 636C6970 		.ascii	"clip_y1\000"
+ 3017      5F793100 
+ 3018              	.LASF115:
+ 3019 05ef 6D61785F 		.ascii	"max_char_width\000"
+ 3019      63686172 
+ 3019      5F776964 
+ 3019      746800
+ 3020              	.LASF79:
+ 3021 05fe 75736572 		.ascii	"user_y0\000"
+ 3021      5F793000 
+ 3022              	.LASF53:
+ 3023 0606 77726974 		.ascii	"write_pulse_width_ns\000"
+ 3023      655F7075 
+ 3023      6C73655F 
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 63
+
+
+ 3023      77696474 
+ 3023      685F6E73 
+ 3024              	.LASF73:
+ 3025 061b 6275665F 		.ascii	"buf_y0\000"
+ 3025      793000
+ 3026              	.LASF74:
+ 3027 0622 6275665F 		.ascii	"buf_y1\000"
+ 3027      793100
+ 3028              	.LASF148:
+ 3029 0629 75386732 		.ascii	"u8g2_DrawButtonUTF8\000"
+ 3029      5F447261 
+ 3029      77427574 
+ 3029      746F6E55 
+ 3029      54463800 
+ 3030              	.LASF28:
+ 3031 063d 785F6F66 		.ascii	"x_offset\000"
+ 3031      66736574 
+ 3031      00
+ 3032              	.LASF55:
+ 3033 0646 74696C65 		.ascii	"tile_height\000"
+ 3033      5F686569 
+ 3033      67687400 
+ 3034              	.LASF153:
+ 3035 0652 75386732 		.ascii	"u8g2_DrawVLine\000"
+ 3035      5F447261 
+ 3035      77564C69 
+ 3035      6E6500
+ 3036              	.LASF66:
+ 3037 0661 6C6C5F68 		.ascii	"ll_hvline\000"
+ 3037      766C696E 
+ 3037      6500
+ 3038              	.LASF134:
+ 3039 066b 66675F63 		.ascii	"fg_color\000"
+ 3039      6F6C6F72 
+ 3039      00
+ 3040              	.LASF60:
+ 3041 0674 75387838 		.ascii	"u8x8_msg_cb\000"
+ 3041      5F6D7367 
+ 3041      5F636200 
+ 3042              	.LASF147:
+ 3043 0680 75386732 		.ascii	"u8g2_DrawButtonFrame\000"
+ 3043      5F447261 
+ 3043      77427574 
+ 3043      746F6E46 
+ 3043      72616D65 
+ 3044              	.LASF97:
+ 3045 0695 75386732 		.ascii	"u8g2_cb_struct\000"
+ 3045      5F63625F 
+ 3045      73747275 
+ 3045      637400
+ 3046              	.LASF130:
+ 3047 06a4 676C7970 		.ascii	"glyph_width\000"
+ 3047      685F7769 
+ 3047      64746800 
+ 3048              	.LASF3:
+ 3049 06b0 756E7369 		.ascii	"unsigned char\000"
+ 3049      676E6564 
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 64
+
+
+ 3049      20636861 
+ 3049      7200
+ 3050              	.LASF118:
+ 3051 06be 61736365 		.ascii	"ascent_A\000"
+ 3051      6E745F41 
+ 3051      00
+ 3052              	.LASF95:
+ 3053 06c7 69735F61 		.ascii	"is_auto_page_clear\000"
+ 3053      75746F5F 
+ 3053      70616765 
+ 3053      5F636C65 
+ 3053      617200
+ 3054              	.LASF70:
+ 3055 06da 70697865 		.ascii	"pixel_buf_width\000"
+ 3055      6C5F6275 
+ 3055      665F7769 
+ 3055      64746800 
+ 3056              	.LASF4:
+ 3057 06ea 73686F72 		.ascii	"short int\000"
+ 3057      7420696E 
+ 3057      7400
+ 3058              	.LASF65:
+ 3059 06f4 75387838 		.ascii	"u8x8\000"
+ 3059      00
+ 3060              	.LASF157:
+ 3061 06f9 75386732 		.ascii	"u8g2_GetUTF8Width\000"
+ 3061      5F476574 
+ 3061      55544638 
+ 3061      57696474 
+ 3061      6800
+ 3062              	.LASF77:
+ 3063 070b 75736572 		.ascii	"user_x0\000"
+ 3063      5F783000 
+ 3064              	.LASF78:
+ 3065 0713 75736572 		.ascii	"user_x1\000"
+ 3065      5F783100 
+ 3066              	.LASF150:
+ 3067 071b 74657874 		.ascii	"text_x_offset\000"
+ 3067      5F785F6F 
+ 3067      66667365 
+ 3067      7400
+ 3068              	.LASF62:
+ 3069 0729 75386732 		.ascii	"u8g2_uint_t\000"
+ 3069      5F75696E 
+ 3069      745F7400 
+ 3070              	.LASF52:
+ 3071 0735 64617461 		.ascii	"data_setup_time_ns\000"
+ 3071      5F736574 
+ 3071      75705F74 
+ 3071      696D655F 
+ 3071      6E7300
+ 3072              	.LASF64:
+ 3073 0748 75386732 		.ascii	"u8g2_struct\000"
+ 3073      5F737472 
+ 3073      75637400 
+ 3074              	.LASF103:
+ 3075 0754 75386732 		.ascii	"u8g2_draw_l90_cb\000"
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 65
+
+
+ 3075      5F647261 
+ 3075      775F6C39 
+ 3075      305F6362 
+ 3075      00
+ 3076              	.LASF51:
+ 3077 0765 6932635F 		.ascii	"i2c_bus_clock_100kHz\000"
+ 3077      6275735F 
+ 3077      636C6F63 
+ 3077      6B5F3130 
+ 3077      306B487A 
+ 3078              	.LASF16:
+ 3079 077a 75696E74 		.ascii	"uint32_t\000"
+ 3079      33325F74 
+ 3079      00
+ 3080              	.LASF105:
+ 3081 0783 5F753867 		.ascii	"_u8g2_font_info_t\000"
+ 3081      325F666F 
+ 3081      6E745F69 
+ 3081      6E666F5F 
+ 3081      7400
+ 3082              	.LASF69:
+ 3083 0795 74696C65 		.ascii	"tile_curr_row\000"
+ 3083      5F637572 
+ 3083      725F726F 
+ 3083      7700
+ 3084              	.LASF96:
+ 3085 07a3 75386732 		.ascii	"u8g2_cb_t\000"
+ 3085      5F63625F 
+ 3085      7400
+ 3086              	.LASF50:
+ 3087 07ad 7370695F 		.ascii	"spi_mode\000"
+ 3087      6D6F6465 
+ 3087      00
+ 3088              	.LASF41:
+ 3089 07b6 63686970 		.ascii	"chip_enable_level\000"
+ 3089      5F656E61 
+ 3089      626C655F 
+ 3089      6C657665 
+ 3089      6C00
+ 3090              	.LASF151:
+ 3091 07c8 63686172 		.ascii	"char\000"
+ 3091      00
+ 3092              	.LASF86:
+ 3093 07cd 666F6E74 		.ascii	"font_decode\000"
+ 3093      5F646563 
+ 3093      6F646500 
+ 3094              	.LASF149:
+ 3095 07d9 74657874 		.ascii	"text\000"
+ 3095      00
+ 3096              	.LASF111:
+ 3097 07de 62697473 		.ascii	"bits_per_char_height\000"
+ 3097      5F706572 
+ 3097      5F636861 
+ 3097      725F6865 
+ 3097      69676874 
+ 3098              	.LASF5:
+ 3099 07f3 5F5F7569 		.ascii	"__uint16_t\000"
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 66
+
+
+ 3099      6E743136 
+ 3099      5F7400
+ 3100              	.LASF94:
+ 3101 07fe 64726177 		.ascii	"draw_color\000"
+ 3101      5F636F6C 
+ 3101      6F7200
+ 3102              	.LASF43:
+ 3103 0809 706F7374 		.ascii	"post_chip_enable_wait_ns\000"
+ 3103      5F636869 
+ 3103      705F656E 
+ 3103      61626C65 
+ 3103      5F776169 
+ 3104              	.LASF101:
+ 3105 0822 75386732 		.ascii	"u8g2_update_dimension_cb\000"
+ 3105      5F757064 
+ 3105      6174655F 
+ 3105      64696D65 
+ 3105      6E73696F 
+ 3106              	.LASF155:
+ 3107 083b 75386732 		.ascii	"u8g2_DrawFrame\000"
+ 3107      5F447261 
+ 3107      77467261 
+ 3107      6D6500
+ 3108              	.LASF128:
+ 3109 084a 74617267 		.ascii	"target_x\000"
+ 3109      65745F78 
+ 3109      00
+ 3110              	.LASF129:
+ 3111 0853 74617267 		.ascii	"target_y\000"
+ 3111      65745F79 
+ 3111      00
+ 3112              	.LASF143:
+ 3113 085c 6761705F 		.ascii	"gap_frame\000"
+ 3113      6672616D 
+ 3113      6500
+ 3114              	.LASF18:
+ 3115 0866 75387838 		.ascii	"u8x8_t\000"
+ 3115      5F7400
+ 3116              	.LASF6:
+ 3117 086d 73686F72 		.ascii	"short unsigned int\000"
+ 3117      7420756E 
+ 3117      7369676E 
+ 3117      65642069 
+ 3117      6E7400
+ 3118              	.LASF25:
+ 3119 0880 6275735F 		.ascii	"bus_clock\000"
+ 3119      636C6F63 
+ 3119      6B00
+ 3120              	.LASF80:
+ 3121 088a 75736572 		.ascii	"user_y1\000"
+ 3121      5F793100 
+ 3122              	.LASF126:
+ 3123 0892 5F753867 		.ascii	"_u8g2_font_decode_t\000"
+ 3123      325F666F 
+ 3123      6E745F64 
+ 3123      65636F64 
+ 3123      655F7400 
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 67
+
+
+ 3124              	.LASF13:
+ 3125 08a6 696E7438 		.ascii	"int8_t\000"
+ 3125      5F7400
+ 3126              	.LASF36:
+ 3127 08ad 6465626F 		.ascii	"debounce_state\000"
+ 3127      756E6365 
+ 3127      5F737461 
+ 3127      746500
+ 3128              	.LASF42:
+ 3129 08bc 63686970 		.ascii	"chip_disable_level\000"
+ 3129      5F646973 
+ 3129      61626C65 
+ 3129      5F6C6576 
+ 3129      656C00
+ 3130              	.LASF26:
+ 3131 08cf 666F6E74 		.ascii	"font\000"
+ 3131      00
+ 3132              	.LASF123:
+ 3133 08d4 73746172 		.ascii	"start_pos_lower_a\000"
+ 3133      745F706F 
+ 3133      735F6C6F 
+ 3133      7765725F 
+ 3133      6100
+ 3134              	.LASF139:
+ 3135 08e6 666C6167 		.ascii	"flags\000"
+ 3135      7300
+ 3136              	.LASF14:
+ 3137 08ec 75696E74 		.ascii	"uint8_t\000"
+ 3137      385F7400 
+ 3138              	.LASF137:
+ 3139 08f4 75386732 		.ascii	"u8g2_font_calc_vref_fnptr\000"
+ 3139      5F666F6E 
+ 3139      745F6361 
+ 3139      6C635F76 
+ 3139      7265665F 
+ 3140              	.LASF31:
+ 3141 090e 6932635F 		.ascii	"i2c_started\000"
+ 3141      73746172 
+ 3141      74656400 
+ 3142              	.LASF58:
+ 3143 091a 70697865 		.ascii	"pixel_width\000"
+ 3143      6C5F7769 
+ 3143      64746800 
+ 3144              	.LASF135:
+ 3145 0926 62675F63 		.ascii	"bg_color\000"
+ 3145      6F6C6F72 
+ 3145      00
+ 3146              	.LASF54:
+ 3147 092f 74696C65 		.ascii	"tile_width\000"
+ 3147      5F776964 
+ 3147      746800
+ 3148              	.LASF34:
+ 3149 093a 6465626F 		.ascii	"debounce_default_pin_state\000"
+ 3149      756E6365 
+ 3149      5F646566 
+ 3149      61756C74 
+ 3149      5F70696E 
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccJKz6l3.s 			page 68
+
+
+ 3150              	.LASF158:
+ 3151 0955 75386732 		.ascii	"u8g2_SetFontMode\000"
+ 3151      5F536574 
+ 3151      466F6E74 
+ 3151      4D6F6465 
+ 3151      00
+ 3152              	.LASF152:
+ 3153 0966 75386732 		.ascii	"u8g2_DrawHLine\000"
+ 3153      5F447261 
+ 3153      77484C69 
+ 3153      6E6500
+ 3154              	.LASF40:
+ 3155 0975 75387838 		.ascii	"u8x8_display_info_struct\000"
+ 3155      5F646973 
+ 3155      706C6179 
+ 3155      5F696E66 
+ 3155      6F5F7374 
+ 3156              	.LASF76:
+ 3157 098e 68656967 		.ascii	"height\000"
+ 3157      687400
+ 3158              	.LASF146:
+ 3159 0995 73686164 		.ascii	"shadow_gap\000"
+ 3159      6F775F67 
+ 3159      617000
+ 3160              	.LASF59:
+ 3161 09a0 70697865 		.ascii	"pixel_height\000"
+ 3161      6C5F6865 
+ 3161      69676874 
+ 3161      00
+ 3162              	.LASF49:
+ 3163 09ad 73636B5F 		.ascii	"sck_clock_hz\000"
+ 3163      636C6F63 
+ 3163      6B5F687A 
+ 3163      00
+ 3164              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

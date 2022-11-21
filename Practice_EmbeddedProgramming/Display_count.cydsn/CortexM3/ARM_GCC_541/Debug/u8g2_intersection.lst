@@ -1,0 +1,2631 @@
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"u8g2_intersection.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.u8g2_is_intersection_decision_tree,"ax",%progbits
+  20              		.align	1
+  21              		.global	u8g2_is_intersection_decision_tree
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	u8g2_is_intersection_decision_tree, %function
+  25              	u8g2_is_intersection_decision_tree:
+  26              	.LFB0:
+  27              		.file 1 "..\\..\\..\\u8g2\\u8g2\\csrc\\u8g2_intersection.c"
+   1:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** /*
+   2:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** 
+   3:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   u8g2_intersection.c 
+   4:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   
+   5:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   Intersection calculation, code taken from u8g_clip.c
+   6:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** 
+   7:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+   8:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** 
+   9:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   Copyright (c) 2016, olikraus@gmail.com
+  10:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   All rights reserved.
+  11:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** 
+  12:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   Redistribution and use in source and binary forms, with or without modification, 
+  13:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   are permitted provided that the following conditions are met:
+  14:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** 
+  15:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   * Redistributions of source code must retain the above copyright notice, this list 
+  16:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     of conditions and the following disclaimer.
+  17:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     
+  18:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   * Redistributions in binary form must reproduce the above copyright notice, this 
+  19:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     list of conditions and the following disclaimer in the documentation and/or other 
+  20:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     materials provided with the distribution.
+  21:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** 
+  22:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+  23:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+  24:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+  25:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+  26:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+  27:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+  28:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  29:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+  30:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 2
+
+
+  31:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+  32:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+  33:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+  34:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+  35:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** 
+  36:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** */
+  37:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** 
+  38:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** #include "u8g2.h"
+  39:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** 
+  40:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** #ifdef __GNUC__
+  41:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** #define U8G2_ALWAYS_INLINE __inline__ __attribute__((always_inline))
+  42:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** #else
+  43:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** #define U8G2_ALWAYS_INLINE
+  44:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** #endif 
+  45:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** 
+  46:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** 
+  47:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** #if defined(U8G2_WITH_INTERSECTION) || defined(U8G2_WITH_CLIP_WINDOW_SUPPORT)
+  48:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** 
+  49:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** #ifdef OLD_VERSION_WITH_SYMETRIC_BOUNDARIES
+  50:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** 
+  51:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** /*
+  52:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   intersection assumptions:
+  53:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     a1 <= a2 is always true    
+  54:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     
+  55:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     minimized version
+  56:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     ---1----0 1             b1 <= a2 && b1 > b2
+  57:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     -----1--0 1             b2 >= a1 && b1 > b2
+  58:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     ---1-1--- 1             b1 <= a2 && b2 >= a1
+  59:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   */
+  60:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** 
+  61:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** 
+  62:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** /*
+  63:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   calculate the intersection between a0/a1 and v0/v1
+  64:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   The intersection check returns one if the range of a0/a1 has an intersection with v0/v1.
+  65:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   The intersection check includes the boundary values v1 and a1.
+  66:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** 
+  67:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   The following asserts will succeed:
+  68:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     assert( u8g2_is_intersection_decision_tree(4, 6, 7, 9) == 0 );
+  69:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     assert( u8g2_is_intersection_decision_tree(4, 6, 6, 9) != 0 );
+  70:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     assert( u8g2_is_intersection_decision_tree(6, 9, 4, 6) != 0 );
+  71:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     assert( u8g2_is_intersection_decision_tree(7, 9, 4, 6) == 0 );  
+  72:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** */
+  73:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** 
+  74:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** //static uint8_t U8G2_ALWAYS_INLINE u8g2_is_intersection_decision_tree(u8g_uint_t a0, u8g_uint_t a1
+  75:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** static uint8_t u8g2_is_intersection_decision_tree(u8g2_uint_t a0, u8g2_uint_t a1, u8g2_uint_t v0, u
+  76:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** {
+  77:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   if ( v0 <= a1 )
+  78:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   {
+  79:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     if ( v1 >= a0 )
+  80:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     {
+  81:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****       return 1;
+  82:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     }
+  83:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     else
+  84:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     {
+  85:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****       if ( v0 > v1 )
+  86:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****       {
+  87:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** 	return 1;
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 3
+
+
+  88:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****       }
+  89:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****       else
+  90:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****       {
+  91:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** 	return 0;
+  92:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****       }
+  93:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     }
+  94:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   }
+  95:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   else
+  96:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   {
+  97:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     if ( v1 >= a0 )
+  98:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     {
+  99:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****       if ( v0 > v1 )
+ 100:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****       {
+ 101:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** 	return 1;
+ 102:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****       }
+ 103:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****       else
+ 104:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****       {
+ 105:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** 	return 0;
+ 106:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****       }
+ 107:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     }
+ 108:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     else
+ 109:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     {
+ 110:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****       return 0;
+ 111:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     }
+ 112:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   }
+ 113:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** }
+ 114:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** 
+ 115:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** #endif	/* OLD_VERSION_WITH_SYMETRIC_BOUNDARIES */
+ 116:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** 
+ 117:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** 
+ 118:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** /*
+ 119:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   version with asymetric boundaries.
+ 120:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   a1 and v1 are excluded
+ 121:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   v0 == v1 is not support end return 1
+ 122:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** */
+ 123:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** uint8_t u8g2_is_intersection_decision_tree(u8g2_uint_t a0, u8g2_uint_t a1, u8g2_uint_t v0, u8g2_uin
+ 124:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** {
+  28              		.loc 1 124 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  33              	.LVL0:
+ 125:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   if ( v0 < a1 )		// v0 <= a1
+  34              		.loc 1 125 0
+  35 0000 8A42     		cmp	r2, r1
+  36 0002 06D2     		bcs	.L2
+ 126:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   {
+ 127:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     if ( v1 > a0 )	// v1 >= a0
+  37              		.loc 1 127 0
+  38 0004 8342     		cmp	r3, r0
+  39 0006 08D8     		bhi	.L5
+  40              	.L4:
+ 128:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     {
+ 129:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****       return 1;
+  41              		.loc 1 129 0
+  42 0008 9A42     		cmp	r2, r3
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 4
+
+
+  43 000a 94BF     		ite	ls
+  44 000c 0020     		movls	r0, #0
+  45              	.LVL1:
+  46 000e 0120     		movhi	r0, #1
+  47 0010 7047     		bx	lr
+  48              	.LVL2:
+  49              	.L2:
+ 130:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     }
+ 131:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     else
+ 132:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     {
+ 133:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****       if ( v0 > v1 )	// v0 > v1
+ 134:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****       {
+ 135:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** 	return 1;
+ 136:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****       }
+ 137:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****       else
+ 138:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****       {
+ 139:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** 	return 0;
+ 140:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****       }
+ 141:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     }
+ 142:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   }
+ 143:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   else
+ 144:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   {
+ 145:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     if ( v1 > a0 )	// v1 >= a0
+  50              		.loc 1 145 0
+  51 0012 8342     		cmp	r3, r0
+  52 0014 F8D8     		bhi	.L4
+ 146:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     {
+ 147:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****       if ( v0 > v1 )	// v0 > v1
+ 148:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****       {
+ 149:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** 	return 1;
+ 150:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****       }
+ 151:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****       else
+ 152:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****       {
+ 153:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** 	return 0;
+ 154:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****       }
+ 155:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     }
+ 156:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     else
+ 157:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     {
+ 158:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****       return 0;
+  53              		.loc 1 158 0
+  54 0016 0020     		movs	r0, #0
+  55              	.LVL3:
+  56 0018 7047     		bx	lr
+  57              	.LVL4:
+  58              	.L5:
+ 129:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     }
+  59              		.loc 1 129 0
+  60 001a 0120     		movs	r0, #1
+  61              	.LVL5:
+ 159:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     }
+ 160:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   }
+ 161:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** }
+  62              		.loc 1 161 0
+  63 001c 7047     		bx	lr
+  64              		.cfi_endproc
+  65              	.LFE0:
+  66              		.size	u8g2_is_intersection_decision_tree, .-u8g2_is_intersection_decision_tree
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 5
+
+
+  67              		.section	.text.u8g2_IsIntersection,"ax",%progbits
+  68              		.align	1
+  69              		.global	u8g2_IsIntersection
+  70              		.thumb
+  71              		.thumb_func
+  72              		.type	u8g2_IsIntersection, %function
+  73              	u8g2_IsIntersection:
+  74              	.LFB1:
+ 162:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** 
+ 163:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** 
+ 164:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** 
+ 165:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** /* upper limits are not included (asymetric boundaries) */
+ 166:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** uint8_t u8g2_IsIntersection(u8g2_t *u8g2, u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_t x1, u8g2_uint
+ 167:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** {
+  75              		.loc 1 167 0
+  76              		.cfi_startproc
+  77              		@ args = 4, pretend = 0, frame = 0
+  78              		@ frame_needed = 0, uses_anonymous_args = 0
+  79              	.LVL6:
+  80 0000 70B5     		push	{r4, r5, r6, lr}
+  81              		.cfi_def_cfa_offset 16
+  82              		.cfi_offset 4, -16
+  83              		.cfi_offset 5, -12
+  84              		.cfi_offset 6, -8
+  85              		.cfi_offset 14, -4
+  86              		.loc 1 167 0
+  87 0002 0446     		mov	r4, r0
+  88 0004 0D46     		mov	r5, r1
+  89 0006 1E46     		mov	r6, r3
+ 168:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   if ( u8g2_is_intersection_decision_tree(u8g2->user_y0, u8g2->user_y1, y0, y1) == 0 )
+  90              		.loc 1 168 0
+  91 0008 B0F84E10 		ldrh	r1, [r0, #78]
+  92              	.LVL7:
+  93 000c BDF81030 		ldrh	r3, [sp, #16]
+  94              	.LVL8:
+  95 0010 B0F84C00 		ldrh	r0, [r0, #76]
+  96              	.LVL9:
+  97 0014 FFF7FEFF 		bl	u8g2_is_intersection_decision_tree
+  98              	.LVL10:
+  99 0018 48B1     		cbz	r0, .L8
+ 169:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****     return 0; 
+ 170:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   
+ 171:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c ****   return u8g2_is_intersection_decision_tree(u8g2->user_x0, u8g2->user_x1, x0, x1);
+ 100              		.loc 1 171 0
+ 101 001a 3346     		mov	r3, r6
+ 102 001c 2A46     		mov	r2, r5
+ 103 001e B4F84A10 		ldrh	r1, [r4, #74]
+ 104 0022 B4F84800 		ldrh	r0, [r4, #72]
+ 172:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** }
+ 105              		.loc 1 172 0
+ 106 0026 BDE87040 		pop	{r4, r5, r6, lr}
+ 107              		.cfi_remember_state
+ 108              		.cfi_restore 14
+ 109              		.cfi_restore 6
+ 110              		.cfi_restore 5
+ 111              		.cfi_restore 4
+ 112              		.cfi_def_cfa_offset 0
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 6
+
+
+ 113              	.LVL11:
+ 171:..\..\..\u8g2\u8g2\csrc/u8g2_intersection.c **** }
+ 114              		.loc 1 171 0
+ 115 002a FFF7FEBF 		b	u8g2_is_intersection_decision_tree
+ 116              	.LVL12:
+ 117              	.L8:
+ 118              		.cfi_restore_state
+ 119              		.loc 1 172 0
+ 120 002e 70BD     		pop	{r4, r5, r6, pc}
+ 121              		.cfi_endproc
+ 122              	.LFE1:
+ 123              		.size	u8g2_IsIntersection, .-u8g2_IsIntersection
+ 124              		.text
+ 125              	.Letext0:
+ 126              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 127              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 128              		.file 4 "..\\..\\..\\u8g2\\u8g2\\csrc\\u8x8.h"
+ 129              		.file 5 "..\\..\\..\\u8g2\\u8g2\\csrc\\u8g2.h"
+ 130              		.section	.debug_info,"",%progbits
+ 131              	.Ldebug_info0:
+ 132 0000 82080000 		.4byte	0x882
+ 133 0004 0400     		.2byte	0x4
+ 134 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 135 000a 04       		.byte	0x4
+ 136 000b 01       		.uleb128 0x1
+ 137 000c 31010000 		.4byte	.LASF139
+ 138 0010 0C       		.byte	0xc
+ 139 0011 FB060000 		.4byte	.LASF140
+ 140 0015 A2020000 		.4byte	.LASF141
+ 141 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 142 001d 00000000 		.4byte	0
+ 143 0021 00000000 		.4byte	.Ldebug_line0
+ 144 0025 02       		.uleb128 0x2
+ 145 0026 B2000000 		.4byte	.LASF0
+ 146 002a 02       		.byte	0x2
+ 147 002b 1B       		.byte	0x1b
+ 148 002c 30000000 		.4byte	0x30
+ 149 0030 03       		.uleb128 0x3
+ 150 0031 01       		.byte	0x1
+ 151 0032 06       		.byte	0x6
+ 152 0033 25010000 		.4byte	.LASF2
+ 153 0037 02       		.uleb128 0x2
+ 154 0038 5B000000 		.4byte	.LASF1
+ 155 003c 02       		.byte	0x2
+ 156 003d 1D       		.byte	0x1d
+ 157 003e 42000000 		.4byte	0x42
+ 158 0042 03       		.uleb128 0x3
+ 159 0043 01       		.byte	0x1
+ 160 0044 08       		.byte	0x8
+ 161 0045 48060000 		.4byte	.LASF3
+ 162 0049 03       		.uleb128 0x3
+ 163 004a 02       		.byte	0x2
+ 164 004b 05       		.byte	0x5
+ 165 004c 82060000 		.4byte	.LASF4
+ 166 0050 02       		.uleb128 0x2
+ 167 0051 7B070000 		.4byte	.LASF5
+ 168 0055 02       		.byte	0x2
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 7
+
+
+ 169 0056 2B       		.byte	0x2b
+ 170 0057 5B000000 		.4byte	0x5b
+ 171 005b 03       		.uleb128 0x3
+ 172 005c 02       		.byte	0x2
+ 173 005d 07       		.byte	0x7
+ 174 005e 42040000 		.4byte	.LASF6
+ 175 0062 03       		.uleb128 0x3
+ 176 0063 04       		.byte	0x4
+ 177 0064 05       		.byte	0x5
+ 178 0065 13020000 		.4byte	.LASF7
+ 179 0069 02       		.uleb128 0x2
+ 180 006a 08030000 		.4byte	.LASF8
+ 181 006e 02       		.byte	0x2
+ 182 006f 41       		.byte	0x41
+ 183 0070 74000000 		.4byte	0x74
+ 184 0074 03       		.uleb128 0x3
+ 185 0075 04       		.byte	0x4
+ 186 0076 07       		.byte	0x7
+ 187 0077 E5030000 		.4byte	.LASF9
+ 188 007b 03       		.uleb128 0x3
+ 189 007c 08       		.byte	0x8
+ 190 007d 05       		.byte	0x5
+ 191 007e 17010000 		.4byte	.LASF10
+ 192 0082 03       		.uleb128 0x3
+ 193 0083 08       		.byte	0x8
+ 194 0084 07       		.byte	0x7
+ 195 0085 9B000000 		.4byte	.LASF11
+ 196 0089 04       		.uleb128 0x4
+ 197 008a 04       		.byte	0x4
+ 198 008b 05       		.byte	0x5
+ 199 008c 696E7400 		.ascii	"int\000"
+ 200 0090 03       		.uleb128 0x3
+ 201 0091 04       		.byte	0x4
+ 202 0092 07       		.byte	0x7
+ 203 0093 98030000 		.4byte	.LASF12
+ 204 0097 02       		.uleb128 0x2
+ 205 0098 02080000 		.4byte	.LASF13
+ 206 009c 03       		.byte	0x3
+ 207 009d 14       		.byte	0x14
+ 208 009e 25000000 		.4byte	0x25
+ 209 00a2 02       		.uleb128 0x2
+ 210 00a3 42080000 		.4byte	.LASF14
+ 211 00a7 03       		.byte	0x3
+ 212 00a8 18       		.byte	0x18
+ 213 00a9 37000000 		.4byte	0x37
+ 214 00ad 02       		.uleb128 0x2
+ 215 00ae 3C020000 		.4byte	.LASF15
+ 216 00b2 03       		.byte	0x3
+ 217 00b3 24       		.byte	0x24
+ 218 00b4 50000000 		.4byte	0x50
+ 219 00b8 02       		.uleb128 0x2
+ 220 00b9 F2060000 		.4byte	.LASF16
+ 221 00bd 03       		.byte	0x3
+ 222 00be 30       		.byte	0x30
+ 223 00bf 69000000 		.4byte	0x69
+ 224 00c3 05       		.uleb128 0x5
+ 225 00c4 04       		.byte	0x4
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 8
+
+
+ 226 00c5 03       		.uleb128 0x3
+ 227 00c6 08       		.byte	0x8
+ 228 00c7 04       		.byte	0x4
+ 229 00c8 8A050000 		.4byte	.LASF17
+ 230 00cc 02       		.uleb128 0x2
+ 231 00cd D5070000 		.4byte	.LASF18
+ 232 00d1 04       		.byte	0x4
+ 233 00d2 D3       		.byte	0xd3
+ 234 00d3 D7000000 		.4byte	0xd7
+ 235 00d7 06       		.uleb128 0x6
+ 236 00d8 F7040000 		.4byte	.LASF39
+ 237 00dc 2C       		.byte	0x2c
+ 238 00dd 04       		.byte	0x4
+ 239 00de 5601     		.2byte	0x156
+ 240 00e0 DC010000 		.4byte	0x1dc
+ 241 00e4 07       		.uleb128 0x7
+ 242 00e5 CD040000 		.4byte	.LASF19
+ 243 00e9 04       		.byte	0x4
+ 244 00ea 5801     		.2byte	0x158
+ 245 00ec 44030000 		.4byte	0x344
+ 246 00f0 00       		.byte	0
+ 247 00f1 07       		.uleb128 0x7
+ 248 00f2 45020000 		.4byte	.LASF20
+ 249 00f6 04       		.byte	0x4
+ 250 00f7 5901     		.2byte	0x159
+ 251 00f9 19030000 		.4byte	0x319
+ 252 00fd 04       		.byte	0x4
+ 253 00fe 07       		.uleb128 0x7
+ 254 00ff D4010000 		.4byte	.LASF21
+ 255 0103 04       		.byte	0x4
+ 256 0104 5A01     		.2byte	0x15a
+ 257 0106 E4020000 		.4byte	0x2e4
+ 258 010a 08       		.byte	0x8
+ 259 010b 07       		.uleb128 0x7
+ 260 010c A5050000 		.4byte	.LASF22
+ 261 0110 04       		.byte	0x4
+ 262 0111 5B01     		.2byte	0x15b
+ 263 0113 E4020000 		.4byte	0x2e4
+ 264 0117 0C       		.byte	0xc
+ 265 0118 07       		.uleb128 0x7
+ 266 0119 65000000 		.4byte	.LASF23
+ 267 011d 04       		.byte	0x4
+ 268 011e 5C01     		.2byte	0x15c
+ 269 0120 E4020000 		.4byte	0x2e4
+ 270 0124 10       		.byte	0x10
+ 271 0125 07       		.uleb128 0x7
+ 272 0126 5A020000 		.4byte	.LASF24
+ 273 012a 04       		.byte	0x4
+ 274 012b 5D01     		.2byte	0x15d
+ 275 012d E4020000 		.4byte	0x2e4
+ 276 0131 14       		.byte	0x14
+ 277 0132 07       		.uleb128 0x7
+ 278 0133 DC070000 		.4byte	.LASF25
+ 279 0137 04       		.byte	0x4
+ 280 0138 5E01     		.2byte	0x15e
+ 281 013a B8000000 		.4byte	0xb8
+ 282 013e 18       		.byte	0x18
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 9
+
+
+ 283 013f 07       		.uleb128 0x7
+ 284 0140 2B080000 		.4byte	.LASF26
+ 285 0144 04       		.byte	0x4
+ 286 0145 5F01     		.2byte	0x15f
+ 287 0147 4F030000 		.4byte	0x34f
+ 288 014b 1C       		.byte	0x1c
+ 289 014c 07       		.uleb128 0x7
+ 290 014d 14050000 		.4byte	.LASF27
+ 291 0151 04       		.byte	0x4
+ 292 0152 6001     		.2byte	0x160
+ 293 0154 AD000000 		.4byte	0xad
+ 294 0158 20       		.byte	0x20
+ 295 0159 07       		.uleb128 0x7
+ 296 015a F9050000 		.4byte	.LASF28
+ 297 015e 04       		.byte	0x4
+ 298 015f 6101     		.2byte	0x161
+ 299 0161 A2000000 		.4byte	0xa2
+ 300 0165 22       		.byte	0x22
+ 301 0166 07       		.uleb128 0x7
+ 302 0167 BF010000 		.4byte	.LASF29
+ 303 016b 04       		.byte	0x4
+ 304 016c 6201     		.2byte	0x162
+ 305 016e A2000000 		.4byte	0xa2
+ 306 0172 23       		.byte	0x23
+ 307 0173 07       		.uleb128 0x7
+ 308 0174 D9030000 		.4byte	.LASF30
+ 309 0178 04       		.byte	0x4
+ 310 0179 6301     		.2byte	0x163
+ 311 017b A2000000 		.4byte	0xa2
+ 312 017f 24       		.byte	0x24
+ 313 0180 07       		.uleb128 0x7
+ 314 0181 64080000 		.4byte	.LASF31
+ 315 0185 04       		.byte	0x4
+ 316 0186 6601     		.2byte	0x166
+ 317 0188 A2000000 		.4byte	0xa2
+ 318 018c 25       		.byte	0x25
+ 319 018d 07       		.uleb128 0x7
+ 320 018e D7000000 		.4byte	.LASF32
+ 321 0192 04       		.byte	0x4
+ 322 0193 6801     		.2byte	0x168
+ 323 0195 A2000000 		.4byte	0xa2
+ 324 0199 26       		.byte	0x26
+ 325 019a 07       		.uleb128 0x7
+ 326 019b EB000000 		.4byte	.LASF33
+ 327 019f 04       		.byte	0x4
+ 328 01a0 6901     		.2byte	0x169
+ 329 01a2 A2000000 		.4byte	0xa2
+ 330 01a6 27       		.byte	0x27
+ 331 01a7 07       		.uleb128 0x7
+ 332 01a8 90080000 		.4byte	.LASF34
+ 333 01ac 04       		.byte	0x4
+ 334 01ad 6A01     		.2byte	0x16a
+ 335 01af A2000000 		.4byte	0xa2
+ 336 01b3 28       		.byte	0x28
+ 337 01b4 07       		.uleb128 0x7
+ 338 01b5 A3040000 		.4byte	.LASF35
+ 339 01b9 04       		.byte	0x4
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 10
+
+
+ 340 01ba 6B01     		.2byte	0x16b
+ 341 01bc A2000000 		.4byte	0xa2
+ 342 01c0 29       		.byte	0x29
+ 343 01c1 07       		.uleb128 0x7
+ 344 01c2 09080000 		.4byte	.LASF36
+ 345 01c6 04       		.byte	0x4
+ 346 01c7 6C01     		.2byte	0x16c
+ 347 01c9 A2000000 		.4byte	0xa2
+ 348 01cd 2A       		.byte	0x2a
+ 349 01ce 07       		.uleb128 0x7
+ 350 01cf 84030000 		.4byte	.LASF37
+ 351 01d3 04       		.byte	0x4
+ 352 01d4 6D01     		.2byte	0x16d
+ 353 01d6 A2000000 		.4byte	0xa2
+ 354 01da 2B       		.byte	0x2b
+ 355 01db 00       		.byte	0
+ 356 01dc 02       		.uleb128 0x2
+ 357 01dd 8E020000 		.4byte	.LASF38
+ 358 01e1 04       		.byte	0x4
+ 359 01e2 D4       		.byte	0xd4
+ 360 01e3 E7010000 		.4byte	0x1e7
+ 361 01e7 08       		.uleb128 0x8
+ 362 01e8 AB080000 		.4byte	.LASF40
+ 363 01ec 18       		.byte	0x18
+ 364 01ed 04       		.byte	0x4
+ 365 01ee ED       		.byte	0xed
+ 366 01ef E4020000 		.4byte	0x2e4
+ 367 01f3 09       		.uleb128 0x9
+ 368 01f4 48070000 		.4byte	.LASF41
+ 369 01f8 04       		.byte	0x4
+ 370 01f9 F1       		.byte	0xf1
+ 371 01fa A2000000 		.4byte	0xa2
+ 372 01fe 00       		.byte	0
+ 373 01ff 09       		.uleb128 0x9
+ 374 0200 18080000 		.4byte	.LASF42
+ 375 0204 04       		.byte	0x4
+ 376 0205 F2       		.byte	0xf2
+ 377 0206 A2000000 		.4byte	0xa2
+ 378 020a 01       		.byte	0x1
+ 379 020b 09       		.uleb128 0x9
+ 380 020c 91070000 		.4byte	.LASF43
+ 381 0210 04       		.byte	0x4
+ 382 0211 F4       		.byte	0xf4
+ 383 0212 A2000000 		.4byte	0xa2
+ 384 0216 02       		.byte	0x2
+ 385 0217 09       		.uleb128 0x9
+ 386 0218 FA010000 		.4byte	.LASF44
+ 387 021c 04       		.byte	0x4
+ 388 021d F5       		.byte	0xf5
+ 389 021e A2000000 		.4byte	0xa2
+ 390 0222 03       		.byte	0x3
+ 391 0223 09       		.uleb128 0x9
+ 392 0224 21000000 		.4byte	.LASF45
+ 393 0228 04       		.byte	0x4
+ 394 0229 F6       		.byte	0xf6
+ 395 022a A2000000 		.4byte	0xa2
+ 396 022e 04       		.byte	0x4
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 11
+
+
+ 397 022f 09       		.uleb128 0x9
+ 398 0230 BB000000 		.4byte	.LASF46
+ 399 0234 04       		.byte	0x4
+ 400 0235 F7       		.byte	0xf7
+ 401 0236 A2000000 		.4byte	0xa2
+ 402 023a 05       		.byte	0x5
+ 403 023b 09       		.uleb128 0x9
+ 404 023c 3D030000 		.4byte	.LASF47
+ 405 0240 04       		.byte	0x4
+ 406 0241 FE       		.byte	0xfe
+ 407 0242 A2000000 		.4byte	0xa2
+ 408 0246 06       		.byte	0x6
+ 409 0247 07       		.uleb128 0x7
+ 410 0248 E4040000 		.4byte	.LASF48
+ 411 024c 04       		.byte	0x4
+ 412 024d 0201     		.2byte	0x102
+ 413 024f A2000000 		.4byte	0xa2
+ 414 0253 07       		.byte	0x7
+ 415 0254 07       		.uleb128 0x7
+ 416 0255 D8080000 		.4byte	.LASF49
+ 417 0259 04       		.byte	0x4
+ 418 025a 0501     		.2byte	0x105
+ 419 025c B8000000 		.4byte	0xb8
+ 420 0260 08       		.byte	0x8
+ 421 0261 07       		.uleb128 0x7
+ 422 0262 3F070000 		.4byte	.LASF50
+ 423 0266 04       		.byte	0x4
+ 424 0267 0F01     		.2byte	0x10f
+ 425 0269 A2000000 		.4byte	0xa2
+ 426 026d 0C       		.byte	0xc
+ 427 026e 07       		.uleb128 0x7
+ 428 026f DD060000 		.4byte	.LASF51
+ 429 0273 04       		.byte	0x4
+ 430 0274 1201     		.2byte	0x112
+ 431 0276 A2000000 		.4byte	0xa2
+ 432 027a 0D       		.byte	0xd
+ 433 027b 07       		.uleb128 0x7
+ 434 027c AD060000 		.4byte	.LASF52
+ 435 0280 04       		.byte	0x4
+ 436 0281 1801     		.2byte	0x118
+ 437 0283 A2000000 		.4byte	0xa2
+ 438 0287 0E       		.byte	0xe
+ 439 0288 07       		.uleb128 0x7
+ 440 0289 D6050000 		.4byte	.LASF53
+ 441 028d 04       		.byte	0x4
+ 442 028e 1A01     		.2byte	0x11a
+ 443 0290 A2000000 		.4byte	0xa2
+ 444 0294 0F       		.byte	0xf
+ 445 0295 07       		.uleb128 0x7
+ 446 0296 85080000 		.4byte	.LASF54
+ 447 029a 04       		.byte	0x4
+ 448 029b 1D01     		.2byte	0x11d
+ 449 029d A2000000 		.4byte	0xa2
+ 450 02a1 10       		.byte	0x10
+ 451 02a2 07       		.uleb128 0x7
+ 452 02a3 02060000 		.4byte	.LASF55
+ 453 02a7 04       		.byte	0x4
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 12
+
+
+ 454 02a8 1E01     		.2byte	0x11e
+ 455 02aa A2000000 		.4byte	0xa2
+ 456 02ae 11       		.byte	0x11
+ 457 02af 07       		.uleb128 0x7
+ 458 02b0 03050000 		.4byte	.LASF56
+ 459 02b4 04       		.byte	0x4
+ 460 02b5 2001     		.2byte	0x120
+ 461 02b7 A2000000 		.4byte	0xa2
+ 462 02bb 12       		.byte	0x12
+ 463 02bc 07       		.uleb128 0x7
+ 464 02bd 40050000 		.4byte	.LASF57
+ 465 02c1 04       		.byte	0x4
+ 466 02c2 2101     		.2byte	0x121
+ 467 02c4 A2000000 		.4byte	0xa2
+ 468 02c8 13       		.byte	0x13
+ 469 02c9 07       		.uleb128 0x7
+ 470 02ca 70080000 		.4byte	.LASF58
+ 471 02ce 04       		.byte	0x4
+ 472 02cf 2901     		.2byte	0x129
+ 473 02d1 AD000000 		.4byte	0xad
+ 474 02d5 14       		.byte	0x14
+ 475 02d6 07       		.uleb128 0x7
+ 476 02d7 CB080000 		.4byte	.LASF59
+ 477 02db 04       		.byte	0x4
+ 478 02dc 2A01     		.2byte	0x12a
+ 479 02de AD000000 		.4byte	0xad
+ 480 02e2 16       		.byte	0x16
+ 481 02e3 00       		.byte	0
+ 482 02e4 02       		.uleb128 0x2
+ 483 02e5 21060000 		.4byte	.LASF60
+ 484 02e9 04       		.byte	0x4
+ 485 02ea D7       		.byte	0xd7
+ 486 02eb EF020000 		.4byte	0x2ef
+ 487 02ef 0A       		.uleb128 0xa
+ 488 02f0 04       		.byte	0x4
+ 489 02f1 F5020000 		.4byte	0x2f5
+ 490 02f5 0B       		.uleb128 0xb
+ 491 02f6 A2000000 		.4byte	0xa2
+ 492 02fa 13030000 		.4byte	0x313
+ 493 02fe 0C       		.uleb128 0xc
+ 494 02ff 13030000 		.4byte	0x313
+ 495 0303 0C       		.uleb128 0xc
+ 496 0304 A2000000 		.4byte	0xa2
+ 497 0308 0C       		.uleb128 0xc
+ 498 0309 A2000000 		.4byte	0xa2
+ 499 030d 0C       		.uleb128 0xc
+ 500 030e C3000000 		.4byte	0xc3
+ 501 0312 00       		.byte	0
+ 502 0313 0A       		.uleb128 0xa
+ 503 0314 04       		.byte	0x4
+ 504 0315 CC000000 		.4byte	0xcc
+ 505 0319 02       		.uleb128 0x2
+ 506 031a 4D020000 		.4byte	.LASF61
+ 507 031e 04       		.byte	0x4
+ 508 031f D8       		.byte	0xd8
+ 509 0320 24030000 		.4byte	0x324
+ 510 0324 0A       		.uleb128 0xa
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 13
+
+
+ 511 0325 04       		.byte	0x4
+ 512 0326 2A030000 		.4byte	0x32a
+ 513 032a 0B       		.uleb128 0xb
+ 514 032b AD000000 		.4byte	0xad
+ 515 032f 3E030000 		.4byte	0x33e
+ 516 0333 0C       		.uleb128 0xc
+ 517 0334 13030000 		.4byte	0x313
+ 518 0338 0C       		.uleb128 0xc
+ 519 0339 A2000000 		.4byte	0xa2
+ 520 033d 00       		.byte	0
+ 521 033e 0A       		.uleb128 0xa
+ 522 033f 04       		.byte	0x4
+ 523 0340 A2000000 		.4byte	0xa2
+ 524 0344 0A       		.uleb128 0xa
+ 525 0345 04       		.byte	0x4
+ 526 0346 4A030000 		.4byte	0x34a
+ 527 034a 0D       		.uleb128 0xd
+ 528 034b DC010000 		.4byte	0x1dc
+ 529 034f 0A       		.uleb128 0xa
+ 530 0350 04       		.byte	0x4
+ 531 0351 55030000 		.4byte	0x355
+ 532 0355 0D       		.uleb128 0xd
+ 533 0356 A2000000 		.4byte	0xa2
+ 534 035a 02       		.uleb128 0x2
+ 535 035b A1060000 		.4byte	.LASF62
+ 536 035f 05       		.byte	0x5
+ 537 0360 D1       		.byte	0xd1
+ 538 0361 AD000000 		.4byte	0xad
+ 539 0365 02       		.uleb128 0x2
+ 540 0366 F7030000 		.4byte	.LASF63
+ 541 036a 05       		.byte	0x5
+ 542 036b DB       		.byte	0xdb
+ 543 036c 70030000 		.4byte	0x370
+ 544 0370 06       		.uleb128 0x6
+ 545 0371 C0060000 		.4byte	.LASF64
+ 546 0375 94       		.byte	0x94
+ 547 0376 05       		.byte	0x5
+ 548 0377 3A01     		.2byte	0x13a
+ 549 0379 2A050000 		.4byte	0x52a
+ 550 037d 07       		.uleb128 0x7
+ 551 037e 8C060000 		.4byte	.LASF65
+ 552 0382 05       		.byte	0x5
+ 553 0383 3C01     		.2byte	0x13c
+ 554 0385 CC000000 		.4byte	0xcc
+ 555 0389 00       		.byte	0
+ 556 038a 07       		.uleb128 0x7
+ 557 038b 0E060000 		.4byte	.LASF66
+ 558 038f 05       		.byte	0x5
+ 559 0390 3D01     		.2byte	0x13d
+ 560 0392 C7050000 		.4byte	0x5c7
+ 561 0396 2C       		.byte	0x2c
+ 562 0397 0E       		.uleb128 0xe
+ 563 0398 636200   		.ascii	"cb\000"
+ 564 039b 05       		.byte	0x5
+ 565 039c 3E01     		.2byte	0x13e
+ 566 039e B2070000 		.4byte	0x7b2
+ 567 03a2 30       		.byte	0x30
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 14
+
+
+ 568 03a3 07       		.uleb128 0x7
+ 569 03a4 4E000000 		.4byte	.LASF67
+ 570 03a8 05       		.byte	0x5
+ 571 03a9 4101     		.2byte	0x141
+ 572 03ab 3E030000 		.4byte	0x33e
+ 573 03af 34       		.byte	0x34
+ 574 03b0 07       		.uleb128 0x7
+ 575 03b1 32040000 		.4byte	.LASF68
+ 576 03b5 05       		.byte	0x5
+ 577 03b6 4201     		.2byte	0x142
+ 578 03b8 A2000000 		.4byte	0xa2
+ 579 03bc 38       		.byte	0x38
+ 580 03bd 07       		.uleb128 0x7
+ 581 03be 27070000 		.4byte	.LASF69
+ 582 03c2 05       		.byte	0x5
+ 583 03c3 4301     		.2byte	0x143
+ 584 03c5 A2000000 		.4byte	0xa2
+ 585 03c9 39       		.byte	0x39
+ 586 03ca 07       		.uleb128 0x7
+ 587 03cb 72060000 		.4byte	.LASF70
+ 588 03cf 05       		.byte	0x5
+ 589 03d0 4601     		.2byte	0x146
+ 590 03d2 5A030000 		.4byte	0x35a
+ 591 03d6 3A       		.byte	0x3a
+ 592 03d7 07       		.uleb128 0x7
+ 593 03d8 A5030000 		.4byte	.LASF71
+ 594 03dc 05       		.byte	0x5
+ 595 03dd 4701     		.2byte	0x147
+ 596 03df 5A030000 		.4byte	0x35a
+ 597 03e3 3C       		.byte	0x3c
+ 598 03e4 07       		.uleb128 0x7
+ 599 03e5 96050000 		.4byte	.LASF72
+ 600 03e9 05       		.byte	0x5
+ 601 03ea 4801     		.2byte	0x148
+ 602 03ec 5A030000 		.4byte	0x35a
+ 603 03f0 3E       		.byte	0x3e
+ 604 03f1 07       		.uleb128 0x7
+ 605 03f2 EB050000 		.4byte	.LASF73
+ 606 03f6 05       		.byte	0x5
+ 607 03f7 4E01     		.2byte	0x14e
+ 608 03f9 5A030000 		.4byte	0x35a
+ 609 03fd 40       		.byte	0x40
+ 610 03fe 07       		.uleb128 0x7
+ 611 03ff F2050000 		.4byte	.LASF74
+ 612 0403 05       		.byte	0x5
+ 613 0404 4F01     		.2byte	0x14f
+ 614 0406 5A030000 		.4byte	0x35a
+ 615 040a 42       		.byte	0x42
+ 616 040b 07       		.uleb128 0x7
+ 617 040c 2C040000 		.4byte	.LASF75
+ 618 0410 05       		.byte	0x5
+ 619 0411 5201     		.2byte	0x152
+ 620 0413 5A030000 		.4byte	0x35a
+ 621 0417 44       		.byte	0x44
+ 622 0418 07       		.uleb128 0x7
+ 623 0419 C4080000 		.4byte	.LASF76
+ 624 041d 05       		.byte	0x5
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 15
+
+
+ 625 041e 5301     		.2byte	0x153
+ 626 0420 5A030000 		.4byte	0x35a
+ 627 0424 46       		.byte	0x46
+ 628 0425 07       		.uleb128 0x7
+ 629 0426 91060000 		.4byte	.LASF77
+ 630 042a 05       		.byte	0x5
+ 631 042b 5801     		.2byte	0x158
+ 632 042d 5A030000 		.4byte	0x35a
+ 633 0431 48       		.byte	0x48
+ 634 0432 07       		.uleb128 0x7
+ 635 0433 99060000 		.4byte	.LASF78
+ 636 0437 05       		.byte	0x5
+ 637 0438 5901     		.2byte	0x159
+ 638 043a 5A030000 		.4byte	0x35a
+ 639 043e 4A       		.byte	0x4a
+ 640 043f 07       		.uleb128 0x7
+ 641 0440 CE050000 		.4byte	.LASF79
+ 642 0444 05       		.byte	0x5
+ 643 0445 5A01     		.2byte	0x15a
+ 644 0447 5A030000 		.4byte	0x35a
+ 645 044b 4C       		.byte	0x4c
+ 646 044c 07       		.uleb128 0x7
+ 647 044d E6070000 		.4byte	.LASF80
+ 648 0451 05       		.byte	0x5
+ 649 0452 5B01     		.2byte	0x15b
+ 650 0454 5A030000 		.4byte	0x35a
+ 651 0458 4E       		.byte	0x4e
+ 652 0459 07       		.uleb128 0x7
+ 653 045a 8A040000 		.4byte	.LASF81
+ 654 045e 05       		.byte	0x5
+ 655 045f 5F01     		.2byte	0x15f
+ 656 0461 5A030000 		.4byte	0x35a
+ 657 0465 50       		.byte	0x50
+ 658 0466 07       		.uleb128 0x7
+ 659 0467 92040000 		.4byte	.LASF82
+ 660 046b 05       		.byte	0x5
+ 661 046c 6001     		.2byte	0x160
+ 662 046e 5A030000 		.4byte	0x35a
+ 663 0472 52       		.byte	0x52
+ 664 0473 07       		.uleb128 0x7
+ 665 0474 AC050000 		.4byte	.LASF83
+ 666 0478 05       		.byte	0x5
+ 667 0479 6101     		.2byte	0x161
+ 668 047b 5A030000 		.4byte	0x35a
+ 669 047f 54       		.byte	0x54
+ 670 0480 07       		.uleb128 0x7
+ 671 0481 B4050000 		.4byte	.LASF84
+ 672 0485 05       		.byte	0x5
+ 673 0486 6201     		.2byte	0x162
+ 674 0488 5A030000 		.4byte	0x35a
+ 675 048c 56       		.byte	0x56
+ 676 048d 07       		.uleb128 0x7
+ 677 048e 2B080000 		.4byte	.LASF26
+ 678 0492 05       		.byte	0x5
+ 679 0493 6701     		.2byte	0x167
+ 680 0495 4F030000 		.4byte	0x34f
+ 681 0499 58       		.byte	0x58
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 16
+
+
+ 682 049a 07       		.uleb128 0x7
+ 683 049b 1E030000 		.4byte	.LASF85
+ 684 049f 05       		.byte	0x5
+ 685 04a0 6B01     		.2byte	0x16b
+ 686 04a2 91070000 		.4byte	0x791
+ 687 04a6 5C       		.byte	0x5c
+ 688 04a7 07       		.uleb128 0x7
+ 689 04a8 5A070000 		.4byte	.LASF86
+ 690 04ac 05       		.byte	0x5
+ 691 04ad 6C01     		.2byte	0x16c
+ 692 04af 85070000 		.4byte	0x785
+ 693 04b3 60       		.byte	0x60
+ 694 04b4 07       		.uleb128 0x7
+ 695 04b5 DA040000 		.4byte	.LASF87
+ 696 04b9 05       		.byte	0x5
+ 697 04ba 6D01     		.2byte	0x16d
+ 698 04bc D3060000 		.4byte	0x6d3
+ 699 04c0 74       		.byte	0x74
+ 700 04c1 07       		.uleb128 0x7
+ 701 04c2 55040000 		.4byte	.LASF88
+ 702 04c6 05       		.byte	0x5
+ 703 04c7 7101     		.2byte	0x171
+ 704 04c9 A2000000 		.4byte	0xa2
+ 705 04cd 8C       		.byte	0x8c
+ 706 04ce 07       		.uleb128 0x7
+ 707 04cf 1D050000 		.4byte	.LASF89
+ 708 04d3 05       		.byte	0x5
+ 709 04d4 7401     		.2byte	0x174
+ 710 04d6 A2000000 		.4byte	0xa2
+ 711 04da 8D       		.byte	0x8d
+ 712 04db 07       		.uleb128 0x7
+ 713 04dc 2D030000 		.4byte	.LASF90
+ 714 04e0 05       		.byte	0x5
+ 715 04e1 7501     		.2byte	0x175
+ 716 04e3 97000000 		.4byte	0x97
+ 717 04e7 8E       		.byte	0x8e
+ 718 04e8 07       		.uleb128 0x7
+ 719 04e9 7D020000 		.4byte	.LASF91
+ 720 04ed 05       		.byte	0x5
+ 721 04ee 7601     		.2byte	0x176
+ 722 04f0 97000000 		.4byte	0x97
+ 723 04f4 8F       		.byte	0x8f
+ 724 04f5 07       		.uleb128 0x7
+ 725 04f6 EB010000 		.4byte	.LASF92
+ 726 04fa 05       		.byte	0x5
+ 727 04fb 7801     		.2byte	0x178
+ 728 04fd 97000000 		.4byte	0x97
+ 729 0501 90       		.byte	0x90
+ 730 0502 07       		.uleb128 0x7
+ 731 0503 76040000 		.4byte	.LASF93
+ 732 0507 05       		.byte	0x5
+ 733 0508 7A01     		.2byte	0x17a
+ 734 050a A2000000 		.4byte	0xa2
+ 735 050e 91       		.byte	0x91
+ 736 050f 07       		.uleb128 0x7
+ 737 0510 86070000 		.4byte	.LASF94
+ 738 0514 05       		.byte	0x5
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 17
+
+
+ 739 0515 7C01     		.2byte	0x17c
+ 740 0517 A2000000 		.4byte	0xa2
+ 741 051b 92       		.byte	0x92
+ 742 051c 07       		.uleb128 0x7
+ 743 051d 5F060000 		.4byte	.LASF95
+ 744 0521 05       		.byte	0x5
+ 745 0522 8001     		.2byte	0x180
+ 746 0524 A2000000 		.4byte	0xa2
+ 747 0528 93       		.byte	0x93
+ 748 0529 00       		.byte	0
+ 749 052a 02       		.uleb128 0x2
+ 750 052b 35070000 		.4byte	.LASF96
+ 751 052f 05       		.byte	0x5
+ 752 0530 DC       		.byte	0xdc
+ 753 0531 35050000 		.4byte	0x535
+ 754 0535 06       		.uleb128 0x6
+ 755 0536 2D060000 		.4byte	.LASF97
+ 756 053a 0C       		.byte	0xc
+ 757 053b 05       		.byte	0x5
+ 758 053c 3001     		.2byte	0x130
+ 759 053e 6A050000 		.4byte	0x56a
+ 760 0542 07       		.uleb128 0x7
+ 761 0543 8A000000 		.4byte	.LASF98
+ 762 0547 05       		.byte	0x5
+ 763 0548 3201     		.2byte	0x132
+ 764 054a 6A050000 		.4byte	0x56a
+ 765 054e 00       		.byte	0
+ 766 054f 07       		.uleb128 0x7
+ 767 0550 1C020000 		.4byte	.LASF99
+ 768 0554 05       		.byte	0x5
+ 769 0555 3301     		.2byte	0x133
+ 770 0557 8C050000 		.4byte	0x58c
+ 771 055b 04       		.byte	0x4
+ 772 055c 07       		.uleb128 0x7
+ 773 055d 9A040000 		.4byte	.LASF100
+ 774 0561 05       		.byte	0x5
+ 775 0562 3401     		.2byte	0x134
+ 776 0564 97050000 		.4byte	0x597
+ 777 0568 08       		.byte	0x8
+ 778 0569 00       		.byte	0
+ 779 056a 02       		.uleb128 0x2
+ 780 056b AA070000 		.4byte	.LASF101
+ 781 056f 05       		.byte	0x5
+ 782 0570 DE       		.byte	0xde
+ 783 0571 75050000 		.4byte	0x575
+ 784 0575 0A       		.uleb128 0xa
+ 785 0576 04       		.byte	0x4
+ 786 0577 7B050000 		.4byte	0x57b
+ 787 057b 0F       		.uleb128 0xf
+ 788 057c 86050000 		.4byte	0x586
+ 789 0580 0C       		.uleb128 0xc
+ 790 0581 86050000 		.4byte	0x586
+ 791 0585 00       		.byte	0
+ 792 0586 0A       		.uleb128 0xa
+ 793 0587 04       		.byte	0x4
+ 794 0588 65030000 		.4byte	0x365
+ 795 058c 02       		.uleb128 0x2
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 18
+
+
+ 796 058d 36000000 		.4byte	.LASF102
+ 797 0591 05       		.byte	0x5
+ 798 0592 DF       		.byte	0xdf
+ 799 0593 75050000 		.4byte	0x575
+ 800 0597 02       		.uleb128 0x2
+ 801 0598 CC060000 		.4byte	.LASF103
+ 802 059c 05       		.byte	0x5
+ 803 059d E0       		.byte	0xe0
+ 804 059e A2050000 		.4byte	0x5a2
+ 805 05a2 0A       		.uleb128 0xa
+ 806 05a3 04       		.byte	0x4
+ 807 05a4 A8050000 		.4byte	0x5a8
+ 808 05a8 0F       		.uleb128 0xf
+ 809 05a9 C7050000 		.4byte	0x5c7
+ 810 05ad 0C       		.uleb128 0xc
+ 811 05ae 86050000 		.4byte	0x586
+ 812 05b2 0C       		.uleb128 0xc
+ 813 05b3 5A030000 		.4byte	0x35a
+ 814 05b7 0C       		.uleb128 0xc
+ 815 05b8 5A030000 		.4byte	0x35a
+ 816 05bc 0C       		.uleb128 0xc
+ 817 05bd 5A030000 		.4byte	0x35a
+ 818 05c1 0C       		.uleb128 0xc
+ 819 05c2 A2000000 		.4byte	0xa2
+ 820 05c6 00       		.byte	0
+ 821 05c7 02       		.uleb128 0x2
+ 822 05c8 4F030000 		.4byte	.LASF104
+ 823 05cc 05       		.byte	0x5
+ 824 05cd E1       		.byte	0xe1
+ 825 05ce A2050000 		.4byte	0x5a2
+ 826 05d2 08       		.uleb128 0x8
+ 827 05d3 BC050000 		.4byte	.LASF105
+ 828 05d7 18       		.byte	0x18
+ 829 05d8 05       		.byte	0x5
+ 830 05d9 E7       		.byte	0xe7
+ 831 05da D3060000 		.4byte	0x6d3
+ 832 05de 09       		.uleb128 0x9
+ 833 05df 80000000 		.4byte	.LASF106
+ 834 05e3 05       		.byte	0x5
+ 835 05e4 EA       		.byte	0xea
+ 836 05e5 A2000000 		.4byte	0xa2
+ 837 05e9 00       		.byte	0
+ 838 05ea 09       		.uleb128 0x9
+ 839 05eb CE000000 		.4byte	.LASF107
+ 840 05ef 05       		.byte	0x5
+ 841 05f0 EB       		.byte	0xeb
+ 842 05f1 A2000000 		.4byte	0xa2
+ 843 05f5 01       		.byte	0x1
+ 844 05f6 09       		.uleb128 0x9
+ 845 05f7 13030000 		.4byte	.LASF108
+ 846 05fb 05       		.byte	0x5
+ 847 05fc EC       		.byte	0xec
+ 848 05fd A2000000 		.4byte	0xa2
+ 849 0601 02       		.byte	0x2
+ 850 0602 09       		.uleb128 0x9
+ 851 0603 52050000 		.4byte	.LASF109
+ 852 0607 05       		.byte	0x5
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 19
+
+
+ 853 0608 ED       		.byte	0xed
+ 854 0609 A2000000 		.4byte	0xa2
+ 855 060d 03       		.byte	0x3
+ 856 060e 09       		.uleb128 0x9
+ 857 060f 70030000 		.4byte	.LASF110
+ 858 0613 05       		.byte	0x5
+ 859 0614 F0       		.byte	0xf0
+ 860 0615 A2000000 		.4byte	0xa2
+ 861 0619 04       		.byte	0x4
+ 862 061a 09       		.uleb128 0x9
+ 863 061b 66070000 		.4byte	.LASF111
+ 864 061f 05       		.byte	0x5
+ 865 0620 F1       		.byte	0xf1
+ 866 0621 A2000000 		.4byte	0xa2
+ 867 0625 05       		.byte	0x5
+ 868 0626 09       		.uleb128 0x9
+ 869 0627 F7000000 		.4byte	.LASF112
+ 870 062b 05       		.byte	0x5
+ 871 062c F2       		.byte	0xf2
+ 872 062d A2000000 		.4byte	0xa2
+ 873 0631 06       		.byte	0x6
+ 874 0632 09       		.uleb128 0x9
+ 875 0633 07010000 		.4byte	.LASF113
+ 876 0637 05       		.byte	0x5
+ 877 0638 F3       		.byte	0xf3
+ 878 0639 A2000000 		.4byte	0xa2
+ 879 063d 07       		.byte	0x7
+ 880 063e 09       		.uleb128 0x9
+ 881 063f 5D050000 		.4byte	.LASF114
+ 882 0643 05       		.byte	0x5
+ 883 0644 F4       		.byte	0xf4
+ 884 0645 A2000000 		.4byte	0xa2
+ 885 0649 08       		.byte	0x8
+ 886 064a 09       		.uleb128 0x9
+ 887 064b 00000000 		.4byte	.LASF115
+ 888 064f 05       		.byte	0x5
+ 889 0650 F7       		.byte	0xf7
+ 890 0651 97000000 		.4byte	0x97
+ 891 0655 09       		.byte	0x9
+ 892 0656 09       		.uleb128 0x9
+ 893 0657 2C020000 		.4byte	.LASF116
+ 894 065b 05       		.byte	0x5
+ 895 065c F8       		.byte	0xf8
+ 896 065d 97000000 		.4byte	0x97
+ 897 0661 0A       		.byte	0xa
+ 898 0662 09       		.uleb128 0x9
+ 899 0663 F9050000 		.4byte	.LASF28
+ 900 0667 05       		.byte	0x5
+ 901 0668 F9       		.byte	0xf9
+ 902 0669 97000000 		.4byte	0x97
+ 903 066d 0B       		.byte	0xb
+ 904 066e 09       		.uleb128 0x9
+ 905 066f E2000000 		.4byte	.LASF117
+ 906 0673 05       		.byte	0x5
+ 907 0674 FA       		.byte	0xfa
+ 908 0675 97000000 		.4byte	0x97
+ 909 0679 0C       		.byte	0xc
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 20
+
+
+ 910 067a 09       		.uleb128 0x9
+ 911 067b 56060000 		.4byte	.LASF118
+ 912 067f 05       		.byte	0x5
+ 913 0680 FD       		.byte	0xfd
+ 914 0681 97000000 		.4byte	0x97
+ 915 0685 0D       		.byte	0xd
+ 916 0686 09       		.uleb128 0x9
+ 917 0687 66030000 		.4byte	.LASF119
+ 918 068b 05       		.byte	0x5
+ 919 068c FE       		.byte	0xfe
+ 920 068d 97000000 		.4byte	0x97
+ 921 0691 0E       		.byte	0xe
+ 922 0692 09       		.uleb128 0x9
+ 923 0693 DF010000 		.4byte	.LASF120
+ 924 0697 05       		.byte	0x5
+ 925 0698 FF       		.byte	0xff
+ 926 0699 97000000 		.4byte	0x97
+ 927 069d 0F       		.byte	0xf
+ 928 069e 07       		.uleb128 0x7
+ 929 069f C0040000 		.4byte	.LASF121
+ 930 06a3 05       		.byte	0x5
+ 931 06a4 0001     		.2byte	0x100
+ 932 06a6 97000000 		.4byte	0x97
+ 933 06aa 10       		.byte	0x10
+ 934 06ab 07       		.uleb128 0x7
+ 935 06ac 2E050000 		.4byte	.LASF122
+ 936 06b0 05       		.byte	0x5
+ 937 06b1 0301     		.2byte	0x103
+ 938 06b3 AD000000 		.4byte	0xad
+ 939 06b7 12       		.byte	0x12
+ 940 06b8 07       		.uleb128 0x7
+ 941 06b9 30080000 		.4byte	.LASF123
+ 942 06bd 05       		.byte	0x5
+ 943 06be 0401     		.2byte	0x104
+ 944 06c0 AD000000 		.4byte	0xad
+ 945 06c4 14       		.byte	0x14
+ 946 06c5 07       		.uleb128 0x7
+ 947 06c6 0F000000 		.4byte	.LASF124
+ 948 06ca 05       		.byte	0x5
+ 949 06cb 0801     		.2byte	0x108
+ 950 06cd AD000000 		.4byte	0xad
+ 951 06d1 16       		.byte	0x16
+ 952 06d2 00       		.byte	0
+ 953 06d3 10       		.uleb128 0x10
+ 954 06d4 6C020000 		.4byte	.LASF125
+ 955 06d8 05       		.byte	0x5
+ 956 06d9 0B01     		.2byte	0x10b
+ 957 06db D2050000 		.4byte	0x5d2
+ 958 06df 06       		.uleb128 0x6
+ 959 06e0 EE070000 		.4byte	.LASF126
+ 960 06e4 14       		.byte	0x14
+ 961 06e5 05       		.byte	0x5
+ 962 06e6 0E01     		.2byte	0x10e
+ 963 06e8 85070000 		.4byte	0x785
+ 964 06ec 07       		.uleb128 0x7
+ 965 06ed 21040000 		.4byte	.LASF127
+ 966 06f1 05       		.byte	0x5
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 21
+
+
+ 967 06f2 1001     		.2byte	0x110
+ 968 06f4 4F030000 		.4byte	0x34f
+ 969 06f8 00       		.byte	0
+ 970 06f9 07       		.uleb128 0x7
+ 971 06fa C3070000 		.4byte	.LASF128
+ 972 06fe 05       		.byte	0x5
+ 973 06ff 1201     		.2byte	0x112
+ 974 0701 5A030000 		.4byte	0x35a
+ 975 0705 04       		.byte	0x4
+ 976 0706 07       		.uleb128 0x7
+ 977 0707 CC070000 		.4byte	.LASF129
+ 978 070b 05       		.byte	0x5
+ 979 070c 1301     		.2byte	0x113
+ 980 070e 5A030000 		.4byte	0x35a
+ 981 0712 06       		.byte	0x6
+ 982 0713 0E       		.uleb128 0xe
+ 983 0714 7800     		.ascii	"x\000"
+ 984 0716 05       		.byte	0x5
+ 985 0717 1501     		.2byte	0x115
+ 986 0719 97000000 		.4byte	0x97
+ 987 071d 08       		.byte	0x8
+ 988 071e 0E       		.uleb128 0xe
+ 989 071f 7900     		.ascii	"y\000"
+ 990 0721 05       		.byte	0x5
+ 991 0722 1601     		.2byte	0x116
+ 992 0724 97000000 		.4byte	0x97
+ 993 0728 09       		.byte	0x9
+ 994 0729 07       		.uleb128 0x7
+ 995 072a 3C060000 		.4byte	.LASF130
+ 996 072e 05       		.byte	0x5
+ 997 072f 1701     		.2byte	0x117
+ 998 0731 97000000 		.4byte	0x97
+ 999 0735 0A       		.byte	0xa
+ 1000 0736 07       		.uleb128 0x7
+ 1001 0737 7D050000 		.4byte	.LASF131
+ 1002 073b 05       		.byte	0x5
+ 1003 073c 1801     		.2byte	0x118
+ 1004 073e 97000000 		.4byte	0x97
+ 1005 0742 0B       		.byte	0xb
+ 1006 0743 07       		.uleb128 0x7
+ 1007 0744 6E050000 		.4byte	.LASF132
+ 1008 0748 05       		.byte	0x5
+ 1009 0749 1A01     		.2byte	0x11a
+ 1010 074b A2000000 		.4byte	0xa2
+ 1011 074f 0C       		.byte	0xc
+ 1012 0750 07       		.uleb128 0x7
+ 1013 0751 CA030000 		.4byte	.LASF133
+ 1014 0755 05       		.byte	0x5
+ 1015 0756 1B01     		.2byte	0x11b
+ 1016 0758 A2000000 		.4byte	0xa2
+ 1017 075c 0D       		.byte	0xd
+ 1018 075d 07       		.uleb128 0x7
+ 1019 075e 18060000 		.4byte	.LASF134
+ 1020 0762 05       		.byte	0x5
+ 1021 0763 1C01     		.2byte	0x11c
+ 1022 0765 A2000000 		.4byte	0xa2
+ 1023 0769 0E       		.byte	0xe
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 22
+
+
+ 1024 076a 07       		.uleb128 0x7
+ 1025 076b 7C080000 		.4byte	.LASF135
+ 1026 076f 05       		.byte	0x5
+ 1027 0770 1D01     		.2byte	0x11d
+ 1028 0772 A2000000 		.4byte	0xa2
+ 1029 0776 0F       		.byte	0xf
+ 1030 0777 0E       		.uleb128 0xe
+ 1031 0778 64697200 		.ascii	"dir\000"
+ 1032 077c 05       		.byte	0x5
+ 1033 077d 1F01     		.2byte	0x11f
+ 1034 077f A2000000 		.4byte	0xa2
+ 1035 0783 10       		.byte	0x10
+ 1036 0784 00       		.byte	0
+ 1037 0785 10       		.uleb128 0x10
+ 1038 0786 6D000000 		.4byte	.LASF136
+ 1039 078a 05       		.byte	0x5
+ 1040 078b 2201     		.2byte	0x122
+ 1041 078d DF060000 		.4byte	0x6df
+ 1042 0791 10       		.uleb128 0x10
+ 1043 0792 4A080000 		.4byte	.LASF137
+ 1044 0796 05       		.byte	0x5
+ 1045 0797 3701     		.2byte	0x137
+ 1046 0799 9D070000 		.4byte	0x79d
+ 1047 079d 0A       		.uleb128 0xa
+ 1048 079e 04       		.byte	0x4
+ 1049 079f A3070000 		.4byte	0x7a3
+ 1050 07a3 0B       		.uleb128 0xb
+ 1051 07a4 5A030000 		.4byte	0x35a
+ 1052 07a8 B2070000 		.4byte	0x7b2
+ 1053 07ac 0C       		.uleb128 0xc
+ 1054 07ad 86050000 		.4byte	0x586
+ 1055 07b1 00       		.byte	0
+ 1056 07b2 0A       		.uleb128 0xa
+ 1057 07b3 04       		.byte	0x4
+ 1058 07b4 B8070000 		.4byte	0x7b8
+ 1059 07b8 0D       		.uleb128 0xd
+ 1060 07b9 2A050000 		.4byte	0x52a
+ 1061 07bd 11       		.uleb128 0x11
+ 1062 07be FE030000 		.4byte	.LASF142
+ 1063 07c2 01       		.byte	0x1
+ 1064 07c3 7B       		.byte	0x7b
+ 1065 07c4 A2000000 		.4byte	0xa2
+ 1066 07c8 00000000 		.4byte	.LFB0
+ 1067 07cc 1E000000 		.4byte	.LFE0-.LFB0
+ 1068 07d0 01       		.uleb128 0x1
+ 1069 07d1 9C       		.byte	0x9c
+ 1070 07d2 09080000 		.4byte	0x809
+ 1071 07d6 12       		.uleb128 0x12
+ 1072 07d7 613000   		.ascii	"a0\000"
+ 1073 07da 01       		.byte	0x1
+ 1074 07db 7B       		.byte	0x7b
+ 1075 07dc 5A030000 		.4byte	0x35a
+ 1076 07e0 00000000 		.4byte	.LLST0
+ 1077 07e4 13       		.uleb128 0x13
+ 1078 07e5 613100   		.ascii	"a1\000"
+ 1079 07e8 01       		.byte	0x1
+ 1080 07e9 7B       		.byte	0x7b
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 23
+
+
+ 1081 07ea 5A030000 		.4byte	0x35a
+ 1082 07ee 01       		.uleb128 0x1
+ 1083 07ef 51       		.byte	0x51
+ 1084 07f0 13       		.uleb128 0x13
+ 1085 07f1 763000   		.ascii	"v0\000"
+ 1086 07f4 01       		.byte	0x1
+ 1087 07f5 7B       		.byte	0x7b
+ 1088 07f6 5A030000 		.4byte	0x35a
+ 1089 07fa 01       		.uleb128 0x1
+ 1090 07fb 52       		.byte	0x52
+ 1091 07fc 13       		.uleb128 0x13
+ 1092 07fd 763100   		.ascii	"v1\000"
+ 1093 0800 01       		.byte	0x1
+ 1094 0801 7B       		.byte	0x7b
+ 1095 0802 5A030000 		.4byte	0x35a
+ 1096 0806 01       		.uleb128 0x1
+ 1097 0807 53       		.byte	0x53
+ 1098 0808 00       		.byte	0
+ 1099 0809 14       		.uleb128 0x14
+ 1100 080a B6030000 		.4byte	.LASF143
+ 1101 080e 01       		.byte	0x1
+ 1102 080f A6       		.byte	0xa6
+ 1103 0810 A2000000 		.4byte	0xa2
+ 1104 0814 00000000 		.4byte	.LFB1
+ 1105 0818 30000000 		.4byte	.LFE1-.LFB1
+ 1106 081c 01       		.uleb128 0x1
+ 1107 081d 9C       		.byte	0x9c
+ 1108 081e 15       		.uleb128 0x15
+ 1109 081f BB040000 		.4byte	.LASF138
+ 1110 0823 01       		.byte	0x1
+ 1111 0824 A6       		.byte	0xa6
+ 1112 0825 86050000 		.4byte	0x586
+ 1113 0829 53000000 		.4byte	.LLST1
+ 1114 082d 12       		.uleb128 0x12
+ 1115 082e 783000   		.ascii	"x0\000"
+ 1116 0831 01       		.byte	0x1
+ 1117 0832 A6       		.byte	0xa6
+ 1118 0833 5A030000 		.4byte	0x35a
+ 1119 0837 8A000000 		.4byte	.LLST2
+ 1120 083b 12       		.uleb128 0x12
+ 1121 083c 793000   		.ascii	"y0\000"
+ 1122 083f 01       		.byte	0x1
+ 1123 0840 A6       		.byte	0xa6
+ 1124 0841 5A030000 		.4byte	0x35a
+ 1125 0845 AB000000 		.4byte	.LLST3
+ 1126 0849 12       		.uleb128 0x12
+ 1127 084a 783100   		.ascii	"x1\000"
+ 1128 084d 01       		.byte	0x1
+ 1129 084e A6       		.byte	0xa6
+ 1130 084f 5A030000 		.4byte	0x35a
+ 1131 0853 CC000000 		.4byte	.LLST4
+ 1132 0857 12       		.uleb128 0x12
+ 1133 0858 793100   		.ascii	"y1\000"
+ 1134 085b 01       		.byte	0x1
+ 1135 085c A6       		.byte	0xa6
+ 1136 085d 5A030000 		.4byte	0x35a
+ 1137 0861 ED000000 		.4byte	.LLST5
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 24
+
+
+ 1138 0865 16       		.uleb128 0x16
+ 1139 0866 18000000 		.4byte	.LVL10
+ 1140 086a BD070000 		.4byte	0x7bd
+ 1141 086e 7B080000 		.4byte	0x87b
+ 1142 0872 17       		.uleb128 0x17
+ 1143 0873 01       		.uleb128 0x1
+ 1144 0874 53       		.byte	0x53
+ 1145 0875 04       		.uleb128 0x4
+ 1146 0876 91       		.byte	0x91
+ 1147 0877 00       		.sleb128 0
+ 1148 0878 94       		.byte	0x94
+ 1149 0879 02       		.byte	0x2
+ 1150 087a 00       		.byte	0
+ 1151 087b 18       		.uleb128 0x18
+ 1152 087c 2E000000 		.4byte	.LVL12
+ 1153 0880 BD070000 		.4byte	0x7bd
+ 1154 0884 00       		.byte	0
+ 1155 0885 00       		.byte	0
+ 1156              		.section	.debug_abbrev,"",%progbits
+ 1157              	.Ldebug_abbrev0:
+ 1158 0000 01       		.uleb128 0x1
+ 1159 0001 11       		.uleb128 0x11
+ 1160 0002 01       		.byte	0x1
+ 1161 0003 25       		.uleb128 0x25
+ 1162 0004 0E       		.uleb128 0xe
+ 1163 0005 13       		.uleb128 0x13
+ 1164 0006 0B       		.uleb128 0xb
+ 1165 0007 03       		.uleb128 0x3
+ 1166 0008 0E       		.uleb128 0xe
+ 1167 0009 1B       		.uleb128 0x1b
+ 1168 000a 0E       		.uleb128 0xe
+ 1169 000b 55       		.uleb128 0x55
+ 1170 000c 17       		.uleb128 0x17
+ 1171 000d 11       		.uleb128 0x11
+ 1172 000e 01       		.uleb128 0x1
+ 1173 000f 10       		.uleb128 0x10
+ 1174 0010 17       		.uleb128 0x17
+ 1175 0011 00       		.byte	0
+ 1176 0012 00       		.byte	0
+ 1177 0013 02       		.uleb128 0x2
+ 1178 0014 16       		.uleb128 0x16
+ 1179 0015 00       		.byte	0
+ 1180 0016 03       		.uleb128 0x3
+ 1181 0017 0E       		.uleb128 0xe
+ 1182 0018 3A       		.uleb128 0x3a
+ 1183 0019 0B       		.uleb128 0xb
+ 1184 001a 3B       		.uleb128 0x3b
+ 1185 001b 0B       		.uleb128 0xb
+ 1186 001c 49       		.uleb128 0x49
+ 1187 001d 13       		.uleb128 0x13
+ 1188 001e 00       		.byte	0
+ 1189 001f 00       		.byte	0
+ 1190 0020 03       		.uleb128 0x3
+ 1191 0021 24       		.uleb128 0x24
+ 1192 0022 00       		.byte	0
+ 1193 0023 0B       		.uleb128 0xb
+ 1194 0024 0B       		.uleb128 0xb
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 25
+
+
+ 1195 0025 3E       		.uleb128 0x3e
+ 1196 0026 0B       		.uleb128 0xb
+ 1197 0027 03       		.uleb128 0x3
+ 1198 0028 0E       		.uleb128 0xe
+ 1199 0029 00       		.byte	0
+ 1200 002a 00       		.byte	0
+ 1201 002b 04       		.uleb128 0x4
+ 1202 002c 24       		.uleb128 0x24
+ 1203 002d 00       		.byte	0
+ 1204 002e 0B       		.uleb128 0xb
+ 1205 002f 0B       		.uleb128 0xb
+ 1206 0030 3E       		.uleb128 0x3e
+ 1207 0031 0B       		.uleb128 0xb
+ 1208 0032 03       		.uleb128 0x3
+ 1209 0033 08       		.uleb128 0x8
+ 1210 0034 00       		.byte	0
+ 1211 0035 00       		.byte	0
+ 1212 0036 05       		.uleb128 0x5
+ 1213 0037 0F       		.uleb128 0xf
+ 1214 0038 00       		.byte	0
+ 1215 0039 0B       		.uleb128 0xb
+ 1216 003a 0B       		.uleb128 0xb
+ 1217 003b 00       		.byte	0
+ 1218 003c 00       		.byte	0
+ 1219 003d 06       		.uleb128 0x6
+ 1220 003e 13       		.uleb128 0x13
+ 1221 003f 01       		.byte	0x1
+ 1222 0040 03       		.uleb128 0x3
+ 1223 0041 0E       		.uleb128 0xe
+ 1224 0042 0B       		.uleb128 0xb
+ 1225 0043 0B       		.uleb128 0xb
+ 1226 0044 3A       		.uleb128 0x3a
+ 1227 0045 0B       		.uleb128 0xb
+ 1228 0046 3B       		.uleb128 0x3b
+ 1229 0047 05       		.uleb128 0x5
+ 1230 0048 01       		.uleb128 0x1
+ 1231 0049 13       		.uleb128 0x13
+ 1232 004a 00       		.byte	0
+ 1233 004b 00       		.byte	0
+ 1234 004c 07       		.uleb128 0x7
+ 1235 004d 0D       		.uleb128 0xd
+ 1236 004e 00       		.byte	0
+ 1237 004f 03       		.uleb128 0x3
+ 1238 0050 0E       		.uleb128 0xe
+ 1239 0051 3A       		.uleb128 0x3a
+ 1240 0052 0B       		.uleb128 0xb
+ 1241 0053 3B       		.uleb128 0x3b
+ 1242 0054 05       		.uleb128 0x5
+ 1243 0055 49       		.uleb128 0x49
+ 1244 0056 13       		.uleb128 0x13
+ 1245 0057 38       		.uleb128 0x38
+ 1246 0058 0B       		.uleb128 0xb
+ 1247 0059 00       		.byte	0
+ 1248 005a 00       		.byte	0
+ 1249 005b 08       		.uleb128 0x8
+ 1250 005c 13       		.uleb128 0x13
+ 1251 005d 01       		.byte	0x1
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 26
+
+
+ 1252 005e 03       		.uleb128 0x3
+ 1253 005f 0E       		.uleb128 0xe
+ 1254 0060 0B       		.uleb128 0xb
+ 1255 0061 0B       		.uleb128 0xb
+ 1256 0062 3A       		.uleb128 0x3a
+ 1257 0063 0B       		.uleb128 0xb
+ 1258 0064 3B       		.uleb128 0x3b
+ 1259 0065 0B       		.uleb128 0xb
+ 1260 0066 01       		.uleb128 0x1
+ 1261 0067 13       		.uleb128 0x13
+ 1262 0068 00       		.byte	0
+ 1263 0069 00       		.byte	0
+ 1264 006a 09       		.uleb128 0x9
+ 1265 006b 0D       		.uleb128 0xd
+ 1266 006c 00       		.byte	0
+ 1267 006d 03       		.uleb128 0x3
+ 1268 006e 0E       		.uleb128 0xe
+ 1269 006f 3A       		.uleb128 0x3a
+ 1270 0070 0B       		.uleb128 0xb
+ 1271 0071 3B       		.uleb128 0x3b
+ 1272 0072 0B       		.uleb128 0xb
+ 1273 0073 49       		.uleb128 0x49
+ 1274 0074 13       		.uleb128 0x13
+ 1275 0075 38       		.uleb128 0x38
+ 1276 0076 0B       		.uleb128 0xb
+ 1277 0077 00       		.byte	0
+ 1278 0078 00       		.byte	0
+ 1279 0079 0A       		.uleb128 0xa
+ 1280 007a 0F       		.uleb128 0xf
+ 1281 007b 00       		.byte	0
+ 1282 007c 0B       		.uleb128 0xb
+ 1283 007d 0B       		.uleb128 0xb
+ 1284 007e 49       		.uleb128 0x49
+ 1285 007f 13       		.uleb128 0x13
+ 1286 0080 00       		.byte	0
+ 1287 0081 00       		.byte	0
+ 1288 0082 0B       		.uleb128 0xb
+ 1289 0083 15       		.uleb128 0x15
+ 1290 0084 01       		.byte	0x1
+ 1291 0085 27       		.uleb128 0x27
+ 1292 0086 19       		.uleb128 0x19
+ 1293 0087 49       		.uleb128 0x49
+ 1294 0088 13       		.uleb128 0x13
+ 1295 0089 01       		.uleb128 0x1
+ 1296 008a 13       		.uleb128 0x13
+ 1297 008b 00       		.byte	0
+ 1298 008c 00       		.byte	0
+ 1299 008d 0C       		.uleb128 0xc
+ 1300 008e 05       		.uleb128 0x5
+ 1301 008f 00       		.byte	0
+ 1302 0090 49       		.uleb128 0x49
+ 1303 0091 13       		.uleb128 0x13
+ 1304 0092 00       		.byte	0
+ 1305 0093 00       		.byte	0
+ 1306 0094 0D       		.uleb128 0xd
+ 1307 0095 26       		.uleb128 0x26
+ 1308 0096 00       		.byte	0
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 27
+
+
+ 1309 0097 49       		.uleb128 0x49
+ 1310 0098 13       		.uleb128 0x13
+ 1311 0099 00       		.byte	0
+ 1312 009a 00       		.byte	0
+ 1313 009b 0E       		.uleb128 0xe
+ 1314 009c 0D       		.uleb128 0xd
+ 1315 009d 00       		.byte	0
+ 1316 009e 03       		.uleb128 0x3
+ 1317 009f 08       		.uleb128 0x8
+ 1318 00a0 3A       		.uleb128 0x3a
+ 1319 00a1 0B       		.uleb128 0xb
+ 1320 00a2 3B       		.uleb128 0x3b
+ 1321 00a3 05       		.uleb128 0x5
+ 1322 00a4 49       		.uleb128 0x49
+ 1323 00a5 13       		.uleb128 0x13
+ 1324 00a6 38       		.uleb128 0x38
+ 1325 00a7 0B       		.uleb128 0xb
+ 1326 00a8 00       		.byte	0
+ 1327 00a9 00       		.byte	0
+ 1328 00aa 0F       		.uleb128 0xf
+ 1329 00ab 15       		.uleb128 0x15
+ 1330 00ac 01       		.byte	0x1
+ 1331 00ad 27       		.uleb128 0x27
+ 1332 00ae 19       		.uleb128 0x19
+ 1333 00af 01       		.uleb128 0x1
+ 1334 00b0 13       		.uleb128 0x13
+ 1335 00b1 00       		.byte	0
+ 1336 00b2 00       		.byte	0
+ 1337 00b3 10       		.uleb128 0x10
+ 1338 00b4 16       		.uleb128 0x16
+ 1339 00b5 00       		.byte	0
+ 1340 00b6 03       		.uleb128 0x3
+ 1341 00b7 0E       		.uleb128 0xe
+ 1342 00b8 3A       		.uleb128 0x3a
+ 1343 00b9 0B       		.uleb128 0xb
+ 1344 00ba 3B       		.uleb128 0x3b
+ 1345 00bb 05       		.uleb128 0x5
+ 1346 00bc 49       		.uleb128 0x49
+ 1347 00bd 13       		.uleb128 0x13
+ 1348 00be 00       		.byte	0
+ 1349 00bf 00       		.byte	0
+ 1350 00c0 11       		.uleb128 0x11
+ 1351 00c1 2E       		.uleb128 0x2e
+ 1352 00c2 01       		.byte	0x1
+ 1353 00c3 3F       		.uleb128 0x3f
+ 1354 00c4 19       		.uleb128 0x19
+ 1355 00c5 03       		.uleb128 0x3
+ 1356 00c6 0E       		.uleb128 0xe
+ 1357 00c7 3A       		.uleb128 0x3a
+ 1358 00c8 0B       		.uleb128 0xb
+ 1359 00c9 3B       		.uleb128 0x3b
+ 1360 00ca 0B       		.uleb128 0xb
+ 1361 00cb 27       		.uleb128 0x27
+ 1362 00cc 19       		.uleb128 0x19
+ 1363 00cd 49       		.uleb128 0x49
+ 1364 00ce 13       		.uleb128 0x13
+ 1365 00cf 11       		.uleb128 0x11
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 28
+
+
+ 1366 00d0 01       		.uleb128 0x1
+ 1367 00d1 12       		.uleb128 0x12
+ 1368 00d2 06       		.uleb128 0x6
+ 1369 00d3 40       		.uleb128 0x40
+ 1370 00d4 18       		.uleb128 0x18
+ 1371 00d5 9742     		.uleb128 0x2117
+ 1372 00d7 19       		.uleb128 0x19
+ 1373 00d8 01       		.uleb128 0x1
+ 1374 00d9 13       		.uleb128 0x13
+ 1375 00da 00       		.byte	0
+ 1376 00db 00       		.byte	0
+ 1377 00dc 12       		.uleb128 0x12
+ 1378 00dd 05       		.uleb128 0x5
+ 1379 00de 00       		.byte	0
+ 1380 00df 03       		.uleb128 0x3
+ 1381 00e0 08       		.uleb128 0x8
+ 1382 00e1 3A       		.uleb128 0x3a
+ 1383 00e2 0B       		.uleb128 0xb
+ 1384 00e3 3B       		.uleb128 0x3b
+ 1385 00e4 0B       		.uleb128 0xb
+ 1386 00e5 49       		.uleb128 0x49
+ 1387 00e6 13       		.uleb128 0x13
+ 1388 00e7 02       		.uleb128 0x2
+ 1389 00e8 17       		.uleb128 0x17
+ 1390 00e9 00       		.byte	0
+ 1391 00ea 00       		.byte	0
+ 1392 00eb 13       		.uleb128 0x13
+ 1393 00ec 05       		.uleb128 0x5
+ 1394 00ed 00       		.byte	0
+ 1395 00ee 03       		.uleb128 0x3
+ 1396 00ef 08       		.uleb128 0x8
+ 1397 00f0 3A       		.uleb128 0x3a
+ 1398 00f1 0B       		.uleb128 0xb
+ 1399 00f2 3B       		.uleb128 0x3b
+ 1400 00f3 0B       		.uleb128 0xb
+ 1401 00f4 49       		.uleb128 0x49
+ 1402 00f5 13       		.uleb128 0x13
+ 1403 00f6 02       		.uleb128 0x2
+ 1404 00f7 18       		.uleb128 0x18
+ 1405 00f8 00       		.byte	0
+ 1406 00f9 00       		.byte	0
+ 1407 00fa 14       		.uleb128 0x14
+ 1408 00fb 2E       		.uleb128 0x2e
+ 1409 00fc 01       		.byte	0x1
+ 1410 00fd 3F       		.uleb128 0x3f
+ 1411 00fe 19       		.uleb128 0x19
+ 1412 00ff 03       		.uleb128 0x3
+ 1413 0100 0E       		.uleb128 0xe
+ 1414 0101 3A       		.uleb128 0x3a
+ 1415 0102 0B       		.uleb128 0xb
+ 1416 0103 3B       		.uleb128 0x3b
+ 1417 0104 0B       		.uleb128 0xb
+ 1418 0105 27       		.uleb128 0x27
+ 1419 0106 19       		.uleb128 0x19
+ 1420 0107 49       		.uleb128 0x49
+ 1421 0108 13       		.uleb128 0x13
+ 1422 0109 11       		.uleb128 0x11
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 29
+
+
+ 1423 010a 01       		.uleb128 0x1
+ 1424 010b 12       		.uleb128 0x12
+ 1425 010c 06       		.uleb128 0x6
+ 1426 010d 40       		.uleb128 0x40
+ 1427 010e 18       		.uleb128 0x18
+ 1428 010f 9742     		.uleb128 0x2117
+ 1429 0111 19       		.uleb128 0x19
+ 1430 0112 00       		.byte	0
+ 1431 0113 00       		.byte	0
+ 1432 0114 15       		.uleb128 0x15
+ 1433 0115 05       		.uleb128 0x5
+ 1434 0116 00       		.byte	0
+ 1435 0117 03       		.uleb128 0x3
+ 1436 0118 0E       		.uleb128 0xe
+ 1437 0119 3A       		.uleb128 0x3a
+ 1438 011a 0B       		.uleb128 0xb
+ 1439 011b 3B       		.uleb128 0x3b
+ 1440 011c 0B       		.uleb128 0xb
+ 1441 011d 49       		.uleb128 0x49
+ 1442 011e 13       		.uleb128 0x13
+ 1443 011f 02       		.uleb128 0x2
+ 1444 0120 17       		.uleb128 0x17
+ 1445 0121 00       		.byte	0
+ 1446 0122 00       		.byte	0
+ 1447 0123 16       		.uleb128 0x16
+ 1448 0124 898201   		.uleb128 0x4109
+ 1449 0127 01       		.byte	0x1
+ 1450 0128 11       		.uleb128 0x11
+ 1451 0129 01       		.uleb128 0x1
+ 1452 012a 31       		.uleb128 0x31
+ 1453 012b 13       		.uleb128 0x13
+ 1454 012c 01       		.uleb128 0x1
+ 1455 012d 13       		.uleb128 0x13
+ 1456 012e 00       		.byte	0
+ 1457 012f 00       		.byte	0
+ 1458 0130 17       		.uleb128 0x17
+ 1459 0131 8A8201   		.uleb128 0x410a
+ 1460 0134 00       		.byte	0
+ 1461 0135 02       		.uleb128 0x2
+ 1462 0136 18       		.uleb128 0x18
+ 1463 0137 9142     		.uleb128 0x2111
+ 1464 0139 18       		.uleb128 0x18
+ 1465 013a 00       		.byte	0
+ 1466 013b 00       		.byte	0
+ 1467 013c 18       		.uleb128 0x18
+ 1468 013d 898201   		.uleb128 0x4109
+ 1469 0140 00       		.byte	0
+ 1470 0141 11       		.uleb128 0x11
+ 1471 0142 01       		.uleb128 0x1
+ 1472 0143 9542     		.uleb128 0x2115
+ 1473 0145 19       		.uleb128 0x19
+ 1474 0146 31       		.uleb128 0x31
+ 1475 0147 13       		.uleb128 0x13
+ 1476 0148 00       		.byte	0
+ 1477 0149 00       		.byte	0
+ 1478 014a 00       		.byte	0
+ 1479              		.section	.debug_loc,"",%progbits
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 30
+
+
+ 1480              	.Ldebug_loc0:
+ 1481              	.LLST0:
+ 1482 0000 00000000 		.4byte	.LVL0
+ 1483 0004 0E000000 		.4byte	.LVL1
+ 1484 0008 0100     		.2byte	0x1
+ 1485 000a 50       		.byte	0x50
+ 1486 000b 0E000000 		.4byte	.LVL1
+ 1487 000f 12000000 		.4byte	.LVL2
+ 1488 0013 0400     		.2byte	0x4
+ 1489 0015 F3       		.byte	0xf3
+ 1490 0016 01       		.uleb128 0x1
+ 1491 0017 50       		.byte	0x50
+ 1492 0018 9F       		.byte	0x9f
+ 1493 0019 12000000 		.4byte	.LVL2
+ 1494 001d 18000000 		.4byte	.LVL3
+ 1495 0021 0100     		.2byte	0x1
+ 1496 0023 50       		.byte	0x50
+ 1497 0024 18000000 		.4byte	.LVL3
+ 1498 0028 1A000000 		.4byte	.LVL4
+ 1499 002c 0400     		.2byte	0x4
+ 1500 002e F3       		.byte	0xf3
+ 1501 002f 01       		.uleb128 0x1
+ 1502 0030 50       		.byte	0x50
+ 1503 0031 9F       		.byte	0x9f
+ 1504 0032 1A000000 		.4byte	.LVL4
+ 1505 0036 1C000000 		.4byte	.LVL5
+ 1506 003a 0100     		.2byte	0x1
+ 1507 003c 50       		.byte	0x50
+ 1508 003d 1C000000 		.4byte	.LVL5
+ 1509 0041 1E000000 		.4byte	.LFE0
+ 1510 0045 0400     		.2byte	0x4
+ 1511 0047 F3       		.byte	0xf3
+ 1512 0048 01       		.uleb128 0x1
+ 1513 0049 50       		.byte	0x50
+ 1514 004a 9F       		.byte	0x9f
+ 1515 004b 00000000 		.4byte	0
+ 1516 004f 00000000 		.4byte	0
+ 1517              	.LLST1:
+ 1518 0053 00000000 		.4byte	.LVL6
+ 1519 0057 14000000 		.4byte	.LVL9
+ 1520 005b 0100     		.2byte	0x1
+ 1521 005d 50       		.byte	0x50
+ 1522 005e 14000000 		.4byte	.LVL9
+ 1523 0062 2A000000 		.4byte	.LVL11
+ 1524 0066 0100     		.2byte	0x1
+ 1525 0068 54       		.byte	0x54
+ 1526 0069 2A000000 		.4byte	.LVL11
+ 1527 006d 2E000000 		.4byte	.LVL12
+ 1528 0071 0400     		.2byte	0x4
+ 1529 0073 F3       		.byte	0xf3
+ 1530 0074 01       		.uleb128 0x1
+ 1531 0075 50       		.byte	0x50
+ 1532 0076 9F       		.byte	0x9f
+ 1533 0077 2E000000 		.4byte	.LVL12
+ 1534 007b 30000000 		.4byte	.LFE1
+ 1535 007f 0100     		.2byte	0x1
+ 1536 0081 54       		.byte	0x54
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 31
+
+
+ 1537 0082 00000000 		.4byte	0
+ 1538 0086 00000000 		.4byte	0
+ 1539              	.LLST2:
+ 1540 008a 00000000 		.4byte	.LVL6
+ 1541 008e 0C000000 		.4byte	.LVL7
+ 1542 0092 0100     		.2byte	0x1
+ 1543 0094 51       		.byte	0x51
+ 1544 0095 0C000000 		.4byte	.LVL7
+ 1545 0099 30000000 		.4byte	.LFE1
+ 1546 009d 0400     		.2byte	0x4
+ 1547 009f F3       		.byte	0xf3
+ 1548 00a0 01       		.uleb128 0x1
+ 1549 00a1 51       		.byte	0x51
+ 1550 00a2 9F       		.byte	0x9f
+ 1551 00a3 00000000 		.4byte	0
+ 1552 00a7 00000000 		.4byte	0
+ 1553              	.LLST3:
+ 1554 00ab 00000000 		.4byte	.LVL6
+ 1555 00af 17000000 		.4byte	.LVL10-1
+ 1556 00b3 0100     		.2byte	0x1
+ 1557 00b5 52       		.byte	0x52
+ 1558 00b6 17000000 		.4byte	.LVL10-1
+ 1559 00ba 30000000 		.4byte	.LFE1
+ 1560 00be 0400     		.2byte	0x4
+ 1561 00c0 F3       		.byte	0xf3
+ 1562 00c1 01       		.uleb128 0x1
+ 1563 00c2 52       		.byte	0x52
+ 1564 00c3 9F       		.byte	0x9f
+ 1565 00c4 00000000 		.4byte	0
+ 1566 00c8 00000000 		.4byte	0
+ 1567              	.LLST4:
+ 1568 00cc 00000000 		.4byte	.LVL6
+ 1569 00d0 10000000 		.4byte	.LVL8
+ 1570 00d4 0100     		.2byte	0x1
+ 1571 00d6 53       		.byte	0x53
+ 1572 00d7 10000000 		.4byte	.LVL8
+ 1573 00db 30000000 		.4byte	.LFE1
+ 1574 00df 0400     		.2byte	0x4
+ 1575 00e1 F3       		.byte	0xf3
+ 1576 00e2 01       		.uleb128 0x1
+ 1577 00e3 53       		.byte	0x53
+ 1578 00e4 9F       		.byte	0x9f
+ 1579 00e5 00000000 		.4byte	0
+ 1580 00e9 00000000 		.4byte	0
+ 1581              	.LLST5:
+ 1582 00ed 00000000 		.4byte	.LVL6
+ 1583 00f1 2A000000 		.4byte	.LVL11
+ 1584 00f5 0200     		.2byte	0x2
+ 1585 00f7 91       		.byte	0x91
+ 1586 00f8 00       		.sleb128 0
+ 1587 00f9 2A000000 		.4byte	.LVL11
+ 1588 00fd 2E000000 		.4byte	.LVL12
+ 1589 0101 0200     		.2byte	0x2
+ 1590 0103 7D       		.byte	0x7d
+ 1591 0104 00       		.sleb128 0
+ 1592 0105 2E000000 		.4byte	.LVL12
+ 1593 0109 30000000 		.4byte	.LFE1
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 32
+
+
+ 1594 010d 0200     		.2byte	0x2
+ 1595 010f 91       		.byte	0x91
+ 1596 0110 00       		.sleb128 0
+ 1597 0111 00000000 		.4byte	0
+ 1598 0115 00000000 		.4byte	0
+ 1599              		.section	.debug_aranges,"",%progbits
+ 1600 0000 24000000 		.4byte	0x24
+ 1601 0004 0200     		.2byte	0x2
+ 1602 0006 00000000 		.4byte	.Ldebug_info0
+ 1603 000a 04       		.byte	0x4
+ 1604 000b 00       		.byte	0
+ 1605 000c 0000     		.2byte	0
+ 1606 000e 0000     		.2byte	0
+ 1607 0010 00000000 		.4byte	.LFB0
+ 1608 0014 1E000000 		.4byte	.LFE0-.LFB0
+ 1609 0018 00000000 		.4byte	.LFB1
+ 1610 001c 30000000 		.4byte	.LFE1-.LFB1
+ 1611 0020 00000000 		.4byte	0
+ 1612 0024 00000000 		.4byte	0
+ 1613              		.section	.debug_ranges,"",%progbits
+ 1614              	.Ldebug_ranges0:
+ 1615 0000 00000000 		.4byte	.LFB0
+ 1616 0004 1E000000 		.4byte	.LFE0
+ 1617 0008 00000000 		.4byte	.LFB1
+ 1618 000c 30000000 		.4byte	.LFE1
+ 1619 0010 00000000 		.4byte	0
+ 1620 0014 00000000 		.4byte	0
+ 1621              		.section	.debug_line,"",%progbits
+ 1622              	.Ldebug_line0:
+ 1623 0000 8E010000 		.section	.debug_str,"MS",%progbits,1
+ 1623      02005301 
+ 1623      00000201 
+ 1623      FB0E0D00 
+ 1623      01010101 
+ 1624              	.LASF115:
+ 1625 0000 6D61785F 		.ascii	"max_char_width\000"
+ 1625      63686172 
+ 1625      5F776964 
+ 1625      746800
+ 1626              	.LASF124:
+ 1627 000f 73746172 		.ascii	"start_pos_unicode\000"
+ 1627      745F706F 
+ 1627      735F756E 
+ 1627      69636F64 
+ 1627      6500
+ 1628              	.LASF45:
+ 1629 0021 72657365 		.ascii	"reset_pulse_width_ms\000"
+ 1629      745F7075 
+ 1629      6C73655F 
+ 1629      77696474 
+ 1629      685F6D73 
+ 1630              	.LASF102:
+ 1631 0036 75386732 		.ascii	"u8g2_update_page_win_cb\000"
+ 1631      5F757064 
+ 1631      6174655F 
+ 1631      70616765 
+ 1631      5F77696E 
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 33
+
+
+ 1632              	.LASF67:
+ 1633 004e 74696C65 		.ascii	"tile_buf_ptr\000"
+ 1633      5F627566 
+ 1633      5F707472 
+ 1633      00
+ 1634              	.LASF1:
+ 1635 005b 5F5F7569 		.ascii	"__uint8_t\000"
+ 1635      6E74385F 
+ 1635      7400
+ 1636              	.LASF23:
+ 1637 0065 62797465 		.ascii	"byte_cb\000"
+ 1637      5F636200 
+ 1638              	.LASF136:
+ 1639 006d 75386732 		.ascii	"u8g2_font_decode_t\000"
+ 1639      5F666F6E 
+ 1639      745F6465 
+ 1639      636F6465 
+ 1639      5F7400
+ 1640              	.LASF106:
+ 1641 0080 676C7970 		.ascii	"glyph_cnt\000"
+ 1641      685F636E 
+ 1641      7400
+ 1642              	.LASF98:
+ 1643 008a 75706461 		.ascii	"update_dimension\000"
+ 1643      74655F64 
+ 1643      696D656E 
+ 1643      73696F6E 
+ 1643      00
+ 1644              	.LASF11:
+ 1645 009b 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1645      206C6F6E 
+ 1645      6720756E 
+ 1645      7369676E 
+ 1645      65642069 
+ 1646              	.LASF0:
+ 1647 00b2 5F5F696E 		.ascii	"__int8_t\000"
+ 1647      74385F74 
+ 1647      00
+ 1648              	.LASF46:
+ 1649 00bb 706F7374 		.ascii	"post_reset_wait_ms\000"
+ 1649      5F726573 
+ 1649      65745F77 
+ 1649      6169745F 
+ 1649      6D7300
+ 1650              	.LASF107:
+ 1651 00ce 6262785F 		.ascii	"bbx_mode\000"
+ 1651      6D6F6465 
+ 1651      00
+ 1652              	.LASF32:
+ 1653 00d7 75746638 		.ascii	"utf8_state\000"
+ 1653      5F737461 
+ 1653      746500
+ 1654              	.LASF117:
+ 1655 00e2 795F6F66 		.ascii	"y_offset\000"
+ 1655      66736574 
+ 1655      00
+ 1656              	.LASF33:
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 34
+
+
+ 1657 00eb 6770696F 		.ascii	"gpio_result\000"
+ 1657      5F726573 
+ 1657      756C7400 
+ 1658              	.LASF112:
+ 1659 00f7 62697473 		.ascii	"bits_per_char_x\000"
+ 1659      5F706572 
+ 1659      5F636861 
+ 1659      725F7800 
+ 1660              	.LASF113:
+ 1661 0107 62697473 		.ascii	"bits_per_char_y\000"
+ 1661      5F706572 
+ 1661      5F636861 
+ 1661      725F7900 
+ 1662              	.LASF10:
+ 1663 0117 6C6F6E67 		.ascii	"long long int\000"
+ 1663      206C6F6E 
+ 1663      6720696E 
+ 1663      7400
+ 1664              	.LASF2:
+ 1665 0125 7369676E 		.ascii	"signed char\000"
+ 1665      65642063 
+ 1665      68617200 
+ 1666              	.LASF139:
+ 1667 0131 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1667      43313120 
+ 1667      352E342E 
+ 1667      31203230 
+ 1667      31363036 
+ 1668 0164 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1668      20726576 
+ 1668      6973696F 
+ 1668      6E203233 
+ 1668      37373135 
+ 1669 0197 73202D66 		.ascii	"s -ffunction-sections -ffat-lto-objects\000"
+ 1669      66756E63 
+ 1669      74696F6E 
+ 1669      2D736563 
+ 1669      74696F6E 
+ 1670              	.LASF29:
+ 1671 01bf 69735F66 		.ascii	"is_font_inverse_mode\000"
+ 1671      6F6E745F 
+ 1671      696E7665 
+ 1671      7273655F 
+ 1671      6D6F6465 
+ 1672              	.LASF21:
+ 1673 01d4 64697370 		.ascii	"display_cb\000"
+ 1673      6C61795F 
+ 1673      636200
+ 1674              	.LASF120:
+ 1675 01df 61736365 		.ascii	"ascent_para\000"
+ 1675      6E745F70 
+ 1675      61726100 
+ 1676              	.LASF92:
+ 1677 01eb 676C7970 		.ascii	"glyph_x_offset\000"
+ 1677      685F785F 
+ 1677      6F666673 
+ 1677      657400
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 35
+
+
+ 1678              	.LASF44:
+ 1679 01fa 7072655F 		.ascii	"pre_chip_disable_wait_ns\000"
+ 1679      63686970 
+ 1679      5F646973 
+ 1679      61626C65 
+ 1679      5F776169 
+ 1680              	.LASF7:
+ 1681 0213 6C6F6E67 		.ascii	"long int\000"
+ 1681      20696E74 
+ 1681      00
+ 1682              	.LASF99:
+ 1683 021c 75706461 		.ascii	"update_page_win\000"
+ 1683      74655F70 
+ 1683      6167655F 
+ 1683      77696E00 
+ 1684              	.LASF116:
+ 1685 022c 6D61785F 		.ascii	"max_char_height\000"
+ 1685      63686172 
+ 1685      5F686569 
+ 1685      67687400 
+ 1686              	.LASF15:
+ 1687 023c 75696E74 		.ascii	"uint16_t\000"
+ 1687      31365F74 
+ 1687      00
+ 1688              	.LASF20:
+ 1689 0245 6E657874 		.ascii	"next_cb\000"
+ 1689      5F636200 
+ 1690              	.LASF61:
+ 1691 024d 75387838 		.ascii	"u8x8_char_cb\000"
+ 1691      5F636861 
+ 1691      725F6362 
+ 1691      00
+ 1692              	.LASF24:
+ 1693 025a 6770696F 		.ascii	"gpio_and_delay_cb\000"
+ 1693      5F616E64 
+ 1693      5F64656C 
+ 1693      61795F63 
+ 1693      6200
+ 1694              	.LASF125:
+ 1695 026c 75386732 		.ascii	"u8g2_font_info_t\000"
+ 1695      5F666F6E 
+ 1695      745F696E 
+ 1695      666F5F74 
+ 1695      00
+ 1696              	.LASF91:
+ 1697 027d 666F6E74 		.ascii	"font_ref_descent\000"
+ 1697      5F726566 
+ 1697      5F646573 
+ 1697      63656E74 
+ 1697      00
+ 1698              	.LASF38:
+ 1699 028e 75387838 		.ascii	"u8x8_display_info_t\000"
+ 1699      5F646973 
+ 1699      706C6179 
+ 1699      5F696E66 
+ 1699      6F5F7400 
+ 1700              	.LASF141:
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 36
+
+
+ 1701 02a2 433A5C55 		.ascii	"C:\\Users\\jesse\\OneDrive\\Bureaublad\\practice_em"
+ 1701      73657273 
+ 1701      5C6A6573 
+ 1701      73655C4F 
+ 1701      6E654472 
+ 1702 02d0 62656464 		.ascii	"bedded\\Practice_EmbeddedProgramming\\Display_count"
+ 1702      65645C50 
+ 1702      72616374 
+ 1702      6963655F 
+ 1702      456D6265 
+ 1703 0301 2E637964 		.ascii	".cydsn\000"
+ 1703      736E00
+ 1704              	.LASF8:
+ 1705 0308 5F5F7569 		.ascii	"__uint32_t\000"
+ 1705      6E743332 
+ 1705      5F7400
+ 1706              	.LASF108:
+ 1707 0313 62697473 		.ascii	"bits_per_0\000"
+ 1707      5F706572 
+ 1707      5F3000
+ 1708              	.LASF85:
+ 1709 031e 666F6E74 		.ascii	"font_calc_vref\000"
+ 1709      5F63616C 
+ 1709      635F7672 
+ 1709      656600
+ 1710              	.LASF90:
+ 1711 032d 666F6E74 		.ascii	"font_ref_ascent\000"
+ 1711      5F726566 
+ 1711      5F617363 
+ 1711      656E7400 
+ 1712              	.LASF47:
+ 1713 033d 7364615F 		.ascii	"sda_setup_time_ns\000"
+ 1713      73657475 
+ 1713      705F7469 
+ 1713      6D655F6E 
+ 1713      7300
+ 1714              	.LASF104:
+ 1715 034f 75386732 		.ascii	"u8g2_draw_ll_hvline_cb\000"
+ 1715      5F647261 
+ 1715      775F6C6C 
+ 1715      5F68766C 
+ 1715      696E655F 
+ 1716              	.LASF119:
+ 1717 0366 64657363 		.ascii	"descent_g\000"
+ 1717      656E745F 
+ 1717      6700
+ 1718              	.LASF110:
+ 1719 0370 62697473 		.ascii	"bits_per_char_width\000"
+ 1719      5F706572 
+ 1719      5F636861 
+ 1719      725F7769 
+ 1719      64746800 
+ 1720              	.LASF37:
+ 1721 0384 6465626F 		.ascii	"debounce_result_msg\000"
+ 1721      756E6365 
+ 1721      5F726573 
+ 1721      756C745F 
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 37
+
+
+ 1721      6D736700 
+ 1722              	.LASF12:
+ 1723 0398 756E7369 		.ascii	"unsigned int\000"
+ 1723      676E6564 
+ 1723      20696E74 
+ 1723      00
+ 1724              	.LASF71:
+ 1725 03a5 70697865 		.ascii	"pixel_buf_height\000"
+ 1725      6C5F6275 
+ 1725      665F6865 
+ 1725      69676874 
+ 1725      00
+ 1726              	.LASF143:
+ 1727 03b6 75386732 		.ascii	"u8g2_IsIntersection\000"
+ 1727      5F497349 
+ 1727      6E746572 
+ 1727      73656374 
+ 1727      696F6E00 
+ 1728              	.LASF133:
+ 1729 03ca 69735F74 		.ascii	"is_transparent\000"
+ 1729      72616E73 
+ 1729      70617265 
+ 1729      6E7400
+ 1730              	.LASF30:
+ 1731 03d9 6932635F 		.ascii	"i2c_address\000"
+ 1731      61646472 
+ 1731      65737300 
+ 1732              	.LASF9:
+ 1733 03e5 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1733      20756E73 
+ 1733      69676E65 
+ 1733      6420696E 
+ 1733      7400
+ 1734              	.LASF63:
+ 1735 03f7 75386732 		.ascii	"u8g2_t\000"
+ 1735      5F7400
+ 1736              	.LASF142:
+ 1737 03fe 75386732 		.ascii	"u8g2_is_intersection_decision_tree\000"
+ 1737      5F69735F 
+ 1737      696E7465 
+ 1737      72736563 
+ 1737      74696F6E 
+ 1738              	.LASF127:
+ 1739 0421 6465636F 		.ascii	"decode_ptr\000"
+ 1739      64655F70 
+ 1739      747200
+ 1740              	.LASF75:
+ 1741 042c 77696474 		.ascii	"width\000"
+ 1741      6800
+ 1742              	.LASF68:
+ 1743 0432 74696C65 		.ascii	"tile_buf_height\000"
+ 1743      5F627566 
+ 1743      5F686569 
+ 1743      67687400 
+ 1744              	.LASF6:
+ 1745 0442 73686F72 		.ascii	"short unsigned int\000"
+ 1745      7420756E 
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 38
+
+
+ 1745      7369676E 
+ 1745      65642069 
+ 1745      6E7400
+ 1746              	.LASF88:
+ 1747 0455 69735F70 		.ascii	"is_page_clip_window_intersection\000"
+ 1747      6167655F 
+ 1747      636C6970 
+ 1747      5F77696E 
+ 1747      646F775F 
+ 1748              	.LASF93:
+ 1749 0476 6269746D 		.ascii	"bitmap_transparency\000"
+ 1749      61705F74 
+ 1749      72616E73 
+ 1749      70617265 
+ 1749      6E637900 
+ 1750              	.LASF81:
+ 1751 048a 636C6970 		.ascii	"clip_x0\000"
+ 1751      5F783000 
+ 1752              	.LASF82:
+ 1753 0492 636C6970 		.ascii	"clip_x1\000"
+ 1753      5F783100 
+ 1754              	.LASF100:
+ 1755 049a 64726177 		.ascii	"draw_l90\000"
+ 1755      5F6C3930 
+ 1755      00
+ 1756              	.LASF35:
+ 1757 04a3 6465626F 		.ascii	"debounce_last_pin_state\000"
+ 1757      756E6365 
+ 1757      5F6C6173 
+ 1757      745F7069 
+ 1757      6E5F7374 
+ 1758              	.LASF138:
+ 1759 04bb 75386732 		.ascii	"u8g2\000"
+ 1759      00
+ 1760              	.LASF121:
+ 1761 04c0 64657363 		.ascii	"descent_para\000"
+ 1761      656E745F 
+ 1761      70617261 
+ 1761      00
+ 1762              	.LASF19:
+ 1763 04cd 64697370 		.ascii	"display_info\000"
+ 1763      6C61795F 
+ 1763      696E666F 
+ 1763      00
+ 1764              	.LASF87:
+ 1765 04da 666F6E74 		.ascii	"font_info\000"
+ 1765      5F696E66 
+ 1765      6F00
+ 1766              	.LASF48:
+ 1767 04e4 73636B5F 		.ascii	"sck_pulse_width_ns\000"
+ 1767      70756C73 
+ 1767      655F7769 
+ 1767      6474685F 
+ 1767      6E7300
+ 1768              	.LASF39:
+ 1769 04f7 75387838 		.ascii	"u8x8_struct\000"
+ 1769      5F737472 
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 39
+
+
+ 1769      75637400 
+ 1770              	.LASF56:
+ 1771 0503 64656661 		.ascii	"default_x_offset\000"
+ 1771      756C745F 
+ 1771      785F6F66 
+ 1771      66736574 
+ 1771      00
+ 1772              	.LASF27:
+ 1773 0514 656E636F 		.ascii	"encoding\000"
+ 1773      64696E67 
+ 1773      00
+ 1774              	.LASF89:
+ 1775 051d 666F6E74 		.ascii	"font_height_mode\000"
+ 1775      5F686569 
+ 1775      6768745F 
+ 1775      6D6F6465 
+ 1775      00
+ 1776              	.LASF122:
+ 1777 052e 73746172 		.ascii	"start_pos_upper_A\000"
+ 1777      745F706F 
+ 1777      735F7570 
+ 1777      7065725F 
+ 1777      4100
+ 1778              	.LASF57:
+ 1779 0540 666C6970 		.ascii	"flipmode_x_offset\000"
+ 1779      6D6F6465 
+ 1779      5F785F6F 
+ 1779      66667365 
+ 1779      7400
+ 1780              	.LASF109:
+ 1781 0552 62697473 		.ascii	"bits_per_1\000"
+ 1781      5F706572 
+ 1781      5F3100
+ 1782              	.LASF114:
+ 1783 055d 62697473 		.ascii	"bits_per_delta_x\000"
+ 1783      5F706572 
+ 1783      5F64656C 
+ 1783      74615F78 
+ 1783      00
+ 1784              	.LASF132:
+ 1785 056e 6465636F 		.ascii	"decode_bit_pos\000"
+ 1785      64655F62 
+ 1785      69745F70 
+ 1785      6F7300
+ 1786              	.LASF131:
+ 1787 057d 676C7970 		.ascii	"glyph_height\000"
+ 1787      685F6865 
+ 1787      69676874 
+ 1787      00
+ 1788              	.LASF17:
+ 1789 058a 6C6F6E67 		.ascii	"long double\000"
+ 1789      20646F75 
+ 1789      626C6500 
+ 1790              	.LASF72:
+ 1791 0596 70697865 		.ascii	"pixel_curr_row\000"
+ 1791      6C5F6375 
+ 1791      72725F72 
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 40
+
+
+ 1791      6F7700
+ 1792              	.LASF22:
+ 1793 05a5 6361645F 		.ascii	"cad_cb\000"
+ 1793      636200
+ 1794              	.LASF83:
+ 1795 05ac 636C6970 		.ascii	"clip_y0\000"
+ 1795      5F793000 
+ 1796              	.LASF84:
+ 1797 05b4 636C6970 		.ascii	"clip_y1\000"
+ 1797      5F793100 
+ 1798              	.LASF105:
+ 1799 05bc 5F753867 		.ascii	"_u8g2_font_info_t\000"
+ 1799      325F666F 
+ 1799      6E745F69 
+ 1799      6E666F5F 
+ 1799      7400
+ 1800              	.LASF79:
+ 1801 05ce 75736572 		.ascii	"user_y0\000"
+ 1801      5F793000 
+ 1802              	.LASF53:
+ 1803 05d6 77726974 		.ascii	"write_pulse_width_ns\000"
+ 1803      655F7075 
+ 1803      6C73655F 
+ 1803      77696474 
+ 1803      685F6E73 
+ 1804              	.LASF73:
+ 1805 05eb 6275665F 		.ascii	"buf_y0\000"
+ 1805      793000
+ 1806              	.LASF74:
+ 1807 05f2 6275665F 		.ascii	"buf_y1\000"
+ 1807      793100
+ 1808              	.LASF28:
+ 1809 05f9 785F6F66 		.ascii	"x_offset\000"
+ 1809      66736574 
+ 1809      00
+ 1810              	.LASF55:
+ 1811 0602 74696C65 		.ascii	"tile_height\000"
+ 1811      5F686569 
+ 1811      67687400 
+ 1812              	.LASF66:
+ 1813 060e 6C6C5F68 		.ascii	"ll_hvline\000"
+ 1813      766C696E 
+ 1813      6500
+ 1814              	.LASF134:
+ 1815 0618 66675F63 		.ascii	"fg_color\000"
+ 1815      6F6C6F72 
+ 1815      00
+ 1816              	.LASF60:
+ 1817 0621 75387838 		.ascii	"u8x8_msg_cb\000"
+ 1817      5F6D7367 
+ 1817      5F636200 
+ 1818              	.LASF97:
+ 1819 062d 75386732 		.ascii	"u8g2_cb_struct\000"
+ 1819      5F63625F 
+ 1819      73747275 
+ 1819      637400
+ 1820              	.LASF130:
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 41
+
+
+ 1821 063c 676C7970 		.ascii	"glyph_width\000"
+ 1821      685F7769 
+ 1821      64746800 
+ 1822              	.LASF3:
+ 1823 0648 756E7369 		.ascii	"unsigned char\000"
+ 1823      676E6564 
+ 1823      20636861 
+ 1823      7200
+ 1824              	.LASF118:
+ 1825 0656 61736365 		.ascii	"ascent_A\000"
+ 1825      6E745F41 
+ 1825      00
+ 1826              	.LASF95:
+ 1827 065f 69735F61 		.ascii	"is_auto_page_clear\000"
+ 1827      75746F5F 
+ 1827      70616765 
+ 1827      5F636C65 
+ 1827      617200
+ 1828              	.LASF70:
+ 1829 0672 70697865 		.ascii	"pixel_buf_width\000"
+ 1829      6C5F6275 
+ 1829      665F7769 
+ 1829      64746800 
+ 1830              	.LASF4:
+ 1831 0682 73686F72 		.ascii	"short int\000"
+ 1831      7420696E 
+ 1831      7400
+ 1832              	.LASF65:
+ 1833 068c 75387838 		.ascii	"u8x8\000"
+ 1833      00
+ 1834              	.LASF77:
+ 1835 0691 75736572 		.ascii	"user_x0\000"
+ 1835      5F783000 
+ 1836              	.LASF78:
+ 1837 0699 75736572 		.ascii	"user_x1\000"
+ 1837      5F783100 
+ 1838              	.LASF62:
+ 1839 06a1 75386732 		.ascii	"u8g2_uint_t\000"
+ 1839      5F75696E 
+ 1839      745F7400 
+ 1840              	.LASF52:
+ 1841 06ad 64617461 		.ascii	"data_setup_time_ns\000"
+ 1841      5F736574 
+ 1841      75705F74 
+ 1841      696D655F 
+ 1841      6E7300
+ 1842              	.LASF64:
+ 1843 06c0 75386732 		.ascii	"u8g2_struct\000"
+ 1843      5F737472 
+ 1843      75637400 
+ 1844              	.LASF103:
+ 1845 06cc 75386732 		.ascii	"u8g2_draw_l90_cb\000"
+ 1845      5F647261 
+ 1845      775F6C39 
+ 1845      305F6362 
+ 1845      00
+ 1846              	.LASF51:
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 42
+
+
+ 1847 06dd 6932635F 		.ascii	"i2c_bus_clock_100kHz\000"
+ 1847      6275735F 
+ 1847      636C6F63 
+ 1847      6B5F3130 
+ 1847      306B487A 
+ 1848              	.LASF16:
+ 1849 06f2 75696E74 		.ascii	"uint32_t\000"
+ 1849      33325F74 
+ 1849      00
+ 1850              	.LASF140:
+ 1851 06fb 2E2E5C2E 		.ascii	"..\\..\\..\\u8g2\\u8g2\\csrc\\u8g2_intersection.c\000"
+ 1851      2E5C2E2E 
+ 1851      5C753867 
+ 1851      325C7538 
+ 1851      67325C63 
+ 1852              	.LASF69:
+ 1853 0727 74696C65 		.ascii	"tile_curr_row\000"
+ 1853      5F637572 
+ 1853      725F726F 
+ 1853      7700
+ 1854              	.LASF96:
+ 1855 0735 75386732 		.ascii	"u8g2_cb_t\000"
+ 1855      5F63625F 
+ 1855      7400
+ 1856              	.LASF50:
+ 1857 073f 7370695F 		.ascii	"spi_mode\000"
+ 1857      6D6F6465 
+ 1857      00
+ 1858              	.LASF41:
+ 1859 0748 63686970 		.ascii	"chip_enable_level\000"
+ 1859      5F656E61 
+ 1859      626C655F 
+ 1859      6C657665 
+ 1859      6C00
+ 1860              	.LASF86:
+ 1861 075a 666F6E74 		.ascii	"font_decode\000"
+ 1861      5F646563 
+ 1861      6F646500 
+ 1862              	.LASF111:
+ 1863 0766 62697473 		.ascii	"bits_per_char_height\000"
+ 1863      5F706572 
+ 1863      5F636861 
+ 1863      725F6865 
+ 1863      69676874 
+ 1864              	.LASF5:
+ 1865 077b 5F5F7569 		.ascii	"__uint16_t\000"
+ 1865      6E743136 
+ 1865      5F7400
+ 1866              	.LASF94:
+ 1867 0786 64726177 		.ascii	"draw_color\000"
+ 1867      5F636F6C 
+ 1867      6F7200
+ 1868              	.LASF43:
+ 1869 0791 706F7374 		.ascii	"post_chip_enable_wait_ns\000"
+ 1869      5F636869 
+ 1869      705F656E 
+ 1869      61626C65 
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 43
+
+
+ 1869      5F776169 
+ 1870              	.LASF101:
+ 1871 07aa 75386732 		.ascii	"u8g2_update_dimension_cb\000"
+ 1871      5F757064 
+ 1871      6174655F 
+ 1871      64696D65 
+ 1871      6E73696F 
+ 1872              	.LASF128:
+ 1873 07c3 74617267 		.ascii	"target_x\000"
+ 1873      65745F78 
+ 1873      00
+ 1874              	.LASF129:
+ 1875 07cc 74617267 		.ascii	"target_y\000"
+ 1875      65745F79 
+ 1875      00
+ 1876              	.LASF18:
+ 1877 07d5 75387838 		.ascii	"u8x8_t\000"
+ 1877      5F7400
+ 1878              	.LASF25:
+ 1879 07dc 6275735F 		.ascii	"bus_clock\000"
+ 1879      636C6F63 
+ 1879      6B00
+ 1880              	.LASF80:
+ 1881 07e6 75736572 		.ascii	"user_y1\000"
+ 1881      5F793100 
+ 1882              	.LASF126:
+ 1883 07ee 5F753867 		.ascii	"_u8g2_font_decode_t\000"
+ 1883      325F666F 
+ 1883      6E745F64 
+ 1883      65636F64 
+ 1883      655F7400 
+ 1884              	.LASF13:
+ 1885 0802 696E7438 		.ascii	"int8_t\000"
+ 1885      5F7400
+ 1886              	.LASF36:
+ 1887 0809 6465626F 		.ascii	"debounce_state\000"
+ 1887      756E6365 
+ 1887      5F737461 
+ 1887      746500
+ 1888              	.LASF42:
+ 1889 0818 63686970 		.ascii	"chip_disable_level\000"
+ 1889      5F646973 
+ 1889      61626C65 
+ 1889      5F6C6576 
+ 1889      656C00
+ 1890              	.LASF26:
+ 1891 082b 666F6E74 		.ascii	"font\000"
+ 1891      00
+ 1892              	.LASF123:
+ 1893 0830 73746172 		.ascii	"start_pos_lower_a\000"
+ 1893      745F706F 
+ 1893      735F6C6F 
+ 1893      7765725F 
+ 1893      6100
+ 1894              	.LASF14:
+ 1895 0842 75696E74 		.ascii	"uint8_t\000"
+ 1895      385F7400 
+ARM GAS  C:\Users\jesse\AppData\Local\Temp\ccoMCLAT.s 			page 44
+
+
+ 1896              	.LASF137:
+ 1897 084a 75386732 		.ascii	"u8g2_font_calc_vref_fnptr\000"
+ 1897      5F666F6E 
+ 1897      745F6361 
+ 1897      6C635F76 
+ 1897      7265665F 
+ 1898              	.LASF31:
+ 1899 0864 6932635F 		.ascii	"i2c_started\000"
+ 1899      73746172 
+ 1899      74656400 
+ 1900              	.LASF58:
+ 1901 0870 70697865 		.ascii	"pixel_width\000"
+ 1901      6C5F7769 
+ 1901      64746800 
+ 1902              	.LASF135:
+ 1903 087c 62675F63 		.ascii	"bg_color\000"
+ 1903      6F6C6F72 
+ 1903      00
+ 1904              	.LASF54:
+ 1905 0885 74696C65 		.ascii	"tile_width\000"
+ 1905      5F776964 
+ 1905      746800
+ 1906              	.LASF34:
+ 1907 0890 6465626F 		.ascii	"debounce_default_pin_state\000"
+ 1907      756E6365 
+ 1907      5F646566 
+ 1907      61756C74 
+ 1907      5F70696E 
+ 1908              	.LASF40:
+ 1909 08ab 75387838 		.ascii	"u8x8_display_info_struct\000"
+ 1909      5F646973 
+ 1909      706C6179 
+ 1909      5F696E66 
+ 1909      6F5F7374 
+ 1910              	.LASF76:
+ 1911 08c4 68656967 		.ascii	"height\000"
+ 1911      687400
+ 1912              	.LASF59:
+ 1913 08cb 70697865 		.ascii	"pixel_height\000"
+ 1913      6C5F6865 
+ 1913      69676874 
+ 1913      00
+ 1914              	.LASF49:
+ 1915 08d8 73636B5F 		.ascii	"sck_clock_hz\000"
+ 1915      636C6F63 
+ 1915      6B5F687A 
+ 1915      00
+ 1916              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
